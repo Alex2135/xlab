@@ -18,6 +18,7 @@ class DownloadStrategy : IImageDownloader
         imageDownloader = _imDldr;
     }
 
+    // TODO: Посмотреть на Cancelation Token
     public async Task<List<NetImage>> DownloadImagesAsync(object obj)
     {
         onLoadImageBegin?.Invoke(obj);
@@ -43,7 +44,6 @@ class DownloadStrategy : IImageDownloader
 }
 
 /*
- * 
  * Необходимо параллельно загружать изображения из всех вопросов
  * теста. Изображения вопросов и ответов. Процесс загрузки должен
  * проходить асинхронно, а в это время пользователь должен видеть
@@ -60,7 +60,7 @@ class DownloadStrategy : IImageDownloader
  * 
  */
 
-class NetImage
+public class NetImage
 {
     public Texture2D _image;
     public string _name;

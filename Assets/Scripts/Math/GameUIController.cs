@@ -9,14 +9,6 @@ using Newtonsoft.Json;
 using UnityAsyncAwaitUtil;
 using UnityEngine.Networking;
 
-[Serializable]
-public class DataUI
-{
-    public TextMeshProUGUI _text;
-    public Image _image;
-}
-
-
 public class GameUIController : MonoBehaviour
 {
     public Test _test;
@@ -76,6 +68,10 @@ public class GameUIController : MonoBehaviour
         _timer.text = "End";
     }
 
+
+    /* TODO: Conver List<NetImage> to view
+     * with quest DataUI and answers List<DataUI>
+     */
     private void processList(List<NetImage> _testImages)
     {
         //Debug.Log("Images name");
@@ -149,9 +145,9 @@ public class GameUIController : MonoBehaviour
                 _currentQuestion.answers[i].file.isLinksExist())
             {
                 _questButtons[i]._image.gameObject.SetActive(true);
-                StartCoroutine(GetImage(_currentQuestion.answers[i].file.link, _questButtons[i]._image));
-                _questButtons[i]._text.rectTransform.sizeDelta = new Vector2(_questButtons[i]._text.rectTransform.sizeDelta.x / 2
-                                                                            , _questButtons[i]._text.rectTransform.sizeDelta.y);
+                //StartCoroutine(GetImage(_currentQuestion.answers[i].file.link, _questButtons[i]._image));
+                //_questButtons[i]._text.rectTransform.sizeDelta = new Vector2(_questButtons[i]._text.rectTransform.sizeDelta.x / 2
+                //                                                            , _questButtons[i]._text.rectTransform.sizeDelta.y);
             }
             else
             {
@@ -161,25 +157,25 @@ public class GameUIController : MonoBehaviour
         }
     }
 
-    public IEnumerator GetImage(string link, Image toImage)
-    {
-        Texture2D texture;
-        using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(link))
-        {
-            //yield return new WaitForSeconds(0.5f);
-            yield return uwr.SendWebRequest();
-            if (uwr.isNetworkError || uwr.isHttpError)
-            {
-                Debug.Log(uwr.error);
-            }
-            else
-            {
-                texture = DownloadHandlerTexture.GetContent(uwr);
-                toImage.sprite = Sprite.Create(texture,
-                                                new Rect(0, 0, texture.width, texture.height),
-                                                new Vector2(0.5f, 0.5f)
-                                               );
-            }
-        }
-    }
+    //public IEnumerator GetImage(string link, Image toImage)
+    //{
+    //    Texture2D texture;
+    //    using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(link))
+    //    {
+    //        //yield return new WaitForSeconds(0.5f);
+    //        yield return uwr.SendWebRequest();
+    //        if (uwr.isNetworkError || uwr.isHttpError)
+    //        {
+    //            Debug.Log(uwr.error);
+    //        }
+    //        else
+    //        {
+    //            texture = DownloadHandlerTexture.GetContent(uwr);
+    //            toImage.sprite = Sprite.Create(texture,
+    //                                            new Rect(0, 0, texture.width, texture.height),
+    //                                            new Vector2(0.5f, 0.5f)
+    //                                           );
+    //        }
+    //    }
+    //}
 }

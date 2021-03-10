@@ -11,11 +11,41 @@ using Newtonsoft.Json;
  */
 public class TestView: Test
 {
-    public void SetQuestion()
-    {
+    public List<QuestionView> _quests;
 
+    // TODO: Process results images request
+    public void SetQuestions(List<NetImage> _netImages)
+    {
+        _quests = new List<QuestionView>(this.quests.Count);
+
+        foreach (var img in _netImages)
+        {
+            var idxs = img._name.Split('_');
+
+            switch (idxs.Length)
+            {
+                case 2: 
+                {
+                    int questIdx = Convert.ToInt32(idxs[1]);
+                    NetImage.SetTextureToImage(ref _quests[questIdx]._quest._image, img._image);
+                }
+                break;
+                case 3: 
+                {
+                    int questIdx = Convert.ToInt32(idxs[2]);
+                    int ansIdx = Convert.ToInt32(idxs[1]);
+                    NetImage.SetTextureToImage(ref _quests[questIdx]._answers[ansIdx]._image, img._image);
+                }
+                break;
+                default:
+                    Debug.Log("Image error!");
+                    break;
+            };
+        }
     }
 }
+
+
 
 public class Test : ITest, IRewarder
 {
@@ -102,3 +132,4 @@ public class Result
 {
     public int grade;
 }
+

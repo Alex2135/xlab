@@ -1,6 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using TMPro;
+
+public class QuestionView
+{
+    public DataUI _quest;
+    public List<DataUI> _answers;
+}
+
+[Serializable]
+public class DataUI
+{
+    public TextMeshProUGUI _text;
+    public Image _image;
+}
 
 [Serializable]
 public class Question: ILinksExistable
