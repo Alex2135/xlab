@@ -5,47 +5,54 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Newtonsoft.Json;
+using System.Linq;
 
 /*
  * TestView предоставляет 
  */
 public class TestView: Test
 {
-    public List<QuestionView> _quests;
-
-    // TODO: Process results images request
-    public void SetQuestions(List<NetImage> _netImages)
+    /*
+     * QuestionView - изображения и текст вопроса и ответов
+     * List<NetImage> - набор изображений всех вопросов и ответов на них
+     * 
+     */
+    public void SetQuestionView(QuestionView _quest, List<NetImage> _netImages)
     {
-        _quests = new List<QuestionView>(this.quests.Count);
-
-        foreach (var img in _netImages)
-        {
-            var idxs = img._name.Split('_');
-
-            switch (idxs.Length)
+        int idx = this.quesitonIdx;
+        var quest = this.GetQuestion();
+        var questImages = _netImages.Where(
+            questImage =>
             {
-                case 2: 
-                {
-                    int questIdx = Convert.ToInt32(idxs[1]);
-                    NetImage.SetTextureToImage(ref _quests[questIdx]._quest._image, img._image);
-                }
-                break;
-                case 3: 
-                {
-                    int questIdx = Convert.ToInt32(idxs[2]);
-                    int ansIdx = Convert.ToInt32(idxs[1]);
-                    NetImage.SetTextureToImage(ref _quests[questIdx]._answers[ansIdx]._image, img._image);
-                }
-                break;
-                default:
-                    Debug.Log("Image error!");
-                    break;
-            };
+                var qIdx = questImage?._name?.Split('_')?.Last() ?? "-1";
+                var result = Convert.ToInt32(qIdx) == idx;
+                //Debug.Log($"Quest id {idx}, name {questImage._name}, result: {result}");
+                return result;
+            }
+        ).ToList();
+
+        foreach (var img in questImages)
+        {
+            var splitedName = img._name.Split('_');
+
+            if (splitedName[0] == "quest")
+            {
+                NetImage.SetTextureToImage(ref _quest._quest._image, img._image);
+                _quest._quest._text.text = quest.question;
+            }
+            else if (splitedName[0] == "answer")
+            {
+                var answerIdx = Convert.ToInt32(splitedName[1]);
+                NetImage.SetTextureToImage(ref _quest._answers[answerIdx]._image, img._image);
+                _quest._answers[answerIdx]._text.text = quest.answers[answerIdx].content;
+            }
+            else
+            {
+                throw new Exception("Invalid image name");
+            }
         }
     }
 }
-
-
 
 public class Test : ITest, IRewarder
 {
@@ -60,7 +67,7 @@ public class Test : ITest, IRewarder
     [JsonProperty("penaltie")]
     public int penaltie;
     private bool shuffled = false;
-    private int quesitonIdx = 0;
+    protected int quesitonIdx = 0;
 
     private void ShuffleQuests()
     {

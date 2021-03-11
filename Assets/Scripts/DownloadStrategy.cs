@@ -12,6 +12,7 @@ class DownloadStrategy : IImageDownloader
     private IImageDownloader imageDownloader;
     public event Action<object> onLoadImageBegin;
     public event Action<List<NetImage>> onLoadImageEnd;
+    public List<NetImage> downloadedImages { get; private set; }
 
     public void SetImageDownloader(IImageDownloader _imDldr)
     {
@@ -19,25 +20,31 @@ class DownloadStrategy : IImageDownloader
     }
 
     // TODO: Посмотреть на Cancelation Token
-    public async Task<List<NetImage>> DownloadImagesAsync(object obj)
+    public async Task<List<NetImage>> DownloadQuestImagesAsync(object obj)
     {
         onLoadImageBegin?.Invoke(obj);
-        Test test = (Test)obj ?? throw new ArgumentNullException("Test object is null");
-        // List of question and answers images
-        List<NetImage> result = new List<NetImage>();
-        int i = 0;
-        foreach (var quest in test.quests)
+        var test = (Test)obj ?? throw new ArgumentNullException("Test object is null");
+        var result = new List<NetImage>(); // List of question and answers images
+        var tasks = new List<Task>();
+        for (int i = 0; i < test.quests.Count; i++)
         {
+            var quest = test.quests[i];
             if (quest.isLinksExist())
             {
-                Debug.Log($"Download images {i} quest");
-                var questionImages = await imageDownloader.DownloadImagesAsync(quest);
-                questionImages.ForEach(x => x._name += $"_{i}");
-                result.AddRange(questionImages);
+                var taskDownloadQuestImgs = imageDownloader.DownloadQuestImagesAsync(quest).ContinueWith(
+                    (taskWithQuestImgs, idx) =>
+                    {
+                        var imgs = taskWithQuestImgs.Result;
+                        imgs.ForEach(x => x._name += $"_{idx}");
+                        result.AddRange(imgs);
+                    }
+                , i);
+                tasks.Add(taskDownloadQuestImgs);
             }
-            i++;
         }
+        await Task.WhenAll(tasks.ToArray());
 
+        downloadedImages = result;
         onLoadImageEnd?.Invoke(result);
         return result;
     }
@@ -86,9 +93,9 @@ internal class QuestionDownloader: IImageDownloader
         return new NetImage(result, _name);
     }
 
-    public async Task<List<NetImage>> DownloadImagesAsync(object obj)
+    public async Task<List<NetImage>> DownloadQuestImagesAsync(object obj)
     {
-        Question quest = (Question)obj ?? throw new ArgumentNullException("DownloadImagesAsync: quest object is null");
+        Question quest = (Question)obj ?? throw new ArgumentNullException("DownloadQuestImagesAsync: quest object is null");
         var result = new List<NetImage>();
         var tasks = new List<Task<NetImage>>();
         if (quest.file != null &&
@@ -103,7 +110,7 @@ internal class QuestionDownloader: IImageDownloader
             if (ansFile != null && 
                 ansFile.isLinksExist())
             {
-                Debug.Log($"Answer №{i} image link:\n{ansFile.link}");
+                //Debug.Log($"Answer №{i} image link:\n{ansFile.link}");
                 var t = FetchImageAsync(ansFile.link, $"answer_{i}");
                 tasks.Add(t);
             }
@@ -114,7 +121,6 @@ internal class QuestionDownloader: IImageDownloader
             await Task.WhenAll(tasks.ToArray());
             foreach (var t in tasks) result.Add(await t);
         }
-
         // Waiting until images was downloaded
         return result;
     }
@@ -122,5 +128,5 @@ internal class QuestionDownloader: IImageDownloader
 
 interface IImageDownloader
 {
-    Task<List<NetImage>> DownloadImagesAsync(object obj);
+    Task<List<NetImage>> DownloadQuestImagesAsync(object obj);
 }

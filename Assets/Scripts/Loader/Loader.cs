@@ -13,23 +13,13 @@ public class Loader: MonoBehaviour
     public event LoaderDelegate OnLoaderEnd;
 
     private bool isContinue;
-    private float r = 0.0f;
+    public float r = 0.0f;
 
     private void Awake()
     {
         if (OnLoaderStart != null) OnLoaderStart.Invoke();
         isContinue = true;
         EnableLoader();
-    }
-
-    private void Update() 
-    {
-        if (isContinue)
-        {
-            r += Time.deltaTime;
-            float n = 5;
-            _loaderImage.transform.rotation = new Quaternion(0, 0, Mathf.Sin(n*r), Mathf.Cos(n*r));
-        }
     }
 
     public bool a = true;
@@ -52,6 +42,7 @@ public class Loader: MonoBehaviour
     public void EnableLoader()
     {
         this.gameObject.SetActive(true);
+        StartCoroutine(ShowLoader());
     }
 
     public void DisableLoader()
@@ -60,23 +51,36 @@ public class Loader: MonoBehaviour
         StartCoroutine(HideLoader());
     }
 
+    public IEnumerator ShowLoader()
+    {
+        while (isContinue)
+        {
+            r += Time.deltaTime;
+            float n = 5;
+            _loaderImage.transform.rotation = new Quaternion(0, 0, Mathf.Sin(n * r), Mathf.Cos(n * r));
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+    }
+
     public IEnumerator HideLoader()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         this.gameObject.SetActive(false);
     }
 
+    [System.Obsolete]
     public void OnEnable()
     {
         ToggleTransition();
-        Debug.Log("Enable " + this.gameObject.active.ToString());
+        Debug.Log("Enable " + gameObject.active.ToString());
         if (OnLoaderStart != null) OnLoaderStart.Invoke();
         isContinue = true;
     }
 
+    [System.Obsolete]
     public void OnDisable()
     {
-        Debug.Log("Disable " + this.gameObject.active.ToString());
+        Debug.Log("Disable " + gameObject.active.ToString());
         if (OnLoaderEnd != null) OnLoaderEnd.Invoke();
         isContinue = false;
     }

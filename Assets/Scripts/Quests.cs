@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 
+[Serializable]
 public class QuestionView
 {
     public DataUI _quest;
