@@ -530,30 +530,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 549cf1d42ac8551418314409e31ce38b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _loader: {fileID: 1352073008}
+  _currentQuestionView:
+    _quest:
+      _text: {fileID: 1510392312}
+      _image: {fileID: 1893231752}
+    _answers:
+    - _text: {fileID: 1620663892}
+      _image: {fileID: 1970679101}
+    - _text: {fileID: 1932781725}
+      _image: {fileID: 44908877}
+    - _text: {fileID: 2004681029}
+      _image: {fileID: 1702920803}
+    - _text: {fileID: 1797661179}
+      _image: {fileID: 1231138799}
   _testName: {fileID: 65608060}
   _timer: {fileID: 1927155499}
+  _scoreText: {fileID: 1421026461}
   _startTime: 0
   _currentTime: 0
-  _scoreText: {fileID: 1421026461}
   _score: 0
-  _question:
-    _text: {fileID: 1510392312}
-    _image: {fileID: 1893231752}
-  _questButtons:
-  - _text: {fileID: 1620663892}
-    _image: {fileID: 1970679101}
-  - _text: {fileID: 1932781725}
-    _image: {fileID: 44908877}
-  - _text: {fileID: 2004681029}
-    _image: {fileID: 1702920803}
-  - _text: {fileID: 1797661179}
-    _image: {fileID: 1231138799}
-  _questionView:
-    _quest:
-      _text: {fileID: 0}
-      _image: {fileID: 0}
-    _answers: []
-  _loader: {fileID: 1352073008}
 --- !u!1 &427611096
 GameObject:
   m_ObjectHideFlags: 0
@@ -1545,7 +1541,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -97.999954}
+  m_AnchoredPosition: {x: 0, y: -97.99994}
   m_SizeDelta: {x: 0, y: -98.266846}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1066862236
@@ -1964,7 +1960,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1352073004
 MonoBehaviour:
   m_ObjectHideFlags: 0

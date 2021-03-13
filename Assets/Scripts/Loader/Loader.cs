@@ -30,12 +30,8 @@ public class Loader: MonoBehaviour
         if (animator != null)
         {
             bool isLoad = animator.GetBool("isLoad");
-            if (!isLoad)
-                animator.SetBool("isLoad", true);
-            else
-            {
-                animator.SetTrigger("MyTrigger");
-            }
+            if (!isLoad) animator.SetBool("isLoad", true);
+            else animator.SetTrigger("MyTrigger");
         }
     }
 

@@ -4,28 +4,27 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Proyecto26;
 using UnityEngine.Networking;
 
-class DownloadStrategy : IImageDownloader
+class DownloadStrategy : IImagesDownloader
 {
-    private IImageDownloader imageDownloader;
-    public event Action<object> onLoadImageBegin;
-    public event Action<List<NetImage>> onLoadImageEnd;
-    public List<NetImage> downloadedImages { get; private set; }
+    private IImagesDownloader imageDownloader;
+    public event Action<object> onLoadImagesBegin;
+    public event Action<List<LoadedImage>> onLoadImageEnd;
+    public List<LoadedImage> downloadedImages { get; private set; }
 
-    public void SetImageDownloader(IImageDownloader _imDldr)
+    public void SetImageDownloader(IImagesDownloader _imDldr)
     {
         imageDownloader = _imDldr;
     }
 
-    // TODO: Посмотреть на Cancelation Token
-    public async Task<List<NetImage>> DownloadQuestImagesAsync(object obj)
+    public async Task<List<LoadedImage>> DownloadQuestImagesAsync(object obj)
     {
-        onLoadImageBegin?.Invoke(obj);
+        onLoadImagesBegin?.Invoke(obj);
         var test = (Test)obj ?? throw new ArgumentNullException("Test object is null");
-        var result = new List<NetImage>(); // List of question and answers images
+        var result = new List<LoadedImage>(); // List of question and answers images
         var tasks = new List<Task>();
+
         for (int i = 0; i < test.quests.Count; i++)
         {
             var quest = test.quests[i];
@@ -67,12 +66,12 @@ class DownloadStrategy : IImageDownloader
  * 
  */
 
-public class NetImage
+public class LoadedImage
 {
     public Texture2D _image;
     public string _name;
 
-    public NetImage(Texture2D _t, string _n) { _image = _t; _name = _n; }
+    public LoadedImage(Texture2D _t, string _n) { _image = _t; _name = _n; }
 
     public static void SetTextureToImage(ref Image _img, Texture2D _tex)
     {
@@ -83,36 +82,38 @@ public class NetImage
     }
 }
 
-internal class QuestionDownloader: IImageDownloader
+internal class QuestionDownloader: IImagesDownloader
 {
-    async Task<NetImage> FetchImageAsync(string _url, string _name)
+    private IImageRequest imageRequester;
+
+    public QuestionDownloader(IImageRequest _imageDownloader)
     {
-        Texture2D result = new Texture2D(1000, 1000);
-        var www = await new WWW(_url);
-        www.LoadImageIntoTexture(result);
-        return new NetImage(result, _name);
+        imageRequester = _imageDownloader;
     }
 
-    public async Task<List<NetImage>> DownloadQuestImagesAsync(object obj)
+    public async Task<List<LoadedImage>> DownloadQuestImagesAsync(object obj)
     {
         Question quest = (Question)obj ?? throw new ArgumentNullException("DownloadQuestImagesAsync: quest object is null");
-        var result = new List<NetImage>();
-        var tasks = new List<Task<NetImage>>();
+        var result = new List<LoadedImage>();
+        var tasks = new List<Task<LoadedImage>>();
+
+        // Fetching quest image
         if (quest.file != null &&
             quest.file.isLinksExist())
         {
-            tasks.Add(FetchImageAsync(quest.file.link, "quest"));
+            var t = imageRequester.FetchImageAsync(quest.file.link, "quest");
+            if (t!=null) tasks.Add(t);
         }
 
+        // Fetching answers images
         for (int i = 0; i < quest.answers.Length; i++)
         {
             var ansFile = quest.answers[i].file;
             if (ansFile != null && 
                 ansFile.isLinksExist())
             {
-                //Debug.Log($"Answer №{i} image link:\n{ansFile.link}");
-                var t = FetchImageAsync(ansFile.link, $"answer_{i}");
-                tasks.Add(t);
+                var t = imageRequester.FetchImageAsync(ansFile.link, $"answer_{i}");
+                if (t != null) tasks.Add(t);
             }
         }
 
@@ -121,12 +122,44 @@ internal class QuestionDownloader: IImageDownloader
             await Task.WhenAll(tasks.ToArray());
             foreach (var t in tasks) result.Add(await t);
         }
+        else
+        {
+            throw new Exception("No tasks for fetching quest images!");
+        }
         // Waiting until images was downloaded
         return result;
     }
 }
 
-interface IImageDownloader
+class NetImageRequester : IImageRequest
 {
-    Task<List<NetImage>> DownloadQuestImagesAsync(object obj);
+    public async Task<LoadedImage> FetchImageAsync(string _url, string _name)
+    {
+        UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(_url);
+        try
+        {
+            await uwr.SendWebRequest();
+            Texture2D result = DownloadHandlerTexture.GetContent(uwr);
+            return new LoadedImage(result, _name);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+        finally
+        {
+            uwr.Dispose();
+        }
+        return null;
+    }
+}
+
+interface IImageRequest
+{
+    Task<LoadedImage> FetchImageAsync(string _url, string _name);
+}
+
+interface IImagesDownloader
+{
+    Task<List<LoadedImage>> DownloadQuestImagesAsync(object obj);
 }
