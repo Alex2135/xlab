@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections;
 using UnityEngine;
 using TMPro;
 using Newtonsoft.Json;
@@ -37,11 +38,14 @@ public class GameUIController : MonoBehaviour
     {
         if (_testView.currentQuestion != null)
         {
-            if (_testView.currentQuestion.answers[id].isRight) 
+            bool isRight = _testView.currentQuestion.answers[id].isRight;
+            StartCoroutine(ShowQuestResult(isRight));
+            if (isRight) 
                 _score += _testView.GetReward();
             else 
                 _score += _testView.GetPenaltie();
             _scoreText.text = $"Score: {_score}";
+
 
             _testView.GetNextQuestion();
             if (_testView.currentQuestion == null) EndGame();
@@ -51,6 +55,11 @@ public class GameUIController : MonoBehaviour
         {
             EndGame();
         }
+    }
+
+    IEnumerator ShowQuestResult(bool _isRight)
+    {
+        yield return new WaitForEndOfFrame();
     }
 
     private void EndGame()

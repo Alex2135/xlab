@@ -31,14 +31,16 @@ class DownloadStrategy : IImagesDownloader
             if (quest.isLinksExist())
             {
                 var taskDownloadQuestImgs = imageDownloader.DownloadQuestImagesAsync(quest).ContinueWith(
-                    (taskWithQuestImgs, idx) =>
+                    async (taskWithQuestImgs, idx) =>
                     {
-                        var imgs = taskWithQuestImgs.Result;
+                        var imgs = await taskWithQuestImgs;
+                        Thread.Sleep(15);
                         imgs.ForEach(x => x._name += $"_{idx}");
                         result.AddRange(imgs);
                     }
-                , i);
-                tasks.Add(taskDownloadQuestImgs);
+                , i
+                , TaskContinuationOptions.OnlyOnRanToCompletion);
+                tasks.Add(await taskDownloadQuestImgs);
             }
         }
         await Task.WhenAll(tasks.ToArray());
@@ -102,14 +104,14 @@ internal class QuestionDownloader: IImagesDownloader
             quest.file.isLinksExist())
         {
             var t = imageRequester.FetchImageAsync(quest.file.link, "quest");
-            if (t!=null) tasks.Add(t);
+            if (t != null) tasks.Add(t);
         }
 
         // Fetching answers images
         for (int i = 0; i < quest.answers.Length; i++)
         {
             var ansFile = quest.answers[i].file;
-            if (ansFile != null && 
+            if (ansFile != null &&
                 ansFile.isLinksExist())
             {
                 var t = imageRequester.FetchImageAsync(ansFile.link, $"answer_{i}");
@@ -120,7 +122,7 @@ internal class QuestionDownloader: IImagesDownloader
         if (tasks.Count > 0)
         {
             await Task.WhenAll(tasks.ToArray());
-            foreach (var t in tasks) result.Add(await t);
+            foreach (var t in tasks) result.Add(t.Result);
         }
         else
         {

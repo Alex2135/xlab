@@ -91,8 +91,10 @@
     <Compile Include="Assets\Scripts\DownloadStrategy.cs" />
     <Compile Include="Assets\Scripts\Loader\Loader.cs" />
     <Compile Include="Assets\Scripts\Loader\LoaderTester.cs" />
+    <Compile Include="Assets\Scripts\Result\ShowResult.cs" />
     <Compile Include="Assets\Scripts\Tests\GameUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\Quests.cs" />
+    <Compile Include="Assets\Scripts\Tests\ShowQuestResult.cs" />
     <Compile Include="Assets\Scripts\Tests\TestView.cs" />
     <Compile Include="Assets\Scripts\Tests\Tests.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
