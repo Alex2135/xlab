@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LoaderTester : MonoBehaviour
 {
-    public Loader _loader;
+    public LoaderUiController _loader;
 
     public bool isSet = false;
     public bool isEnable = false;
