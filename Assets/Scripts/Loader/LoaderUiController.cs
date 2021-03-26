@@ -22,11 +22,18 @@ public class LoaderUiController: MonoBehaviour, IScreenController
         }
     }
     public IScreenController PrevScreen { get; set; }
-    
+    public string _screenName;
+    public string ScreenName 
+    {
+        get { return _screenName; }
+        set { _screenName = value; }
+    }
+
     public object GetResult() { return null; }
 
     private void Awake()
     {
+        ScreenName = "LoaderScreen";
         isContinue = true;
         EnableLoader();
     }

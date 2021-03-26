@@ -9,15 +9,24 @@ public class ShowQuestResult : MonoBehaviour
     public Color DefaultTextColor;
     public Color DefaultButtonColor;
 
+    private void SetColors()
+    {
+        if (_questionView != null)
+        {
+            DefaultTextColor = _questionView._answers[0]._text.color;
+            DefaultButtonColor = _questionView._answers[0]._image.color;
+        }
+    }
+
     private void Start()
     {
-        DefaultTextColor = _questionView._answers[0]._text.color;
-        DefaultButtonColor = _questionView._answers[0]._image.color;
+        SetColors();
     }
 
     public void SetQuestionView(QuestionView _qv)
     {
         _questionView = _qv;
+        SetColors();
     }
 
     public void ShowQuestionResult(int _selectedAnswer, int _rightAnswer)

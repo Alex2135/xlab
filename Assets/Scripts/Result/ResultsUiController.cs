@@ -19,7 +19,12 @@ using TMPro;
  */
 public class ResultsUiController : MonoBehaviour, IScreenController
 {
-    public TextMeshProUGUI resultText;
+    public TextMeshProUGUI RateText;
+    public TextMeshProUGUI TriesText;
+    public TextMeshProUGUI RightAnswersText;
+    public TextMeshProUGUI TestName;
+    public TestsScreensUIController MainScreen;
+
     private IScreenController _nextScreen;
     public IScreenController NextScreen
     {
@@ -31,15 +36,27 @@ public class ResultsUiController : MonoBehaviour, IScreenController
         }
     }
     public IScreenController PrevScreen { get; set; }
+    public string _screenName;
+    public string ScreenName 
+    {
+        get { return _screenName; }
+        set { _screenName = value; } 
+    }
+
+    void Start()
+    {
+        ScreenName = "ResultScreen";
+        _nextScreen = MainScreen;
+    }
 
     private void OnEnable()
     {
         if (PrevScreen != null && PrevScreen.GetResult() is Result result)
         {
-            resultText.text = $"Правильных ответов:" +
-                              $"\n{result.TruePositive} из {result.QuestsCount}" +
-                              $"\n\nВы заработали" +
-                              $"\n{result.Grade} очков";
+            RateText.text = result.Grade.ToString();
+            float percent = (float)result.TruePositive / result.QuestsCount * 100;
+            RightAnswersText.text = Mathf.RoundToInt(percent).ToString() + "%";
+            TriesText.text = "1";
         }
     }
 

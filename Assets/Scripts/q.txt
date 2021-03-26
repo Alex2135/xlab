@@ -1,0 +1,86 @@
+{
+	"name": "Math test",
+	"time": 60,
+	"reward": 10,
+	"penaltie": 0,
+	"quests": [
+		{
+			"question": "3 + ? = 15",
+			"file": {"link": "", "name": ""},
+			"answers": [
+				{
+					"content": "10",
+					"file": {"link": "", "name": ""},
+					"isRight": false
+				},
+				{
+					"content": "18",
+					"file": {"link": "", "name": ""},
+					"isRight": false
+				},
+				{
+					"content": "12",
+					"file": {"link": "", "name": ""},
+					"isRight": true
+				},
+				{
+					"content": "13",
+					"file": {"link": "", "name": ""},
+					"isRight": false
+				},
+			]
+		},
+		{
+			"question": "9 * ? = 72",
+			"file": {"link": "", "name": ""},
+			"answers": [
+				{
+					"content": "8",
+					"file": {"link": "", "name": ""},
+					"isRight": true
+				},
+				{
+					"content": "7",
+					"file": {"link": "", "name": ""},
+					"isRight": false
+				},
+				{
+					"content": "9",
+					"file": {"link": "", "name": ""},
+					"isRight": false
+				},
+				{
+					"content": "6",
+					"file": {"link": "", "name": ""},
+					"isRight": false
+				},
+			]
+		},
+		{
+			"question": "72 / 4 = ?",
+			"file": {"link": "", "name": ""},
+			"answers": [
+				{
+					"content": "20",
+					"file": {"link": "", "name": ""},
+					"isRight": false
+				},
+				{
+					"content": "19",
+					"file": {"link": "", "name": ""},
+					"isRight": false
+				},
+				{
+					"content": "21",
+					"file": {"link": "", "name": ""},
+					"isRight": false
+				},
+				{
+					"content": "18",
+					"file": {"link": "", "name": ""},
+					"isRight": true
+				},
+			]
+		}
+	]
+}

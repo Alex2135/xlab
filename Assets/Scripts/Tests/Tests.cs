@@ -22,6 +22,7 @@ public class Test : ITest, IRewarder
             }
         }
     }
+
     [JsonProperty("name")]
     public string name;
     [JsonProperty("time")]
@@ -137,6 +138,7 @@ public class Result
     public int QuestsCount { get; set; }
     public float ResultTime { get; set; }
     public float TestTime { get; set; }
+
 
     public Result(int _questsCount = 0)
     {

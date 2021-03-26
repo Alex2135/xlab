@@ -8,7 +8,8 @@ using Newtonsoft.Json;
 public class MathTestUIController : MonoBehaviour, IScreenController
 {
     public LoaderUiController _loader;
-    public ShowQuestResult _resultView;
+    public ResultsUiController _testResultView;
+    public ShowQuestResult _questResultView;
     public MathTestView _testView;
     public QuestionView _currentQuestionView;
     public TextMeshProUGUI _testName;
@@ -21,7 +22,6 @@ public class MathTestUIController : MonoBehaviour, IScreenController
     private bool _isLoad = false;
     private bool _isPressed = false;
     private IScreenController _nextScreen;
-
     public IScreenController NextScreen
     {
         get { return _nextScreen; }
@@ -32,12 +32,31 @@ public class MathTestUIController : MonoBehaviour, IScreenController
         }
     }
     public IScreenController PrevScreen { get; set; }
+    public string _screenName;
+    public string ScreenName { 
+        get { return _screenName; } 
+        set { _screenName = value; }
+    }
 
     public object GetResult()
     {
         var result = _testView.ResultScore;
         result.ResultTime = _currentTime;
         return result;
+    }
+
+    public void OnBackClick()
+    {
+        if (PrevScreen != null)
+        {
+            var screensController = ScreensUIController.GetInstance();
+            screensController.DiactivateScreens();
+            screensController.Activate(PrevScreen);
+        }
+        else
+        {
+            Debug.Log("Prev screen not set!");
+        }
     }
 
     public void Update()
@@ -97,9 +116,9 @@ public class MathTestUIController : MonoBehaviour, IScreenController
         if (_testView.currentQuestion != null)
         {
             bool isRight = _testView.currentQuestion.answers[_selectedId].isRight;
-            _resultView.ShowQuestionResult(_selectedId, _rightId);
+            _questResultView.ShowQuestionResult(_selectedId, _rightId);
             yield return new WaitForSeconds(delay);
-            _resultView.ResetQuestResult();
+            _questResultView.ResetQuestResult();
             if (isRight)
                 _testView.GetReward();
             else
@@ -111,9 +130,9 @@ public class MathTestUIController : MonoBehaviour, IScreenController
         }
         else
         {
-            _resultView.ShowQuestionResult(_selectedId, _rightId);
+            _questResultView.ShowQuestionResult(_selectedId, _rightId);
             yield return new WaitForSeconds(delay);
-            _resultView.ResetQuestResult();
+            _questResultView.ResetQuestResult();
             EndGame();
         }
         _isPressed = false;
@@ -137,10 +156,12 @@ public class MathTestUIController : MonoBehaviour, IScreenController
         _testView.CurrentQuestionView = _currentQuestionView;
 
         _testName.text = (_testView.test as Test).name;
+        _nextScreen = _testResultView;
+        (_nextScreen as ResultsUiController).TestName.text = (_testView.test as Test).name;
         _startTime = _testView.GetTime() * 1000;
         _currentTime = _startTime;
 
-        _resultView.SetQuestionView(_currentQuestionView);
+        _questResultView.SetQuestionView(_currentQuestionView);
 
         _strategy = new DownloadStrategy();
         var qd = new QuestionDownloader(new NetImageRequester());
