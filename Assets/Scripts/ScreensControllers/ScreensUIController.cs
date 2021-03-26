@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public interface IScreenController
 {
+    Image GetBackground();
     string ScreenName { get; set; }
     IScreenController NextScreen { get; set; }
     IScreenController PrevScreen { get; set; }

@@ -24,6 +24,10 @@ public class ResultsUiController : MonoBehaviour, IScreenController
     public TextMeshProUGUI RightAnswersText;
     public TextMeshProUGUI TestName;
     public TestsScreensUIController MainScreen;
+    public Image Background;
+    public Button GoOnButton;
+    public TextMeshProUGUI GoOnButtonText;
+    private Dictionary<string, string> _screenNameTestName = new Dictionary<string, string>();
 
     private IScreenController _nextScreen;
     public IScreenController NextScreen
@@ -43,17 +47,64 @@ public class ResultsUiController : MonoBehaviour, IScreenController
         set { _screenName = value; } 
     }
 
+    void Awake()
+    {
+        _screenNameTestName.Add("MathTest", "Арифметика");
+        _screenNameTestName.Add("FacesTest", "Лица");
+        _screenNameTestName.Add("WordsTest", "Слова");
+    }
+
     void Start()
     {
         ScreenName = "ResultScreen";
         _nextScreen = MainScreen;
     }
 
+    public void OnBackClick()
+    {
+        if (PrevScreen != null)
+        {
+            var screensController = ScreensUIController.GetInstance();
+            screensController.DiactivateScreens();
+            var mainScreen = screensController.GetScreenByName("MainScreen");
+            screensController.Activate(mainScreen);
+        }
+        else
+        {
+            Debug.Log("Prev screen not set!");
+        }
+    }
+
+    public void OnGoOnButtonClick()
+    {
+        if (NextScreen != null)
+        {
+            var screensController = ScreensUIController.GetInstance();
+            screensController.DiactivateScreens();
+            screensController.Activate(NextScreen);
+        }
+        else
+        {
+            Debug.Log("Prev screen not set!");
+        }
+    }
+
+
     private void OnEnable()
     {
-        if (PrevScreen != null && PrevScreen.GetResult() is Result result)
+        if (PrevScreen.ScreenName == "MainScreen")
         {
+            TestName.text = _screenNameTestName[NextScreen.ScreenName];
+            GoOnButtonText.text = "НАЧАТЬ";
+        }
+        else 
+        if (PrevScreen != null &&
+            PrevScreen.GetResult() is Result result)
+        {
+            GoOnButtonText.text = "ЗАНОВО";
             RateText.text = result.Grade.ToString();
+            var s = NextScreen.GetBackground().sprite;
+            Background.sprite = Sprite.Create(s.texture, s.textureRect, new Vector2(0.5f, 0.5f));
             float percent = (float)result.TruePositive / result.QuestsCount * 100;
             RightAnswersText.text = Mathf.RoundToInt(percent).ToString() + "%";
             TriesText.text = "1";
@@ -65,4 +116,8 @@ public class ResultsUiController : MonoBehaviour, IScreenController
         throw new System.NotImplementedException();
     }
 
+    public Image GetBackground()
+    {
+        return Background;
+    }
 }

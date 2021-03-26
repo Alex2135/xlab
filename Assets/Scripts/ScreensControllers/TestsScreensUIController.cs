@@ -9,6 +9,7 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
     public MathTestUIController mathTestUIC;
     public FacesTestUIController facesTestUIC;
     public WordsTestUIController wordsTestUIC;
+    public ResultsUiController testsResultUIC;
 
     private ScreensUIController _screensController;
 
@@ -20,18 +21,21 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
     {
         ScreenName = "MainScreen";
         _screensController = ScreensUIController.GetInstance();
+        _screensController.Add(testsResultUIC);
         _screensController.Add(mathTestUIC);
         _screensController.Add(facesTestUIC);
         _screensController.Add(wordsTestUIC);
         _screensController.DiactivateScreens();
     }
 
-    public void OnAssignmentTestButtonClick(string _screen)
+    public void OnAssignmentTestButtonClick(string _screenName)
     {
-        if (_screen != null)
+        if (_screenName != null)
         {
-            var screen = _screensController.GetScreenByName(_screen);
-            _screensController.Activate(screen, this);
+            var resultScreen = _screensController.GetScreenByName("ResultScreen");
+            var screen = _screensController.GetScreenByName(_screenName);
+            resultScreen.NextScreen = screen;
+            _screensController.Activate(resultScreen, this);
         }
         else
         {
@@ -40,6 +44,11 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
     }
 
     public object GetResult()
+    {
+        return null;
+    }
+
+    public Image GetBackground()
     {
         return null;
     }

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using Newtonsoft.Json;
 
@@ -15,6 +16,7 @@ public class MathTestUIController : MonoBehaviour, IScreenController
     public TextMeshProUGUI _testName;
     public TextMeshProUGUI _timer;
     public TextMeshProUGUI _scoreText;
+    public Image Background;
     public float _startTime;
     public float _currentTime;
 
@@ -182,5 +184,10 @@ public class MathTestUIController : MonoBehaviour, IScreenController
 
 
         await _strategy.DownloadQuestImagesAsync(_testView.test);
+    }
+
+    public Image GetBackground()
+    {
+        return Background;
     }
 }

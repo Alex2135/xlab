@@ -92,4 +92,9 @@ public class LoaderUiController: MonoBehaviour, IScreenController
     {
         isContinue = false;
     }
+
+    public Image GetBackground()
+    {
+        return null;
+    }
 }

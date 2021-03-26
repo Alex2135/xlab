@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class WordsTestUIController : MonoBehaviour, IScreenController
 {
     public Button BackButton;
+    public Image Background;
     public string _screenName;
 
     public IScreenController NextScreen { get; set; }
@@ -14,6 +15,11 @@ public class WordsTestUIController : MonoBehaviour, IScreenController
     {
         get { return _screenName; }
         set { _screenName = value; }
+    }
+
+    public Image GetBackground()
+    {
+        return Background;
     }
 
     public object GetResult()
