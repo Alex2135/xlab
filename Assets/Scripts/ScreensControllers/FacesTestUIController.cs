@@ -16,9 +16,17 @@ public class FacesTestUIController : MonoBehaviour, IScreenController
         set { _screenName = value; }
     }
 
+    /*
+     * В FacesTestUIController происходит загрузка данных
+     * изображений названий лиц людей, которых нужно 
+     * отгадывать. После этого данные должны передаваться
+     * контроллерам каждого из подраздела тестов для его 
+     * проведения.
+     */
+
     void Start()
     {
-
+        var screenController = ScreensUIController.GetInstance();
     }
 
     public object GetResult()

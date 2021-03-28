@@ -57,7 +57,6 @@ public class ResultsUiController : MonoBehaviour, IScreenController
     void Start()
     {
         ScreenName = "ResultScreen";
-        _nextScreen = MainScreen;
     }
 
     public void OnBackClick()
