@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using Newtonsoft.Json;
 
-public class MathTestUIController : MonoBehaviour, IScreenController
+public class MathTestUIController : MonoBehaviour, IScreenController, IDecorableScreen, IResultableScreen
 {
     public LoaderUiController _loader;
     public ResultsUiController _testResultView;

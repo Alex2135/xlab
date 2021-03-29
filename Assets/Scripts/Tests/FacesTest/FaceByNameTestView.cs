@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FaceByNameTestView : MonoBehaviour
+public class FaceByNameTestView : MonoBehaviour, IScreenController
 {
+    public string _screenName;
+    public string ScreenName { get => _screenName; set => _screenName = value; }
+    public IScreenController NextScreen { get; set; }
+    public IScreenController PrevScreen { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {

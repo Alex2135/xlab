@@ -29,8 +29,6 @@ public class LoaderUiController: MonoBehaviour, IScreenController
         set { _screenName = value; }
     }
 
-    public object GetResult() { return null; }
-
     private void Awake()
     {
         ScreenName = "LoaderScreen";
@@ -91,10 +89,5 @@ public class LoaderUiController: MonoBehaviour, IScreenController
     public void OnDisable()
     {
         isContinue = false;
-    }
-
-    public Image GetBackground()
-    {
-        return null;
     }
 }

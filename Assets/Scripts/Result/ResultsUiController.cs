@@ -7,8 +7,7 @@ using TMPro;
 /*
  * Result - окно, которое должно отображать результат прохождения теста.
  * Результат должен отображаться в количестве балов, которое набрал
- * пользователь. Далее возможно добавление нового функционала с отображением
- * рейтинга, которого достиг пользователь.
+ * пользователь, его рейтинга и % правильно отвеченых вопросов.
  * 
  * У окон должна быть своя последовательность появления на экране. Система
  * должна знать какое окно за каким отображать. 
@@ -17,7 +16,7 @@ using TMPro;
  * если тест обязательный для прохождения, то тест не будет считаться 
  * пройденым.
  */
-public class ResultsUiController : MonoBehaviour, IScreenController
+public class ResultsUiController : MonoBehaviour, IScreenController, IDecorableScreen
 {
     public TextMeshProUGUI RateText;
     public TextMeshProUGUI TriesText;
@@ -98,21 +97,16 @@ public class ResultsUiController : MonoBehaviour, IScreenController
         }
         else 
         if (PrevScreen != null &&
-            PrevScreen.GetResult() is Result result)
+            (PrevScreen as IResultableScreen).GetResult() is Result result)
         {
             GoOnButtonText.text = "ЗАНОВО";
             RateText.text = result.Grade.ToString();
-            var s = NextScreen.GetBackground().sprite;
+            var s = (NextScreen as IDecorableScreen).GetBackground().sprite;
             Background.sprite = Sprite.Create(s.texture, s.textureRect, new Vector2(0.5f, 0.5f));
             float percent = (float)result.TruePositive / result.QuestsCount * 100;
             RightAnswersText.text = Mathf.RoundToInt(percent).ToString() + "%";
             TriesText.text = "1";
         }
-    }
-
-    public object GetResult()
-    {
-        throw new System.NotImplementedException();
     }
 
     public Image GetBackground()

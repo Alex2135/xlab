@@ -42,14 +42,4 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
             throw new Exception("Wrong screen id!");
         }
     }
-
-    public object GetResult()
-    {
-        return null;
-    }
-
-    public Image GetBackground()
-    {
-        return null;
-    }
 }

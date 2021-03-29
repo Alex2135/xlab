@@ -5,20 +5,25 @@ using UnityEngine.UI;
 
 public interface IScreenController
 {
-    Image GetBackground();
     string ScreenName { get; set; }
     IScreenController NextScreen { get; set; }
     IScreenController PrevScreen { get; set; }
+}
+
+interface IResultableScreen
+{
     object GetResult();
+}
+
+interface IDecorableScreen
+{
+    Image GetBackground();
 }
 
 public class ScreensUIController
 {
     public List<IScreenController> ScreenControllers { get; set; }
-    public int Count 
-    { 
-        get { return ScreenControllers.Count; } 
-    }
+    public int Count { get => ScreenControllers.Count; }
     static private ScreensUIController _instance;
 
     private ScreensUIController()

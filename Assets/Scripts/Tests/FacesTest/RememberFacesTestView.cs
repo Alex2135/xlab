@@ -6,17 +6,12 @@ using UnityEngine.UI;
 
 public class RememberFacesTestView : MonoBehaviour, IScreenController
 {
-    [Serializable]
-    public class FacesImage : LoadedImage
-    {
-        public FacesImage(Texture2D _t = null, string _n = null) : base(_t, _n) { }
-    }
-
     public Button RememberButton;
     public GameObject ImageButtonPrefab;
     public RectTransform ContentView;
-    public List<FacesImage> loadedImages;
-    public string ScreenName { get; set; }
+    public List<LoadedImage> loadedImages;
+    public string _screenName;
+    public string ScreenName { get => _screenName; set => _screenName = value; }
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }
 
@@ -24,7 +19,7 @@ public class RememberFacesTestView : MonoBehaviour, IScreenController
     {
         GameObject newGO = Instantiate(ImageButtonPrefab, ContentView);
         Rect rect = (newGO.transform as RectTransform).rect;
-        int imagesCount = loadedImages.Count;
+        int imagesCount = loadedImages?.Count ?? throw new Exception("No loaded images!");
         int currentOffset = 32;
 
 
@@ -49,14 +44,4 @@ public class RememberFacesTestView : MonoBehaviour, IScreenController
         RectTransform rt = _go.transform as RectTransform;
         _offset = _offset + (int)rt.rect.width;
     }
-
-    public Image GetBackground()
-    {
-        return null;
-    }
-
-    public object GetResult()
-    {
-        return null;
-    }   
 }

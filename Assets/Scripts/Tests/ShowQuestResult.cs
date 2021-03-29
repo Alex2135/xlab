@@ -8,6 +8,8 @@ public class ShowQuestResult : MonoBehaviour
     private QuestionView _questionView;
     public Color DefaultTextColor;
     public Color DefaultButtonColor;
+    private Color greenBG;
+    private Color redBG;
 
     private void SetColors()
     {
@@ -21,6 +23,8 @@ public class ShowQuestResult : MonoBehaviour
     private void Start()
     {
         SetColors();
+        greenBG = new Color(0, 255f/255f, 89f/255f);
+        redBG = new Color(255f/255f, 105f/255f, 105f/255f);
     }
 
     public void SetQuestionView(QuestionView _qv)
@@ -33,15 +37,15 @@ public class ShowQuestResult : MonoBehaviour
     {
         if (_selectedAnswer == _rightAnswer)
         {
-            _questionView._answers[_selectedAnswer]._image.color = new Color(0, 255/255, 89/255);
+            _questionView._answers[_selectedAnswer]._image.color = greenBG;
             _questionView._answers[_selectedAnswer]._text.color = new Color(1, 1, 1);
         }
         else
         {
-            _questionView._answers[_selectedAnswer]._image.color = new Color(255/255, 105/255, 105/255);
+            _questionView._answers[_selectedAnswer]._image.color = redBG;
             _questionView._answers[_selectedAnswer]._text.color = new Color(1, 1, 1);
             _questionView._answers[_rightAnswer]._image.gameObject.SetActive(true);
-            _questionView._answers[_rightAnswer]._image.color = new Color(0, 255/255, 89/255);
+            _questionView._answers[_rightAnswer]._image.color = greenBG;
             _questionView._answers[_rightAnswer]._text.color = new Color(1, 1, 1);
         }
     }
