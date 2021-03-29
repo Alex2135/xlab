@@ -60,13 +60,13 @@ public class ScreensUIController
         ScreenControllers.Add(_newScreen);
     }
 
-    public void Activate(IScreenController _screen, IScreenController _context = null)
+    public void Activate(IScreenController _screen, IScreenController _context = null, bool _diactivateScreens = true)
     {
         if (_screen is MonoBehaviour mb)
         {
             if (!ScreenControllers.Contains(_screen)) ScreenControllers.Add(_screen);
             if (!ScreenControllers.Contains(_context)) ScreenControllers.Add(_context);
-            DiactivateScreens();
+            if (_diactivateScreens) DiactivateScreens();
             if (_context != null) (mb as IScreenController).PrevScreen = _context;
             mb.gameObject.SetActive(true);
         }

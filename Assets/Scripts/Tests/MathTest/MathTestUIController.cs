@@ -13,7 +13,6 @@ public class MathTestUIController : MonoBehaviour, IScreenController, IDecorable
     public ShowQuestResult _questResultView;
     public MathTestView _testView;
     public QuestionView _currentQuestionView;
-    public TextMeshProUGUI _testName;
     public TextMeshProUGUI _timer;
     public TextMeshProUGUI _scoreText;
     public Image Background;
@@ -51,6 +50,7 @@ public class MathTestUIController : MonoBehaviour, IScreenController, IDecorable
     {
         if (PrevScreen != null)
         {
+            // TODO: Stop the timer, reset results.
             var screensController = ScreensUIController.GetInstance();
             screensController.DiactivateScreens();
             screensController.Activate(PrevScreen);
@@ -157,7 +157,6 @@ public class MathTestUIController : MonoBehaviour, IScreenController, IDecorable
         _testView.test = JsonConvert.DeserializeObject<Test>(content);
         _testView.CurrentQuestionView = _currentQuestionView;
 
-        _testName.text = (_testView.test as Test).name;
         _nextScreen = _testResultView;
         (_nextScreen as ResultsUiController).TestName.text = (_testView.test as Test).name;
         _startTime = _testView.GetTime() * 1000;

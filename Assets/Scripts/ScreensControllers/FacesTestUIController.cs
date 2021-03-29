@@ -22,6 +22,7 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }
     public string ScreenName { get => _screenName; set => _screenName = value; }
+    private ScreensUIController _screensController;
 
     /*
      * В FacesTestUIController происходит загрузка данных
@@ -31,20 +32,31 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
      * проведения.
      */
 
-    void Start()
+    void Awake()
     {
         NextScreen = rememberFacesTV;
         rememberFacesTV.NextScreen = nameByFaceTV;
+        nameByFaceTV.NextScreen = faceByNameTV;
         faceByNameTV.NextScreen = testResultView;
+
+        var castedImages = loadedImages.ConvertAll(img => img as LoadedImage);
+        rememberFacesTV.loadedImages = castedImages;
+        nameByFaceTV.loadedImages = castedImages;
+        faceByNameTV.loadedImages = castedImages;
+
+        _screensController = ScreensUIController.GetInstance();
+        _screensController.Add(rememberFacesTV);
+        _screensController.Add(nameByFaceTV);
+        _screensController.Add(faceByNameTV);
+        _screensController.Activate(rememberFacesTV, null, false);
     }
 
     public void OnBackClick()
     {
         if (PrevScreen != null)
         {
-            var screensController = ScreensUIController.GetInstance();
-            screensController.DiactivateScreens();
-            screensController.Activate(PrevScreen);
+            _screensController.DiactivateScreens();
+            _screensController.Activate(PrevScreen);
         }
         else
         {
