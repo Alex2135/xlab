@@ -6,6 +6,23 @@ using Newtonsoft.Json;
  * А изображения 
  */
 
+public static class ExtensionList
+{
+    public static void ShuffleItems<T>(this List<T> _list)
+    {
+        System.Random rng = new System.Random();
+        int n = _list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            var val = _list[k];
+            _list[k] = _list[n];
+            _list[n] = val;
+        }
+    }
+}
+
 public class Test : ITest, IRewarder
 {
     private List<Question> _quests;
@@ -67,7 +84,7 @@ public class Test : ITest, IRewarder
         }
     }
 
-    private void ShuffleQuests()
+    private void ShuffleItems()
     {
         System.Random rng = new System.Random();
         int n = _questIndexes.Count;

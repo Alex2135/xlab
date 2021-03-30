@@ -32,7 +32,7 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
      * проведения.
      */
 
-    void Awake()
+    void OnEnable()
     {
         NextScreen = rememberFacesTV;
         rememberFacesTV.NextScreen = nameByFaceTV;
