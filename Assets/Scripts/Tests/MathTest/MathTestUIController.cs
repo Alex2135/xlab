@@ -93,10 +93,9 @@ public class MathTestUIController : MonoBehaviour, IScreenController, IDecorable
     {
         if (!_isPressed)
         {
-            if (_testView.currentQuestion == null)
-                return;
+            if (_testView.CurrentQuestion == null) throw new Exception("Current question not set");
 
-            Answer[] answers = _testView.currentQuestion.answers;
+            Answer[] answers = _testView.CurrentQuestion.answers;
             int trueId = 0;
             for (int i = 0; i < answers.Length; i++)
             {
@@ -115,9 +114,9 @@ public class MathTestUIController : MonoBehaviour, IScreenController, IDecorable
     {
         _isPressed = true;
         float delay = 0.3f;
-        if (_testView.currentQuestion != null)
+        if (_testView.CurrentQuestion != null)
         {
-            bool isRight = _testView.currentQuestion.answers[_selectedId].isRight;
+            bool isRight = _testView.CurrentQuestion.answers[_selectedId].isRight;
             _questResultView.ShowQuestionResult(_selectedId, _rightId);
             yield return new WaitForSeconds(delay);
             _questResultView.ResetQuestResult();
@@ -127,7 +126,7 @@ public class MathTestUIController : MonoBehaviour, IScreenController, IDecorable
                 _testView.GetPenaltie();
             _scoreText.text = $"{_testView.ResultScore.Grade}";
             _testView.GetNextQuestion();
-            if (_testView.currentQuestion == null) EndGame();
+            if (_testView.CurrentQuestion == null) EndGame();
             else _testView.SetDataToQuestionView(_strategy.downloadedImages);
         }
         else
@@ -145,7 +144,7 @@ public class MathTestUIController : MonoBehaviour, IScreenController, IDecorable
         Time.timeScale = 0;
         _timer.text = "End";
         gameObject.SetActive(false);
-        ((MonoBehaviour)NextScreen).gameObject.SetActive(true);
+        (NextScreen as MonoBehaviour).gameObject.SetActive(true);
     }
 
     public async void Awake()

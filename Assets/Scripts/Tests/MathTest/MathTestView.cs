@@ -6,33 +6,20 @@ using UnityEngine.UI;
 using TMPro;
 
 /*
- * TestView предоставляет 
+ * 
  */
 public class MathTestView : ITestView, ITest, IRewarder
 {
     private Test _test;
     private QuestImagesMapper _questImagesMapper;
     public QuestionView CurrentQuestionView { get; set; }
+    public ITest test { get => _test; set => _test = value as Test; }
+    public Result ResultScore { get => test.ResultScore; set => test.ResultScore = value; }
+    public Question CurrentQuestion { get => test.CurrentQuestion; }
 
     public MathTestView()
     {
         _questImagesMapper = new QuestImagesMapper();
-    }
-
-    public ITest test { get { return _test; } set { _test = value as Test; } }
-
-    public Result ResultScore 
-    { 
-        get { return test.ResultScore; }
-        set { test.ResultScore = value; }
-    }
-
-    public Question currentQuestion 
-    {
-        get
-        {
-            return test.currentQuestion;
-        }
     }
     
     /*
@@ -60,7 +47,7 @@ public class MathTestView : ITestView, ITest, IRewarder
     {
         if (_images == null) throw new ArgumentNullException("List of images is null");
 
-        Question quest = test.currentQuestion ?? throw new Exception("No question to set");
+        Question quest = test.CurrentQuestion ?? throw new Exception("No question to set");
         if (quest.isQuestionImageExist)
             CurrentQuestionView._quest._image.gameObject.SetActive(true);
 
@@ -94,7 +81,7 @@ public class MathTestView : ITestView, ITest, IRewarder
 
     public void SetQuestText()
     {
-        Question quest = test.currentQuestion ?? throw new Exception("No question to set");
+        Question quest = test.CurrentQuestion ?? throw new Exception("No question to set");
         CurrentQuestionView.SetQuestText(quest.question);
         var answers = quest.answers;
         for (int i = 0; i < answers.Length; i++)
@@ -120,84 +107,4 @@ public class MathTestView : ITestView, ITest, IRewarder
     {
         return test.GetTime();
     }
-}
-
-class QuestImagesMapper
-{
-    public Dictionary<Question, List<LoadedImage>> mapQuestAndImages;
-
-    public QuestImagesMapper()
-    {
-        mapQuestAndImages = new Dictionary<Question, List<LoadedImage>>();
-    }
-
-    public void MapQuestsAndImages(ITest test, List<LoadedImage> _netImages)
-    {
-        var testQuestions = (test as Test).quests;
-        if (testQuestions == null) throw new NullReferenceException("Test not set");
-
-        var size = testQuestions.Count;
-
-        for (int i = 0; i < size; i++)
-        {
-            var key = testQuestions[i];
-            List<LoadedImage> val = null;
-            if (_netImages != null &&
-                _netImages.Count != 0) 
-                val = GetImagesFromListByIndex(_netImages, i);
-            mapQuestAndImages.Add(key, val);
-        }
-    }
-
-    public static List<LoadedImage> GetImagesFromListByIndex(List<LoadedImage> _images, int _index)
-    {
-        if (_images.Count == 0) 
-            throw new Exception("GetImagesFromListByIndex: images list is empty");
-
-        var result = _images.Where(
-            questImage =>
-            {
-                var qIdx = questImage?._name?.Split('_')?.Last() ?? "-1";
-                return Convert.ToInt32(qIdx) == _index;
-            }
-        );
-
-        return result.ToList();
-    }
-}
-
-
-public interface ITestView
-{
-    ITest test { get; set; }
-    void SetQuestImages(List<LoadedImage> _images);
-    void SetDataToQuestionView(List<LoadedImage> _netImages);
-    void SetQuestText();
-}
-
-[Serializable]
-public class QuestionView
-{
-    public DataUI _quest;
-    public List<DataUI> _answers;
-
-    public void SetQuestText(string _text)
-    {
-        _quest._text.text = _text;
-    }
-
-    public void SetAnswerText(int _id, string _text)
-    {
-        if (_id < 0 || _id >= _answers.Count)
-            throw new ArgumentOutOfRangeException("Id out of range");
-
-        _answers[_id]._text.text = _text;
-    }
-}
-
-[Serializable]
-public class DataUI
-{
-    public TextMeshProUGUI _text;
-    public Image _image;
 }

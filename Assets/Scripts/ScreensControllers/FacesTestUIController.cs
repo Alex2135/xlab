@@ -15,9 +15,9 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
     public Image Background;
     public string _screenName;
     public List<FacesImage> loadedImages;
-    public RememberFacesTestView rememberFacesTV;
-    public NameByFaceTestView nameByFaceTV;
-    public FaceByNameTestView faceByNameTV;
+    public RememberFacesTestUIController rememberFacesUIC;
+    public NameByFaceTestUIController nameByFaceUIC;
+    public FaceByNameTestUIController faceByNameUIC;
     public ResultsUiController testResultView;
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }
@@ -34,21 +34,21 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
 
     void OnEnable()
     {
-        NextScreen = rememberFacesTV;
-        rememberFacesTV.NextScreen = nameByFaceTV;
-        nameByFaceTV.NextScreen = faceByNameTV;
-        faceByNameTV.NextScreen = testResultView;
+        NextScreen = rememberFacesUIC;
+        rememberFacesUIC.NextScreen = nameByFaceUIC;
+        nameByFaceUIC.NextScreen = faceByNameUIC;
+        faceByNameUIC.NextScreen = testResultView;
 
         var castedImages = loadedImages.ConvertAll(img => img as LoadedImage);
-        rememberFacesTV.loadedImages = castedImages;
-        nameByFaceTV.loadedImages = castedImages;
-        faceByNameTV.loadedImages = castedImages;
+        rememberFacesUIC.loadedImages = castedImages;
+        nameByFaceUIC.loadedImages = castedImages;
+        faceByNameUIC.loadedImages = castedImages;
 
         _screensController = ScreensUIController.GetInstance();
-        _screensController.Add(rememberFacesTV);
-        _screensController.Add(nameByFaceTV);
-        _screensController.Add(faceByNameTV);
-        _screensController.Activate(rememberFacesTV, null, false);
+        _screensController.Add(rememberFacesUIC);
+        _screensController.Add(nameByFaceUIC);
+        _screensController.Add(faceByNameUIC);
+        _screensController.Activate(rememberFacesUIC, null, false);
     }
 
     public void OnBackClick()

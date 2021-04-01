@@ -97,9 +97,9 @@
     <Compile Include="Assets\Scripts\ScreensControllers\ScreensUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\TestsScreensUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\WordsTestUIController.cs" />
-    <Compile Include="Assets\Scripts\Tests\FacesTest\FaceByNameTestView.cs" />
-    <Compile Include="Assets\Scripts\Tests\FacesTest\NameByFaceTestView.cs" />
-    <Compile Include="Assets\Scripts\Tests\FacesTest\RememberFacesTestView.cs" />
+    <Compile Include="Assets\Scripts\Tests\FacesTest\FaceByNameTestUIController.cs" />
+    <Compile Include="Assets\Scripts\Tests\FacesTest\NameByFaceTestUIController.cs" />
+    <Compile Include="Assets\Scripts\Tests\FacesTest\RememberFacesTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\MathTest\MathTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\MathTest\MathTestView.cs" />
     <Compile Include="Assets\Scripts\Tests\Quests.cs" />
