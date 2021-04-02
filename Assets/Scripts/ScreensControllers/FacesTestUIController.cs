@@ -40,9 +40,9 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
         faceByNameUIC.NextScreen = testResultView;
 
         var castedImages = loadedImages.ConvertAll(img => img as LoadedImage);
-        rememberFacesUIC.loadedImages = castedImages;
-        nameByFaceUIC.loadedImages = castedImages;
-        faceByNameUIC.loadedImages = castedImages;
+        rememberFacesUIC.loadedImages = new List<LoadedImage>(castedImages);
+        nameByFaceUIC.loadedImages = new List<LoadedImage>(castedImages);
+        faceByNameUIC.loadedImages = new List<LoadedImage>(castedImages);
 
         _screensController = ScreensUIController.GetInstance();
         _screensController.Add(rememberFacesUIC);

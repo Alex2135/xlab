@@ -11,28 +11,24 @@ using TMPro;
 public class MathTestView : ITestView, ITest, IRewarder
 {
     private Test _test;
-    private QuestImagesMapper _questImagesMapper;
     public QuestionView CurrentQuestionView { get; set; }
     public ITest test { get => _test; set => _test = value as Test; }
     public Result ResultScore { get => test.ResultScore; set => test.ResultScore = value; }
     public Question CurrentQuestion { get => test.CurrentQuestion; }
 
-    public MathTestView()
-    {
-        _questImagesMapper = new QuestImagesMapper();
-    }
+    public MathTestView() { }
     
     /*
     * QuestionView - изображения и текст вопроса и ответов на холсте
     * List<LoadedImage> - набор данных изображений всех вопросов и ответов на них
     */
-    public void SetDataToQuestionView(List<LoadedImage> _netImages)
+    public void RefreshQuestDataOnQuestionView(List<LoadedImage> _netImages)
     {
-        if (CurrentQuestionView == null) throw new NullReferenceException("Quest view is null");
-        if (_netImages == null) throw new ArgumentNullException("_netImages view is null");
+        if (CurrentQuestionView == null) 
+            throw new NullReferenceException("Quest view is null");
+        if (_netImages == null) 
+            throw new ArgumentNullException("_netImages view is not set");
 
-        if (_questImagesMapper.mapQuestAndImages.Count == 0)
-            _questImagesMapper.MapQuestsAndImages(test, _netImages);
         int idx = (test as Test).quesitonIdx;
 
         if (_netImages.Count != 0)
@@ -79,7 +75,7 @@ public class MathTestView : ITestView, ITest, IRewarder
         }
     }
 
-    public void SetQuestText()
+    public void SetQuestText(List<LoadedImage> _images = null)
     {
         Question quest = test.CurrentQuestion ?? throw new Exception("No question to set");
         CurrentQuestionView.SetQuestText(quest.question);

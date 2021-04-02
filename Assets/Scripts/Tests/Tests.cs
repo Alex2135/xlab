@@ -54,8 +54,8 @@ public interface ITestView
     QuestionView CurrentQuestionView { get; set; }
     ITest test { get; set; }
     void SetQuestImages(List<LoadedImage> _images);
-    void SetDataToQuestionView(List<LoadedImage> _netImages);
-    void SetQuestText();
+    void RefreshQuestDataOnQuestionView(List<LoadedImage> _netImages);
+    void SetQuestText(List<LoadedImage> _netImages);
 }
 
 [Serializable]
@@ -89,6 +89,22 @@ public class DataUI
 {
     public TextMeshProUGUI _text;
     public Image _image;
+
+    public void ResetImage()
+    {
+        _image.sprite = null;
+    }
+
+    public void ResetText()
+    {
+        _text.text = "";
+    }
+
+    public void ResetImageAndText()
+    {
+        ResetImage();
+        ResetText();
+    }
 }
 
 /*
@@ -129,7 +145,6 @@ public class Test : ITest, IRewarder
             }
         }
     }
-
     [JsonProperty("name")]
     public string name;
     [JsonProperty("time")]
@@ -148,12 +163,19 @@ public class Test : ITest, IRewarder
         set
         {
             _resultScore = value;
-        } 
+        }
         get
         {
             _resultScore.QuestsCount = quests?.Count ?? 0;
             _resultScore.TestTime = time;
             return _resultScore;
+        }
+    }
+    public Question CurrentQuestion
+    {
+        get
+        {
+            return quesitonIdx < quests.Count ? quests[quesitonIdx] : null;
         }
     }
     public int quesitonIdx;
@@ -165,14 +187,6 @@ public class Test : ITest, IRewarder
         _resultScore = new Result(quests?.Count ?? 0);
         _questIndexes = new List<int>();
         _quests = _quests ?? new List<Question>();
-    }
-
-    public Question CurrentQuestion 
-    { 
-        get 
-        { 
-            return  quesitonIdx < quests.Count ? quests[quesitonIdx] : null; 
-        }
     }
 
     public Question GetNextQuestion()

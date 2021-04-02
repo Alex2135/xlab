@@ -127,7 +127,7 @@ public class MathTestUIController : MonoBehaviour, IScreenController, IDecorable
             _scoreText.text = $"{_testView.ResultScore.Grade}";
             _testView.GetNextQuestion();
             if (_testView.CurrentQuestion == null) EndGame();
-            else _testView.SetDataToQuestionView(_strategy.downloadedImages);
+            else _testView.RefreshQuestDataOnQuestionView(_strategy.downloadedImages);
         }
         else
         {
@@ -174,7 +174,7 @@ public class MathTestUIController : MonoBehaviour, IScreenController, IDecorable
         _strategy.onLoadImageEnd += (lst) =>
         {
             _testView.GetNextQuestion();
-            _testView.SetDataToQuestionView(lst);
+            _testView.RefreshQuestDataOnQuestionView(lst);
             gameObject.SetActive(true);
             _loader.DisableLoader();
             _isLoad = true;
