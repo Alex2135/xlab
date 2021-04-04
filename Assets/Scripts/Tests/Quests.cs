@@ -29,11 +29,21 @@ public class Question : ILinksExistable
 }
 
 [Serializable]
-public class Answer
+public class Answer: ICloneable
 {
     public string content;
     public File file;
     public bool isRight;
+
+    public object Clone()
+    {
+        return new Answer()
+        {
+            content = this.content,
+            file = this.file ?? null,
+            isRight = this.isRight
+        };
+    }
 }
 
 [Serializable]

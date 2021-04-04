@@ -38,7 +38,6 @@ public class WordsPanel
         var xMargin = 8f;
         var yMargin = 8f;
 
-
         foreach (var word in Words)
         {
             var go = UnityEngine.Object.Instantiate(ButtonWordPrefab, ParentPanel);
@@ -48,7 +47,7 @@ public class WordsPanel
             rt.pivot = new Vector2(0f, 1f);
             var nextX = xPos + rt.sizeDelta.x;
 
-            // Out from horizontal panel
+            // If next button out from horizontal panel
             if (nextX > panelSize.width)
             {
                 // Set new button on new row
@@ -103,5 +102,15 @@ public class WordsPanel
         }
 
         return result;
+    }
+
+    public void DestroyButtons()
+    {
+        var childs = ParentPanel.GetComponentsInChildren<Transform>();
+        foreach (var child in childs)
+        {
+            UnityEngine.Object.Destroy(child.gameObject);
+        }
+        Words.Clear();
     }
 }

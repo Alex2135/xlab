@@ -54,18 +54,62 @@ public class NameByFaceTestUIController : MonoBehaviour, IScreenController
     {
         Test result = new Test();
 
-        // Генерация одинаковых ответов на все вопросы
+        List<Question> questions = new List<Question>();
+        // Images was downloaded with indexes in suffix.
+        // Generation sameles answers for questions.
         List<Answer> answers = new List<Answer>();
         foreach (var img in loadedImages)
         {
             var nameLastname = img._name.Split('_')?[0];
-            var ans = new Answer() {
-                content = nameLastname,
-                isRight = false
-            };
+            
+            var ans = new Answer();
+            ans.content = nameLastname;
+            ans.isRight = false;
+            answers.Add(ans);
+
+            var quest = new Question();
+            quest.question = nameLastname;
+            quest.file = null;
+            quest.answers = null;
+            questions.Add(quest);
+        }
+
+        // Set additional names to answers
+        var names = new List<string>(){ "Vasya Pupkin", "Masha Kalatushkina", "Kuzya Vinnik", "UUU ska", "Suka Blyad" };
+        foreach (var name in names)
+        {
+            var ans = new Answer();
+            ans.content = name;
+            ans.isRight = false;
             answers.Add(ans);
         }
-        var names = new List<string>(){ "Vasya Pupkin", "Masha Kalatushkina", "Kuzya Vinnik", "UUU ska", "Suka Blyad" };
+
+        // Set answers to questions
+        foreach (var q in questions)
+        {
+            q.answers = new Answer[answers.Count];
+            answers.ShuffleItems();
+            for (int i = 0; i < answers.Count; i++)
+            {
+                q.answers[i] = answers[i].Clone() as Answer;
+            }
+            // Mark right answers
+            foreach (var ans in q.answers)
+            {
+                if (q.question.StartsWith(ans.content))
+                {
+                    ans.isRight = true;
+                    break;
+                }
+            }
+        }
+
+        questions.ShuffleItems();
+        result.quests = questions;
+        result.name = "FaceByName";
+        result.time = 0;
+        result.reward = 10;
+        result.penaltie = 0;
 
         return result;
     }
@@ -76,6 +120,7 @@ public class NameByFaceTestUIController : MonoBehaviour, IScreenController
         questionView._quest._image = faceImage;
         questionView._quest._text = hiddenName;
 
+        testView.GetNextQuestion();
         testView.RefreshQuestDataOnQuestionView(loadedImages);
         questResultView.SetQuestionView(questionView);
     }
@@ -85,15 +130,29 @@ public class NameByFaceTestUIController : MonoBehaviour, IScreenController
         if (questionView._quest._text.text.StartsWith(_name))
         {
             Debug.Log("Yes");
-            testView.GetNextQuestion();
-            
         }
         else
         {
             Debug.Log("No");
         }
 
+        ResetQuestionView();
         testView.GetNextQuestion();
+        if (testView.CurrentQuestion != null)
+        {
+            testView.RefreshQuestDataOnQuestionView(loadedImages);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+            (NextScreen as MonoBehaviour).gameObject.SetActive(true);
+        }
+    }
+
+    IEnumerator ShowResult(int _selectedId, int _rightId)
+    {
+        float delay = 0.3f;
+        yield return new WaitForSeconds(delay);
     }
 
     void OnDisable()
@@ -106,11 +165,8 @@ public class NameByFaceTestUIController : MonoBehaviour, IScreenController
     {
         questionView._quest.ResetImageAndText();
         foreach (var ans in questionView._answers)
-        {
             ans.ResetImageAndText();
-        }
-        loadedImages.Clear();
-        testView.wordsPanelCreator.Words.Clear();
+        testView.wordsPanelCreator.DestroyButtons();
     }
 }
 
@@ -147,6 +203,7 @@ public class NameByFaceTestView : ITestView, ITest
         SetQuestText(_netImages);
         SetQuestImages(_netImages);
     }
+
     public void SetQuestImages(List<LoadedImage> _images)
     {
         if (CurrentQuestionView._quest == null) throw new Exception("Quest UI elements for question view ware not set!");

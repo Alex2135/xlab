@@ -114,7 +114,7 @@ public class DataUI
 
 public static class ExtensionList
 {
-    public static void ShuffleItems<T>(this List<T> _list)
+    public static List<T> ShuffleItems<T>(this List<T> _list)
     {
         System.Random rng = new System.Random();
         int n = _list.Count;
@@ -126,6 +126,7 @@ public static class ExtensionList
             _list[k] = _list[n];
             _list[n] = val;
         }
+        return _list;
     }
 }
 
