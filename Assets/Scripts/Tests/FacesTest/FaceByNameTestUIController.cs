@@ -12,6 +12,10 @@ public class FaceByNameTestUIController : MonoBehaviour, IResetableScreenControl
     public TextMeshProUGUI scoreTMP;
     public TextMeshProUGUI questNumberTMP;
 
+    // Show result images
+    public Texture2D rightAnswerImage;
+    public Texture2D wrongAnswerImage;
+
     // Screen logic objects
     public string _screenName;
     public List<LoadedImage> loadedImages;
@@ -84,11 +88,15 @@ public class FaceByNameTestUIController : MonoBehaviour, IResetableScreenControl
             // Copy answers for quest
             answers.ShuffleItems();
             var ansArr = new Answer[answers.Count];
-            for(int i = 0; i < answers.Count; i++)
+            var nameLastname = img._name.Split('_')?[0];
+            for (int i = 0; i < answers.Count; i++)
+            {
                 ansArr[i] = (Answer)answers[i].Clone();
+                if (ansArr[i].content == nameLastname)
+                    ansArr[i].isRight = true;
+            }
 
             // Create new quest
-            var nameLastname = img._name.Split('_')?[0];
             var quest = new Question();
             quest.question = nameLastname;
             quest.file = null;
@@ -99,32 +107,26 @@ public class FaceByNameTestUIController : MonoBehaviour, IResetableScreenControl
 
         return result;
     }
-
-    private void OnFaceClick(string faceName, int selectedId)
+    
+    private void OnFaceClick(string faceName)
     {
         if (!isButtonPressed && testView.CurrentQuestion != null)
         {
             int rightId = 0;
+            int selectedId = 0;
             var screenText = questionView._quest.GetText();
             var size = screenText.Length > faceName.Length ? faceName.Length : screenText.Length;
             size -= 1;
-            if (screenText.Substring(0, size) == faceName.Substring(0, size))
+
+            var id = (testView.test as Test).quesitonIdx;
+            var answers = (testView.test as Test).quests[id].answers;
+            for (int i = 0; i < answers.Length; i++)
             {
-                Debug.Log("Yes");
-                rightId = selectedId;
-                _score += 10;
+                if (answers[i].isRight)
+                    rightId = i;
+                if (faceName.StartsWith(answers[i].content))
+                    selectedId = i;
             }
-            else
-            {
-                Debug.Log("No");
-                rightId = -1;
-            }
-            //var answers = testView.CurrentQuestionView._answers;
-            //for (int i = 0; i < answers.Count; i++)
-            //{
-            //    if (answers[i].isRight)
-            //        rightId = i;
-            //}
 
             StartCoroutine(ShowResult(selectedId, rightId));
         }
@@ -136,14 +138,16 @@ public class FaceByNameTestUIController : MonoBehaviour, IResetableScreenControl
 
         Debug.Log($"{_selectedId} == {_rightId}");
         questNumberTMP.text = $"{(testView.test as Test).quesitonIdx + 1} из {(testView.test as Test).quests.Count}";
-        scoreTMP.text = $"{_score}";
         float delay = 0.3f;
         if (_selectedId == _rightId)
         {
+            _score += (testView.test as IRewarder).GetReward();
+            scoreTMP.text = $"{_score}";
             yield return new WaitForSeconds(delay);
         }
         else
         {
+            _score += (testView.test as IRewarder).GetPenaltie();
             yield return new WaitForSeconds(delay);
         }
 
@@ -180,7 +184,7 @@ public class FaceByNameTestView : ITestView, ITest
     public Result ResultScore { get => test.ResultScore; set => test.ResultScore = value; }
 
     public Question CurrentQuestion => test.CurrentQuestion;
-    public Action<string, int> onFaceButtonClick;
+    public Action<string> onFaceButtonClick;
 
     public FaceByNameTestView() {}
 
@@ -212,7 +216,7 @@ public class FaceByNameTestView : ITestView, ITest
             var ans = answersDataUI[i];
             LoadedImage.SetTextureToImage(ref ans._image, _images[i]._image);
             var imageButton = ans._image.gameObject.GetComponent<Button>();
-            imageButton.onClick.AddListener(() => onFaceButtonClick(ans._text.text, i));
+            imageButton.onClick.AddListener(() => onFaceButtonClick(ans._text.text));
         }
     }
 
