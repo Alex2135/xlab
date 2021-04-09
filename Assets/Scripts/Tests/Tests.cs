@@ -39,7 +39,7 @@ class QuestImagesMapper
         var result = _images.Where(
             questImage =>
             {
-                var qIdx = questImage?._name?.Split('_')?.Last() ?? "-1";
+                var qIdx = questImage?.QuestId;
                 return Convert.ToInt32(qIdx) == _index;
             }
         );
@@ -56,6 +56,7 @@ public interface ITestView
     void SetQuestImages(List<LoadedImage> _images);
     void RefreshQuestDataOnQuestionView(List<LoadedImage> _netImages);
     void SetQuestText(List<LoadedImage> _netImages);
+    void ResetTestAndQuestView();
 }
 
 [Serializable]
@@ -105,6 +106,11 @@ public class DataUI
         ResetImage();
         ResetText();
     }
+
+    public string GetText()
+    {
+        return _text.text;
+    }
 }
 
 /*
@@ -112,7 +118,7 @@ public class DataUI
  * А изображения 
  */
 
-public static class ExtensionList
+public static class ExtensionListAndDict
 {
     public static List<T> ShuffleItems<T>(this List<T> _list)
     {
@@ -129,6 +135,18 @@ public static class ExtensionList
         return _list;
     }
 }
+
+public static class DictionaryExtensions
+{
+    public static Dictionary<TKey, TValue> Shuffle<TKey, TValue>(
+       this Dictionary<TKey, TValue> source)
+    {
+        Random r = new Random();
+        return source.OrderBy(x => r.Next())
+           .ToDictionary(item => item.Key, item => item.Value);
+    }
+}
+
 
 public class Test : ITest, IRewarder
 {

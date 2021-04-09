@@ -5,8 +5,8 @@ public class ShowQuestResult : MonoBehaviour
     private QuestionView _questionView;
     public Color DefaultTextColor;
     public Color DefaultButtonColor;
-    private Color greenBG;
-    private Color redBG;
+    public Color greenBG;
+    public Color redBG;
 
     private void SetColors()
     {
@@ -17,10 +17,10 @@ public class ShowQuestResult : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         SetColors();
-        greenBG = new Color(0, 255f/255f, 89f/255f);
+        greenBG = new Color(0x63 / 255f, 0xCA / 255f, 0x85 / 255f);
         redBG = new Color(255f/255f, 105f/255f, 105f/255f);
     }
 

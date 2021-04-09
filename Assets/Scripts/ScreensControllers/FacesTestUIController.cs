@@ -15,6 +15,7 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
     public Image Background;
     public string _screenName;
     public List<FacesImage> loadedImages;
+    public List<FacesImage> imagesForFaceByName;
     public RememberFacesTestUIController rememberFacesUIC;
     public NameByFaceTestUIController nameByFaceUIC;
     public FaceByNameTestUIController faceByNameUIC;
@@ -43,6 +44,8 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
         rememberFacesUIC.loadedImages = new List<LoadedImage>(castedImages);
         nameByFaceUIC.loadedImages = new List<LoadedImage>(castedImages);
         faceByNameUIC.loadedImages = new List<LoadedImage>(castedImages);
+        var castedAdditionalImages = imagesForFaceByName.ConvertAll(img => img as LoadedImage);
+        faceByNameUIC.additionalImages = new List<LoadedImage>(castedAdditionalImages);
 
         _screensController = ScreensUIController.GetInstance();
         _screensController.Add(rememberFacesUIC);

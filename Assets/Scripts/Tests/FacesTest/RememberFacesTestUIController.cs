@@ -46,6 +46,7 @@ public class RememberFacesTestUIController : MonoBehaviour, IScreenController
         }
     }
 
+    // Place image in coordinates on the faces panel
     private void ProcessImageButton(GameObject _go, int _index, ref int _offset)
     {
         var rt = _go.transform as RectTransform;
@@ -80,7 +81,7 @@ public class RememberFacesTestUIController : MonoBehaviour, IScreenController
     }
 
     // TODO: Реализовать метод сброса состояния окна
-    private void ResetScreenState()
+    private void ResetScreenProgress()
     { 
 
     }

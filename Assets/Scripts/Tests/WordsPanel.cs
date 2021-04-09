@@ -109,7 +109,8 @@ public class WordsPanel
         var childs = ParentPanel.GetComponentsInChildren<Transform>();
         foreach (var child in childs)
         {
-            UnityEngine.Object.Destroy(child.gameObject);
+            if (!child.Equals(ParentPanel))
+                UnityEngine.Object.Destroy(child.gameObject);
         }
         Words.Clear();
     }

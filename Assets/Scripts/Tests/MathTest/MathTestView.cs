@@ -103,4 +103,10 @@ public class MathTestView : ITestView, ITest, IRewarder
     {
         return test.GetTime();
     }
+
+    public void ResetTestAndQuestView()
+    {
+        CurrentQuestionView._quest.ResetText();
+        CurrentQuestionView._answers.ForEach(ans => ans.ResetText());
+    }
 }

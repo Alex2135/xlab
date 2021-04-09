@@ -6,22 +6,28 @@ using UnityEngine.UI;
 using TMPro;
 using Newtonsoft.Json;
 
-public class MathTestUIController : MonoBehaviour, IScreenController, IDecorableScreen, IResultableScreen
+public class MathTestUIController : MonoBehaviour, IResetableScreenController, IDecorableScreen, IResultableScreen
 {
-    public LoaderUiController _loader;
-    public ResultsUiController _testResultView;
-    public ShowQuestResult _questResultView;
-    public MathTestView _testView;
+    // Screen objects
     public QuestionView _currentQuestionView;
     public TextMeshProUGUI _timer;
     public TextMeshProUGUI _scoreText;
     public Image Background;
+    public ShowQuestResult _questResultView;
+
+    // Logic objects 
+    public MathTestView _testView;
+    public LoaderUiController _loader;
+    public ResultsUiController _testResultView;
     public float _startTime;
     public float _currentTime;
-
-    private DownloadStrategy _strategy;
-    private bool _isLoad = false;
     private bool _isPressed = false;
+
+    // Data objects
+    private DownloadStrategy _strategy;
+    public string _screenName;
+    private bool _isLoad = false;
+
     private IScreenController _nextScreen;
     public IScreenController NextScreen
     {
@@ -33,7 +39,6 @@ public class MathTestUIController : MonoBehaviour, IScreenController, IDecorable
         }
     }
     public IScreenController PrevScreen { get; set; }
-    public string _screenName;
     public string ScreenName { 
         get { return _screenName; } 
         set { _screenName = value; }
@@ -147,7 +152,7 @@ public class MathTestUIController : MonoBehaviour, IScreenController, IDecorable
         (NextScreen as MonoBehaviour).gameObject.SetActive(true);
     }
 
-    public async void Awake()
+    public void Awake()
     {
         string path = Path.Combine(Application.persistentDataPath, "q.txt");
         string content = System.IO.File.ReadAllText(path);
@@ -155,13 +160,15 @@ public class MathTestUIController : MonoBehaviour, IScreenController, IDecorable
         _testView = new MathTestView();
         _testView.test = JsonConvert.DeserializeObject<Test>(content);
         _testView.CurrentQuestionView = _currentQuestionView;
+        _questResultView.SetQuestionView(_currentQuestionView);
+    }
 
+    public async void Start()
+    {
         _nextScreen = _testResultView;
         (_nextScreen as ResultsUiController).TestName.text = (_testView.test as Test).name;
         _startTime = _testView.GetTime() * 1000;
         _currentTime = _startTime;
-
-        _questResultView.SetQuestionView(_currentQuestionView);
 
         _strategy = new DownloadStrategy();
         var qd = new QuestionDownloader(new NetImageRequester());
@@ -187,5 +194,11 @@ public class MathTestUIController : MonoBehaviour, IScreenController, IDecorable
     public Image GetBackground()
     {
         return Background;
+    }
+
+    public void ResetScreenState()
+    {
+        _currentTime = 0;
+        _testView.ResetTestAndQuestView();
     }
 }

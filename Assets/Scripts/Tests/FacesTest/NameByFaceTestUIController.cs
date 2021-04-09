@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-public class NameByFaceTestUIController : MonoBehaviour, IScreenController
+public class NameByFaceTestUIController : MonoBehaviour, IResetableScreenController
 {
     // Screen objects
     public Image faceImage;
@@ -14,6 +14,7 @@ public class NameByFaceTestUIController : MonoBehaviour, IScreenController
     public GameObject horizontalLayoutPrefab;
     public RectTransform wordsPanel;
     public TextMeshProUGUI questNumber;
+    public TextMeshProUGUI scoreTMP;
     public TextMeshProUGUI hiddenName;
 
     // Screen logic objects
@@ -21,6 +22,7 @@ public class NameByFaceTestUIController : MonoBehaviour, IScreenController
     public ShowQuestResult questResultView;
     public List<LoadedImage> loadedImages;
     public NameByFaceTestView testView;
+    private bool isButtonPressed;
 
     // TODO: Fetch test data from source (web, file) and throw it to testview
     public string ScreenName { get => _screenName; set => _screenName = value; }
@@ -40,19 +42,19 @@ public class NameByFaceTestUIController : MonoBehaviour, IScreenController
         testView.wordsPanelCreator.ButtonWordPrefab = nameButtonPrefab;
         testView.wordsPanelCreator.HorizontalLayoutPrefab = horizontalLayoutPrefab;
 
+        // Emulate test data
+        testView.test = SimulateTestData();
+    }
+
+    private Test SimulateTestData()
+    {
+        Test result = new Test();
+
         // Mark loaded images 
         for (int i = 0; i < loadedImages.Count; i++)
         {
             loadedImages[i]._name += $"_{i}";
         }
-
-        // Emulate test data
-        testView.test = EmulateTestData();
-    }
-
-    private Test EmulateTestData()
-    {
-        Test result = new Test();
 
         List<Question> questions = new List<Question>();
         // Images was downloaded with indexes in suffix.
@@ -75,7 +77,7 @@ public class NameByFaceTestUIController : MonoBehaviour, IScreenController
         }
 
         // Set additional names to answers
-        var names = new List<string>(){ "Vasya Pupkin", "Masha Kalatushkina", "Kuzya Vinnik", "UUU ska", "Suka Blyad" };
+        var names = new List<string>(){ "Vasya Pupkin", "Masha Kalatushkina", "Kuzya Vinnik"};
         foreach (var name in names)
         {
             var ans = new Answer();
@@ -104,7 +106,7 @@ public class NameByFaceTestUIController : MonoBehaviour, IScreenController
             }
         }
 
-        questions.ShuffleItems();
+        //questions.ShuffleItems();
         result.quests = questions;
         result.name = "FaceByName";
         result.time = 0;
@@ -116,26 +118,51 @@ public class NameByFaceTestUIController : MonoBehaviour, IScreenController
 
     void OnEnable()
     {
-        questNumber.text = "1 из 4";
+        isButtonPressed = false;
+        questNumber.text = $"1 из {(testView.test as Test).quests.Count}";
         questionView._quest._image = faceImage;
         questionView._quest._text = hiddenName;
 
         testView.GetNextQuestion();
         testView.RefreshQuestDataOnQuestionView(loadedImages);
         questResultView.SetQuestionView(questionView);
+        //questResultView.greenBG = new Color(0x63/255f, 0xCA/255f, 0x85/255f);
     }
 
     private void OnNameButtonClick(string _name)
-    { 
-        if (questionView._quest._text.text.StartsWith(_name))
+    {
+        if (_name != null && _name != "" && !isButtonPressed)
         {
-            Debug.Log("Yes");
-        }
-        else
-        {
-            Debug.Log("No");
-        }
+            int rightButtonIdx = 0;
+            int selectedButtonIdx = 0;
 
+            var answers = testView.CurrentQuestion.answers;
+            for (int i = 0; i < answers.Length; i++)
+            {
+                if (answers[i].isRight)
+                    rightButtonIdx = i;
+                if (answers[i].content.StartsWith(_name))
+                    selectedButtonIdx = i;
+            }
+
+            //Debug.Log("Actial: " + questionView._quest._text.text);
+            //Debug.Log("Right: " + answers[rightButtonIdx].content);
+            //Debug.Log("Selected: " + answers[selectedButtonIdx].content);
+
+            StartCoroutine(ShowResult(selectedButtonIdx, rightButtonIdx));
+        }
+    }
+
+    IEnumerator ShowResult(int _selectedId, int _rightId)
+    {
+        isButtonPressed = true;
+        float delay = 1f;
+
+        questResultView.ShowQuestionResult(_selectedId, _rightId);
+        if (_selectedId == _rightId) testView.GetReward();
+        else testView.GetPenaltie();
+        scoreTMP.text = testView.ResultScore.Grade.ToString();
+        yield return new WaitForSeconds(delay);
         ResetQuestionView();
         testView.GetNextQuestion();
         if (testView.CurrentQuestion != null)
@@ -147,12 +174,9 @@ public class NameByFaceTestUIController : MonoBehaviour, IScreenController
             gameObject.SetActive(false);
             (NextScreen as MonoBehaviour).gameObject.SetActive(true);
         }
-    }
-
-    IEnumerator ShowResult(int _selectedId, int _rightId)
-    {
-        float delay = 0.3f;
-        yield return new WaitForSeconds(delay);
+        if (testView.QuestIndex + 1 <= (testView.test as Test).quests.Count)
+            questNumber.text = $"{testView.QuestIndex + 1} из {(testView.test as Test).quests.Count}";
+        isButtonPressed = false;
     }
 
     void OnDisable()
@@ -160,7 +184,6 @@ public class NameByFaceTestUIController : MonoBehaviour, IScreenController
         ResetQuestionView();
     }
 
-    // TODO: Complete method and call it in OnNameButtonClick
     private void ResetQuestionView()
     {
         questionView._quest.ResetImageAndText();
@@ -168,13 +191,18 @@ public class NameByFaceTestUIController : MonoBehaviour, IScreenController
             ans.ResetImageAndText();
         testView.wordsPanelCreator.DestroyButtons();
     }
+
+    public void ResetScreenState()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public class NameByFaceTestView : ITestView, ITest
 {
     // Test info
     public ITest test { get; set; } // Casted test object
-    public int QuestIndex { get => (test as Test).quesitonIdx; } 
+    public int QuestIndex { get => (test as Test).quesitonIdx; }
     public Question CurrentQuestion { get => test.CurrentQuestion; }
 
     // Screen view of current question
@@ -187,10 +215,13 @@ public class NameByFaceTestView : ITestView, ITest
 
     public Result ResultScore { get => test.ResultScore; set => test.ResultScore = value; }
 
+    private bool isShuffle;
+
     public NameByFaceTestView()
     {
         wordsPanelCreator = new WordsPanel();
         _questImagesMapper = new QuestImagesMapper();
+        isShuffle = false;
     }
 
     public void RefreshQuestDataOnQuestionView(List<LoadedImage> _netImages)
@@ -198,8 +229,14 @@ public class NameByFaceTestView : ITestView, ITest
         if (_netImages == null) throw new Exception("Images are not set");
         if (CurrentQuestionView == null) throw new Exception("Question view is null");
 
-        // Generate quests in test corresponding _netImages
+        if (!isShuffle)
+        {
+            _questImagesMapper.MapQuestsAndImages(test, _netImages);
+            _questImagesMapper.mapQuestAndImages.Shuffle();
+            isShuffle = true;
+        }
 
+        // Generate quests in test corresponding _netImages
         SetQuestText(_netImages);
         SetQuestImages(_netImages);
     }
@@ -253,5 +290,10 @@ public class NameByFaceTestView : ITestView, ITest
     public float GetTime()
     {
         return test.GetTime();
+    }
+
+    public void ResetTestAndQuestView()
+    {
+        throw new NotImplementedException();
     }
 }

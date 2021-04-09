@@ -10,6 +10,11 @@ public interface IScreenController
     IScreenController PrevScreen { get; set; }
 }
 
+public interface IResetableScreenController: IScreenController
+{
+    void ResetScreenState();
+}
+
 interface IResultableScreen
 {
     object GetResult();
@@ -67,7 +72,12 @@ public class ScreensUIController
             if (!ScreenControllers.Contains(_screen)) ScreenControllers.Add(_screen);
             if (!ScreenControllers.Contains(_context)) ScreenControllers.Add(_context);
             if (_diactivateScreens) DiactivateScreens();
-            if (_context != null) (mb as IScreenController).PrevScreen = _context;
+            if (_context != null)
+            {
+                (mb as IScreenController).PrevScreen = _context;
+                if (_context is MonoBehaviour mbContext)
+                    mbContext.gameObject.SetActive(false);
+            }
             mb.gameObject.SetActive(true);
         }
         else

@@ -34,7 +34,7 @@ class DownloadStrategy : IImagesDownloader
                     async (taskWithQuestImgs, idx) =>
                     {
                         var imgs = await taskWithQuestImgs;
-                        imgs.ForEach(x => x._name += $"_{idx}");
+                        imgs.ForEach(x => x.QuestId = (int)idx );
                         result.AddRange(imgs);
                     }
                 , i
@@ -64,15 +64,15 @@ class DownloadStrategy : IImagesDownloader
  *    к работающему приложению 
  * 3. Передача сигнала работающему приложению о загрузке всех
  *    вопросов (или первого вопроса).
- * 
  */
 
 public class LoadedImage
 {
     public Texture2D _image;
     public string _name;
+    public int? QuestId { get; set; }
 
-    public LoadedImage(Texture2D _t, string _n) { _image = _t; _name = _n; }
+    public LoadedImage(Texture2D _t, string _n) { _image = _t; _name = _n; QuestId = null; }
 
     public static void SetTextureToImage(ref Image _img, Texture2D _tex)
     {
