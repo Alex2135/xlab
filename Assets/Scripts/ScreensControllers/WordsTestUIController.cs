@@ -8,6 +8,9 @@ public class WordsTestUIController : MonoBehaviour, IScreenController, IDecorabl
     public Button BackButton;
     public Image Background;
     public string _screenName;
+    public RememberWords rememberWordsUIC;
+    public ChooseWords chooseWordsUIC;
+    public ResultsUiController testResultView;
 
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }

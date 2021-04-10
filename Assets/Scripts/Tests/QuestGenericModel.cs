@@ -18,7 +18,6 @@ namespace NewQuestionModel
         TQ Quest { get; set; } 
         TA RightAnswers { get; set; }
         TA AdditionalAnswers { get; set; }
-        int GradQuest(TA _userAnswers);
     }
 
     /// <summary>
@@ -40,18 +39,33 @@ namespace NewQuestionModel
 
 
     /*
-     * Создать приложение для тестов, у него будет разные
-     * источники данных, как внешние файлы, сгенерированные
-     * данные, так и данные полученные из сети. Эти данные
-     * будут вопросами тестов. Тесты должны отображаться 
-     * на экране, при этом у каждого теста должно быть свое 
-     * представление на экране. В тестах может содержаться
-     * как один, так и множество вопросов. За каждый вопрос
-     * теста назначается одинаковое кол-во очков. Некоторые
-     * тесты должны быть на время. При этом итоговое кол-во 
-     * очков может зависить от времени за которое тест был
-     * пройден.
+     * События происходящие во всех TestView:
+     * - Отображение вопросов на основе View;
+     * - Ответ пользователя на задание;
+     * - Отображение реакции на ответ пользователя;
+     * - Сброс отображения View.
      */
+    interface ITestQuestionsView
+    {
+        void ShowQuestion();
+        void OnAnswerClick(object answerData);
+        void ShowQuestResult();// int selectedAnswerId, int rightAnswerId);
+        void UpdateTestData(); // Обновление результатов пользователя после ответов на вопрос
+        void ResetViewState();
+        void DisableInput();
+        void EnableInput();
+    }
+
+
+    /*
+     * События происходящие во всех TestPresenter:
+     * 
+     */
+    interface ITestPresenter
+    {
+
+    }
+
 
     // Тест слова
 
@@ -107,4 +121,5 @@ namespace NewQuestionModel
             return (wqm, idx);
         }
     }
+
 }
