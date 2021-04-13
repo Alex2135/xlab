@@ -12,7 +12,7 @@ namespace NewQuestionModel
     /// </summary>
     /// <typeparam name="QuestType">Question type</typeparam>
     /// <typeparam name="AnswerType">Answers type</typeparam>
-    interface IGenericQuestModel<QuestType, AnswerType>
+    public interface IGenericQuestModel<QuestType, AnswerType>
         where QuestType : class, IEnumerable // IEnumerable for quest collections, class for null result
         where AnswerType : class, IEnumerable
     {
@@ -28,7 +28,7 @@ namespace NewQuestionModel
     /// </summary>
     /// <typeparam name="QuestType"></typeparam>
     /// <typeparam name="AnswerType"></typeparam>
-    interface IAdaptedQuestModel<QuestType, AnswerType>
+    public interface IAdaptedQuestModel<QuestType, AnswerType>
         where QuestType: class
         where AnswerType: class
     {
@@ -40,7 +40,7 @@ namespace NewQuestionModel
     /// <summary>
     /// IAdaptedQuestView - interface provide IAdaptedQuestModel to view
     /// </summary>
-    interface IAdaptedQuestToView
+    public interface IAdaptedQuestToView
     {
         Dictionary<int, GameObject> Quest { get; set; }
         Dictionary<int, GameObject> RightAnswers { get; set; }
@@ -51,7 +51,7 @@ namespace NewQuestionModel
     /// IDataSource - generic model for data sources, prefer json object
     /// </summary>
     /// <typeparam name="QuestModel">Child from IGenericQuestModel</typeparam>
-    interface IDataSource<QuestModel> 
+    public interface IDataSource<QuestModel> 
     {
         IEnumerable<QuestModel> GetQuests();
     }
@@ -59,8 +59,8 @@ namespace NewQuestionModel
     /// <summary>
     /// ATestModel - model for every test 
     /// </summary>
-    /// <typeparam name="QuestModel">Child from IGenericQuestModel</typeparam>
-    abstract class ATestModel<QuestModel>
+    /// <typeparam name="QuestModel">Child of IGenericQuestModel</typeparam>
+    public abstract class ATestModel<QuestModel>
     {
         protected int rightQuestions;
         protected int wrongQuestions;
@@ -69,32 +69,34 @@ namespace NewQuestionModel
 
         public abstract void RewardRightAnswer();
         public abstract void PenaltieWrongAnswer();
-        public abstract (QuestModel, int) GetCurrentQuestion();
+        public abstract (QuestModel, int)? GetNextQuestion();
         public abstract int GetScore();
     }
 
-    interface ITestPresenter<QuestForView>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="QuestForView">Child of IAdaptedQuestToView</typeparam>
+    public interface ITestPresenter<QuestForView>
     {
-        QuestForView GetAdaptedQuests();
-        int view_OnAnswering(int _userAnswer);
-        void view_OnAnswerDid();
+        QuestForView GetAdaptedQuest();
+        void view_OnAnswering(object _userAnswer);
+        void view_OnAnswerDid(object _userData);
     }
 
-    /*
-     * События происходящие во всех TestPresenter:
-     * - перевод модели данных вопросов в промежуточную модель;
-     * - отправка данных из модели к представлению;
-     * - проеврять ответы пользователя;
-     */
-    abstract class ATestPresenter<QuestModel, AdaptedQuestModel>
+    /// <summary>
+    /// ATestPresenter - abstract class for test presenters. Contain "mast have" class members
+    /// </summary>
+    /// <typeparam name="QuestModel">Child of IGenericQuestModel</typeparam>
+    /// <typeparam name="AdaptedQuestModel">Child of IAdaptedQuestModel</typeparam>
+    public abstract class ATestPresenter<QuestModel, AdaptedQuestModel>
     {
         protected ATestModel<QuestModel> testModel;
         protected ITestView testQuestionsView;
 
         protected abstract void GenerateAnswersId();
         protected abstract List<T> GetAdaptedQuestsForView<T>();
-        public abstract int view_OnAnswering(int _userAnswer); // Получаем идентификаторы ответов пользователя
-        public abstract Dictionary<int, AdaptedQuestModel> AdaptedQuestionData { get; set; }
+        protected abstract Dictionary<int, AdaptedQuestModel> AdaptedQuestionData { get; set; }
     }
 
     /*
@@ -104,13 +106,15 @@ namespace NewQuestionModel
      * - Отображение реакции на ответ пользователя;
      * - Сброс отображения View.
      */
-    interface ITestView
+    public interface ITestView
     {
+        IAdaptedQuestToView QuestionView { get; set; }
+        Dictionary<string, GameObject> ContextViewElements { get; set; }
         void ShowQuestion();
         void ShowQuestResult();
         void ResetView();
 
-        event Action<int> OnAnswering;
-        event Action OnAnswerDid;
+        event Action<object> OnAnswering;
+        event Action<object> OnAnswerDid;
     }
 }

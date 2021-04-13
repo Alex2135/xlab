@@ -15,7 +15,10 @@ public class WordsPanel
     public GameObject HorizontalLayoutPrefab { get; set; }
 
     public WordsPanel() { }
-    public WordsPanel(RectTransform _parentPanel, List<string> _words, GameObject _buttonWordPrefab)
+
+    public WordsPanel(RectTransform _parentPanel, 
+                      List<string> _words, 
+                      GameObject _buttonWordPrefab)
     {
         ParentPanel = _parentPanel;
         Words = _words;
@@ -31,12 +34,14 @@ public class WordsPanel
         if (ButtonWordPrefab == null)
             throw new NullReferenceException("Word prefab not set.");
 
+
         List<DataUI> result = new List<DataUI>();
         var panelSize = ParentPanel.rect;
         var xPos = 0f;
         var yPos = 0f;
         var xMargin = 8f;
         var yMargin = 8f;
+        HorizontalLayoutPrefab = ParentPanel.GetComponent<HorizontalLayoutGroup>().gameObject;
 
         foreach (var word in Words)
         {

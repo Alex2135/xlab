@@ -166,8 +166,8 @@ additionalAnswer: null
 Данные для представления одного вопроса на экран
 Тренажер №1
 quest: null,
-rightAnswer: [<int, string>], // Id правильных слов и сами слова
-additionalAnswer: [<int, string>] // Id дополнительных слов и сами слова
+rightAnswer: [<int, Button>], // Id правильных слов и сами слова
+additionalAnswer: [<int, Button>] // Id дополнительных слов и сами слова
 
 Тренажер №2
 quest: <int, Image>, 

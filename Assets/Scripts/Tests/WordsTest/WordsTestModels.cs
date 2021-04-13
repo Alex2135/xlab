@@ -6,31 +6,49 @@ using UnityEngine;
 namespace NewQuestionModel
 {
     // Question model for Test raw data
-    class WordsQuestModel : IGenericQuestModel<List<string>, List<string>>
+    public class WordsQuestModel : IGenericQuestModel<List<string>, List<string>>
     {
         public List<string> Quest { get => null; set { } } // no question in word test
         public List<string> RightAnswers { get; set; }
         public List<string> AdditionalAnswers { get; set; }
+
+        public WordsQuestModel()
+        {
+            RightAnswers = new List<string>();
+            AdditionalAnswers = new List<string>();
+        }
     }
 
     // Question model for test presenter
-    class WordsAdaptedQuestModel : IAdaptedQuestModel<List<string>, List<string>>
+    public class WordsAdaptedQuestModel : IAdaptedQuestModel<List<string>, List<string>>
     {
         public Dictionary<int, List<string>> Quest { get => null; set { } }
         public Dictionary<int, List<string>> RightAnswers { get; set; }
         public Dictionary<int, List<string>> AdditionalAnswers { get; set; }
+
+        public WordsAdaptedQuestModel()
+        {
+            RightAnswers = new Dictionary<int, List<string>>();
+            AdditionalAnswers = new Dictionary<int, List<string>>();
+        }
     }
 
     // Question model for test view
-    class WordsQuestView : IAdaptedQuestToView
+    public class WordsQuestView : IAdaptedQuestToView
     {
         public Dictionary<int, GameObject> Quest { get => null; set { } }
         public Dictionary<int, GameObject> RightAnswers { get; set; }
         public Dictionary<int, GameObject> AdditionalAnswers { get; set; }
+
+        public WordsQuestView()
+        {
+            RightAnswers = new Dictionary<int, GameObject>();
+            AdditionalAnswers = new Dictionary<int, GameObject>();
+        }
     }
 
-    // 
-    class WordsTestGeneratedDataSource : IDataSource<WordsQuestModel>
+
+    public class WordsTestGeneratedDataSource : IDataSource<WordsQuestModel>
     {
         IEnumerable<WordsQuestModel> IDataSource<WordsQuestModel>.GetQuests()
         {
@@ -50,7 +68,7 @@ namespace NewQuestionModel
         }
     }
 
-    class WordsTestModel : ATestModel<WordsQuestModel>
+    public class WordsTestModel : ATestModel<WordsQuestModel>
     {
         private IDataSource<WordsQuestModel> _dataSource;
         private List<WordsQuestModel> _questions;
@@ -58,7 +76,7 @@ namespace NewQuestionModel
         public int PointsPerQuest { get; set; }
         public IDataSource<WordsQuestModel> DataSource { set => _dataSource = value; }
 
-        WordsTestModel(IDataSource<WordsQuestModel> _dataSource)
+        public WordsTestModel(IDataSource<WordsQuestModel> _dataSource)
         {
             DataSource = _dataSource;
             _questions = _dataSource.GetQuests() as List<WordsQuestModel>;
@@ -68,10 +86,13 @@ namespace NewQuestionModel
             PointsPerQuest = 10;
         }
 
-        public override (WordsQuestModel, int) GetCurrentQuestion()
+        public override (WordsQuestModel, int)? GetNextQuestion()
         {
-            WordsQuestModel wqm = new WordsQuestModel();
-            return (wqm, questionIndex);
+            questionIndex++;
+            if (questionIndex < _questions.Count)
+                return (_questions[questionIndex], questionIndex);
+            else
+                return null;
         }
 
         public override void RewardRightAnswer()
