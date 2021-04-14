@@ -12,6 +12,7 @@ public class RememberWords : MonoBehaviour, IScreenController, NewQuestionModel.
     public TextMeshProUGUI scoreTMP;
     public TextMeshProUGUI timeTMP;
     public TextMeshProUGUI questScoreTMP;
+    public WordsPanelUIController wordsPanelUIC;
     public string screenName;
 
     public string ScreenName { get => screenName; set => screenName = value; }
@@ -29,11 +30,16 @@ public class RememberWords : MonoBehaviour, IScreenController, NewQuestionModel.
         var model = new WordsTestModel(new WordsTestGeneratedDataSource());
         (WordsQuestModel, int)? modelQuest = model.GetNextQuestion();
         (var quest, var index) = modelQuest.Value;
-        foreach (var ans in quest.RightAnswers)
-        {
-            Debug.Log(ans);
-        }
         presenter = new WordsTestPresenter(model, this);
+        var content = quest.RightAnswers.ConvertAll(s => s);
+        content.AddRange(quest.AdditionalAnswers);
+        content.ShuffleItems();
+        wordsPanelUIC.CreatePanel(content);
+    }
+
+    void OnAnsweringClick(object _o)
+    {
+        OnAnswering.Invoke(_o);
     }
 
     private void OnDisable()

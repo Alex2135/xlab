@@ -20,8 +20,7 @@ class WordsTestPresenter : ATestPresenter<WordsQuestModel, WordsQuestView>, ITes
 
     public void view_OnAnswering(object _userAnswer)
     {
-        int answerId = (int)_userAnswer;
-
+        string answerId = (string)_userAnswer;
     }
 
     public void view_OnAnswerDid(object _userData)

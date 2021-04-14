@@ -106,11 +106,11 @@
     <Compile Include="Assets\Scripts\Tests\ShowQuestResult.cs" />
     <Compile Include="Assets\Scripts\Tests\Tests.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsPanel.cs" />
+    <Compile Include="Assets\Scripts\Tests\WordsPanelUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsTest\ChooseWords.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsTest\RememberWords.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsTest\WordsTestModels.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsTest\WordsTestPresenter.cs" />
-    <Compile Include="Assets\WordsPanelUIController.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

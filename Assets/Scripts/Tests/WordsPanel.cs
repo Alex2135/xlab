@@ -25,7 +25,7 @@ public class WordsPanel
         ButtonWordPrefab = _buttonWordPrefab;
     }
 
-    public List<DataUI> GenerateWordsButtons(Action<string> _onButtonClick = null)
+    public List<GameObject> GenerateWordsButtons(Action<object> _onButtonClick)
     {
         if (ParentPanel == null)
             throw new NullReferenceException("Parent panel not set.");
@@ -33,6 +33,64 @@ public class WordsPanel
             throw new NullReferenceException("Words list not set.");
         if (ButtonWordPrefab == null)
             throw new NullReferenceException("Word prefab not set.");
+        if (_onButtonClick == null)
+            throw new ArgumentNullException("_onButtonClick is null");
+        HorizontalLayoutPrefab = ParentPanel.GetComponentInChildren<HorizontalLayoutGroup>().gameObject;
+
+        var result = new List<GameObject>();
+        var horizontalLayout = HorizontalLayoutPrefab;
+        var HLwidth = (HorizontalLayoutPrefab.transform as RectTransform).sizeDelta.x;
+        var buttonsPerRow = 0;
+        var rowWidth = 0f;
+        var rowNextWidth = 0f;
+        var buttonsSpacing = 8f;
+
+        foreach (var word in Words)
+        {
+            var buttonGO = UnityEngine.Object.Instantiate(ButtonWordPrefab, horizontalLayout.transform);
+            var buttonRT = buttonGO.transform as RectTransform;
+            var buttonSizes = SetWordToPrefab(ref buttonGO, word);
+            buttonRT.sizeDelta = new Vector2(buttonSizes.x, buttonRT.sizeDelta.y);
+            buttonRT.pivot = new Vector2(0f, 1f);
+            buttonsPerRow++;
+            rowNextWidth = rowWidth + buttonRT.sizeDelta.x;
+
+            if (rowNextWidth > HLwidth)
+            {
+                horizontalLayout = UnityEngine.Object.Instantiate(HorizontalLayoutPrefab, ParentPanel);
+                var children = horizontalLayout.GetComponentsInChildren<Transform>();
+                foreach (var child in children)
+                {
+                    if (child.GetComponent<Button>() != null)
+                        UnityEngine.Object.Destroy(child.gameObject);
+                }
+                buttonGO.transform.SetParent(horizontalLayout.transform);
+                buttonsPerRow = 0;
+                rowWidth = 0;
+            }
+            else
+            {
+                rowWidth += rowNextWidth + ((buttonsPerRow > 0)? buttonsSpacing : 0);
+            }
+
+            buttonGO.transform.SetParent(horizontalLayout.transform);
+            buttonGO.GetComponent<Button>().onClick.AddListener(() => _onButtonClick(word));
+            result.Add(buttonGO);
+        }
+
+        return result;
+    }
+
+    public List<DataUI> GenerateWordsButtons(Action<string> _onButtonClick)
+    {
+        if (ParentPanel == null)
+            throw new NullReferenceException("Parent panel not set.");
+        if (Words == null)
+            throw new NullReferenceException("Words list not set.");
+        if (ButtonWordPrefab == null)
+            throw new NullReferenceException("Word prefab not set.");
+        if (_onButtonClick == null)
+            throw new ArgumentNullException("_onButtonClick is null");
 
 
         List<DataUI> result = new List<DataUI>();
@@ -41,7 +99,6 @@ public class WordsPanel
         var yPos = 0f;
         var xMargin = 8f;
         var yMargin = 8f;
-        HorizontalLayoutPrefab = ParentPanel.GetComponent<HorizontalLayoutGroup>().gameObject;
 
         foreach (var word in Words)
         {
@@ -67,16 +124,14 @@ public class WordsPanel
                 rt.localPosition = new Vector3(xPos, yPos, 0f);
                 xPos += nextX + xMargin;
             }
-            if (_onButtonClick != null)
+
+            go.GetComponent<Button>().onClick.AddListener(() => _onButtonClick(word));
+            var dataUI = new DataUI()
             {
-                go.GetComponent<Button>().onClick.AddListener(() => _onButtonClick(word));
-                var dataUI = new DataUI()
-                {
-                    _image = go.GetComponent<Image>(),
-                    _text = go.GetComponentInChildren<TextMeshProUGUI>()
-                };
-                result.Add(dataUI);
-            }
+                _image = go.GetComponent<Image>(),
+                _text = go.GetComponentInChildren<TextMeshProUGUI>()
+            };
+            result.Add(dataUI);
         }
 
         return result;
@@ -88,7 +143,8 @@ public class WordsPanel
         if (buttonTMP == null) throw new Exception("TMP not in prefab!");
         buttonTMP.text = _word;
         // Get size of text
-        var sizes = GetTextSizes(buttonTMP.GetTextInfo(_word));
+        var textInfo = buttonTMP.GetTextInfo(_word);
+        var sizes = GetTextSizes(textInfo);
         var hPadding = 16f;
         var vPadding = 8f;
 

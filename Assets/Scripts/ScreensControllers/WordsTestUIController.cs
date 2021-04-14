@@ -26,7 +26,7 @@ public class WordsTestUIController : MonoBehaviour, IScreenController, IDecorabl
 
     public object GetResult()
     {
-        throw new System.NotImplementedException();
+        return "result";
     }
 
     public void OnBackClick()
