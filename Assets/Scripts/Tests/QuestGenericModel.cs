@@ -70,7 +70,10 @@ namespace NewQuestionModel
         public abstract void RewardRightAnswer();
         public abstract void PenaltieWrongAnswer();
         public abstract (QuestModel, int)? GetNextQuestion();
+        public abstract (QuestModel, int)? GetCurrentQuestion();
         public abstract int GetScore();
+        public abstract int GetQuestsCount();
+        public abstract float GetTestTime();
     }
 
     /// <summary>
@@ -79,9 +82,11 @@ namespace NewQuestionModel
     /// <typeparam name="QuestForView">Child of IAdaptedQuestToView</typeparam>
     public interface ITestPresenter<QuestForView>
     {
-        QuestForView GetAdaptedQuest();
+        QuestForView GetAdaptedQuest(Action<object> _onAnswerClick);
         void view_OnAnswering(object _userAnswer);
         void view_OnAnswerDid(object _userData);
+        void view_OnQuestTimeout(object _obj, EventArgs _eventArgs);
+        float GetTestTime();
     }
 
     /// <summary>
@@ -95,7 +100,6 @@ namespace NewQuestionModel
         protected ITestView testQuestionsView;
 
         protected abstract void GenerateAnswersId();
-        protected abstract List<T> GetAdaptedQuestsForView<T>();
         protected abstract Dictionary<int, AdaptedQuestModel> AdaptedQuestionData { get; set; }
     }
 
@@ -108,13 +112,13 @@ namespace NewQuestionModel
      */
     public interface ITestView
     {
-        IAdaptedQuestToView QuestionView { get; set; }
-        Dictionary<string, GameObject> ContextViewElements { get; set; }
+        IAdaptedQuestToView QuestionToView { get; set; }
         void ShowQuestion();
         void ShowQuestResult();
         void ResetView();
 
         event Action<object> OnAnswering;
         event Action<object> OnAnswerDid;
+        event Action<object> OnQuestTimeout;
     }
 }

@@ -86,7 +86,7 @@ public class FaceByNameTestUIController : MonoBehaviour, IResetableScreenControl
         foreach (var img in loadedImages)
         {
             // Copy answers for quest
-            answers.ShuffleItems();
+            answers.Shuffle();
             var ansArr = new Answer[answers.Count];
             var nameLastname = img._name.Split('_')?[0];
             for (int i = 0; i < answers.Count; i++)
@@ -203,7 +203,7 @@ public class FaceByNameTestView : ITestView, ITest
         if (_netImages == null) throw new Exception("Images are not set");
         if (CurrentQuestionView == null) throw new Exception("Question view is null");
 
-        _netImages.ShuffleItems();
+        _netImages.Shuffle();
         SetQuestImages(_netImages);
         SetQuestText(_netImages);
     }

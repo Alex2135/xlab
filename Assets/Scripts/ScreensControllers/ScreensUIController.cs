@@ -67,6 +67,7 @@ public class ScreensUIController
 
     public void Activate(IScreenController _screen, IScreenController _context = null, bool _diactivateScreens = true)
     {
+        if (_screen == null) throw new System.ArgumentNullException("Argument _screen is null");
         if (_screen is MonoBehaviour mb)
         {
             if (!ScreenControllers.Contains(_screen)) ScreenControllers.Add(_screen);

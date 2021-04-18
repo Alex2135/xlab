@@ -45,6 +45,8 @@ public class WordsTestUIController : MonoBehaviour, IScreenController, IDecorabl
 
     void Awake()
     {
+        rememberWordsUIC.NextScreen = testResultView;
+
         var screensController = ScreensUIController.GetInstance();
         screensController.Add(rememberWordsUIC);
         screensController.Activate(rememberWordsUIC, null, false);

@@ -90,7 +90,7 @@ public class NameByFaceTestUIController : MonoBehaviour, IResetableScreenControl
         foreach (var q in questions)
         {
             q.answers = new Answer[answers.Count];
-            answers.ShuffleItems();
+            answers.Shuffle();
             for (int i = 0; i < answers.Count; i++)
             {
                 q.answers[i] = answers[i].Clone() as Answer;

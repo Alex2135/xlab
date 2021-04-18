@@ -20,16 +20,30 @@ namespace NewQuestionModel
     }
 
     // Question model for test presenter
-    public class WordsAdaptedQuestModel : IAdaptedQuestModel<List<string>, List<string>>
+    public class WordsAdaptedQuestModel : IAdaptedQuestModel<string, string>
     {
-        public Dictionary<int, List<string>> Quest { get => null; set { } }
-        public Dictionary<int, List<string>> RightAnswers { get; set; }
-        public Dictionary<int, List<string>> AdditionalAnswers { get; set; }
+        public Dictionary<int, string> Quest { get => null; set { } }
+        public Dictionary<int, string> RightAnswers { get; set; }
+        public Dictionary<int, string> AdditionalAnswers { get; set; }
 
         public WordsAdaptedQuestModel()
         {
-            RightAnswers = new Dictionary<int, List<string>>();
-            AdditionalAnswers = new Dictionary<int, List<string>>();
+            RightAnswers = new Dictionary<int, string>();
+            AdditionalAnswers = new Dictionary<int, string>();
+        }
+
+        public Dictionary<int, string> GetAllQuests()
+        {
+            if (RightAnswers.Count == 0 || AdditionalAnswers.Count == 0)
+                throw new System.Exception("Answers must added to WordsAdaptedQuestModel");
+
+            var result = new Dictionary<int, string>();
+            foreach (var ans in RightAnswers)
+                result.Add(ans.Key, ans.Value);
+            foreach (var ans in AdditionalAnswers)
+                result.Add(ans.Key, ans.Value);
+            
+            return result;
         }
     }
 
@@ -56,11 +70,11 @@ namespace NewQuestionModel
             var quest1 = new WordsQuestModel();
             quest1.RightAnswers = new List<string>()
             {
-                "Вор", "Клубника", "Шишка", "Спам"
+                "Вор", "Клубника", "Шишка", "Спам", "Перевод"
             };
             quest1.AdditionalAnswers = new List<string>()
             {
-                "Дубина", "Лысый", "Волк", "Манежь"
+                "Дубина", "Букет", "Волк", "Елка", "Роса"
             };
             result.Add(quest1);
 
@@ -111,6 +125,25 @@ namespace NewQuestionModel
             int maxScore = _questions.Count * PointsPerQuest;
             int result = rightQuestions * PointsPerQuest - wrongQuestions * 1/4 * maxScore;
             return result;
+        }
+
+        public override int GetQuestsCount()
+        {
+            return _questions.Count;
+        }
+
+        public override (WordsQuestModel, int)? GetCurrentQuestion()
+        {
+            if (questionIndex < _questions.Count && questionIndex >= 0)
+                return (_questions[questionIndex], questionIndex);
+            else
+                return null;
+        }
+
+        public override float GetTestTime()
+        {
+            // TODO: Change time
+            return 10f;
         }
     }
 }

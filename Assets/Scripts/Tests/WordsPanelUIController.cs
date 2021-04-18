@@ -10,21 +10,23 @@ public class WordsPanelUIController : MonoBehaviour
     public GameObject ButtonWordPrefab;
     public GameObject HorizontalLayoutPrefab;
 
-    public List<GameObject> Buttons { get; private set; }
+    public Dictionary<int, GameObject> Buttons { get; private set; }
 
-    public void CreatePanel(List<string> _words)
+    private void Awake()
     {
         wordsPanel = new WordsPanel();
         wordsPanel.ParentPanel = ParentPanel;
         wordsPanel.ButtonWordPrefab = ButtonWordPrefab;
         wordsPanel.HorizontalLayoutPrefab = HorizontalLayoutPrefab;
-        wordsPanel.Words = _words;
-        Buttons = wordsPanel.GenerateWordsButtons(OnWordsButtonClick);
     }
 
-    private void OnWordsButtonClick(object _someWord)
+    public void CreatePanel(Action<object> _onClick, Dictionary<int, string> _words)
     {
-        string word = (string)_someWord;
-        Debug.Log( word );
+        Buttons = wordsPanel.GenerateWordsButtons(_onClick, _words);
+    }
+
+    public void ClearPanel()
+    {
+        wordsPanel.DestroyButtons();
     }
 }

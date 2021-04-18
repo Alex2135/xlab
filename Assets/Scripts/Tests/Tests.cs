@@ -120,7 +120,7 @@ public class DataUI
 
 public static class ExtensionListAndDict
 {
-    public static List<T> ShuffleItems<T>(this List<T> _list)
+    public static List<T> Shuffle<T>(this List<T> _list)
     {
         System.Random rng = new System.Random();
         int n = _list.Count;
