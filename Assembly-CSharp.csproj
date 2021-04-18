@@ -97,6 +97,7 @@
     <Compile Include="Assets\Scripts\ScreensControllers\TestsScreensUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\WordsTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\FacesTest\FaceByNameTestUIController.cs" />
+    <Compile Include="Assets\Scripts\Tests\FacesTest\FacesTestGeneratedDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\FacesTest\FacesTestModels.cs" />
     <Compile Include="Assets\Scripts\Tests\FacesTest\NameByFaceTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\FacesTest\RememberFacesTestUIController.cs" />

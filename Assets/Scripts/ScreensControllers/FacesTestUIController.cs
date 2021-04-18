@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[Serializable]
+public class FacesImage : LoadedImage
+{
+    public FacesImage(Texture2D _t = null, string _n = null) : base(_t, _n) { }
+}
+
 public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorableScreen
 {
-    [Serializable]
-    public class FacesImage : LoadedImage
-    {
-        public FacesImage(Texture2D _t = null, string _n = null) : base(_t, _n) { }
-    }
-
     public Image Background;
     public string _screenName;
     public List<FacesImage> loadedImages;
