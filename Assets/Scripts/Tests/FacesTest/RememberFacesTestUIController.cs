@@ -4,43 +4,63 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using NewQuestionModel;
 
-public class RememberFacesTestUIController : MonoBehaviour, IScreenController
+public class RememberFacesTestUIController : MonoBehaviour, IScreenController, NewQuestionModel.ITestView
 {
+    // UI objects
     public Button RememberButton;
     public GameObject ImageButtonPrefab;
     public RectTransform ContentView;
     public ScrollRect ScrollRect;
     public TextMeshProUGUI NameAndLastname;
     public TextMeshProUGUI ImageCount;
+
+    // UI logic objects
     public List<LoadedImage> loadedImages;
+    private List<GameObject> _generatedImages;
     public string _screenName;
     public string ScreenName { get => _screenName; set => _screenName = value; }
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }
-    private List<GameObject> _generatedImages;
+    public IAdaptedQuestToView QuestionToView { get ; set; }
+
+    public event Action<object> OnAnswering;
+    public event Action<object> OnAnswerDid;
+    public event Action<object> OnQuestTimeout;
 
     void OnEnable()
     {
         _generatedImages = new List<GameObject>();
+
+        OnAnswering += OnImageClick;
+        ShowQuestion();
+    }
+
+    public void ShowQuestion()
+    {
         GameObject newGO = Instantiate(ImageButtonPrefab);
         Rect rect = (newGO.transform as RectTransform).rect;
         int imagesCount = loadedImages?.Count ?? throw new Exception("No loaded images!");
         int currentOffset = 32;
 
-
         if (imagesCount == 0)
         {
             ContentView.sizeDelta = new Vector2(Screen.width, ContentView.sizeDelta.y);
         }
-        if (imagesCount > 0)
+        else if (imagesCount > 0)
         {
+            // Set content view sizes with respect to images count
             float totalWidth = imagesCount * (rect.width + 16) + 24 * 2;
             ContentView.sizeDelta = new Vector2(totalWidth, ContentView.sizeDelta.y);
+
+            // Create images to remember face panel
             for (int i = 0; i < imagesCount; i++)
             {
                 GameObject _newImageButton = Instantiate(ImageButtonPrefab, ContentView);
                 _generatedImages.Add(_newImageButton);
+
+                // Replace button and set face image
                 ProcessImageButton(_newImageButton, i, ref currentOffset);
             }
         }
@@ -49,41 +69,57 @@ public class RememberFacesTestUIController : MonoBehaviour, IScreenController
     // Place image in coordinates on the faces panel
     private void ProcessImageButton(GameObject _go, int _index, ref int _offset)
     {
+        // Set button position
         var rt = _go.transform as RectTransform;
+        rt.localPosition = new Vector3(_offset, 0, 0f);
+        
+        // Set new face image to button
         var img = loadedImages[_index];
         var prefabImage = _go.GetComponent<Image>() ?? throw new Exception($"No image #{_index}");
-        var prefabButton = _go.GetComponent<Button>();
-
-        rt.localPosition = new Vector3(_offset, 0, 0f);
         prefabImage.sprite = Sprite.Create(
             img._image, 
             new Rect(0, 0, img._image.width, img._image.height), 
             new Vector2(0.5f, 0.5f)
         );
+
+        // Update offset for new buttons
         _offset = _offset + (int)rt.rect.width + 16;
-        prefabButton.onClick.AddListener(() => OnImageClick(_index));
+        
+        var prefabButton = _go.GetComponent<Button>();
+        prefabButton.onClick.AddListener(() => OnAnswering?.Invoke(_index));
     }
 
-    public void OnImageClick(int _index)
+    public void OnImageClick(object _obj)
     {
+        int _index = (int)_obj;
+        // Update number of the selected face
         ImageCount.text = $"{_index + 1} из {_generatedImages.Count}";
-        var rt = _generatedImages[_index].transform as RectTransform;
+        // Update name by selected face
         NameAndLastname.text = loadedImages[_index]._name;
+
+        // Scroll content view to selected face
+        var rt = _generatedImages[_index].transform as RectTransform;
         ScrollRect.ScrollToCenter(rt, RectTransform.Axis.Horizontal);
         if (_index == _generatedImages.Count - 1) RememberButton.gameObject.SetActive(true);
     }
 
     public void OnRememberButtonClick()
     {
+        OnAnswerDid?.Invoke(null);
         var sc = ScreensUIController.GetInstance();
         this.gameObject.SetActive(false);
         sc.Activate(NextScreen, null, false);
     }
 
     // TODO: Реализовать метод сброса состояния окна
-    private void ResetScreenProgress()
-    { 
+    public void ResetView()
+    {
 
+    }
+
+    public void ShowQuestResult()
+    {
+        
     }
 }
 

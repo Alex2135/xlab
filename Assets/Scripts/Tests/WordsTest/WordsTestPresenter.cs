@@ -17,7 +17,7 @@ class WordsTestPresenter : ATestPresenter<WordsQuestModel, WordsQuestView>, ITes
     public WordsTestPresenter(ATestModel<WordsQuestModel> model, NewQuestionModel.ITestView view, WordsPanelUIController _wordsPanel)
     {
         testModel = model;
-        testQuestionsView = view;
+        testView = view;
         adaptedQuests = new WordsAdaptedQuestModel();
         wordsPanelUIC = _wordsPanel;
         isQuestShow = true;
@@ -25,8 +25,8 @@ class WordsTestPresenter : ATestPresenter<WordsQuestModel, WordsQuestView>, ITes
         _userAnswers = new List<int>();
         GenerateAnswersId();
 
-        testQuestionsView.OnAnswering += view_OnAnswering;
-        testQuestionsView.OnAnswerDid += view_OnAnswerDid;
+        testView.OnAnswering += view_OnAnswering;
+        testView.OnAnswerDid += view_OnAnswerDid;
     }
 
     public void view_OnAnswering(object _userAnswer)
@@ -155,7 +155,7 @@ class WordsTestPresenter : ATestPresenter<WordsQuestModel, WordsQuestView>, ITes
 
     public void view_OnQuestTimeout(object _obj, EventArgs _eventArgs)
     {
-        (testQuestionsView as RememberWords).OnRememberClick();
+        (testView as RememberWords).OnRememberClick();
     }
 
     public float GetTestTime()

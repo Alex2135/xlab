@@ -55,7 +55,7 @@ public class ResultsUiController : MonoBehaviour, IScreenController, IDecorableS
 
     void Start()
     {
-        ScreenName = "ResultScreen";
+        ScreenName = "TestStatsScreen";
     }
 
     public void OnBackClick()

@@ -77,12 +77,12 @@ namespace NewQuestionModel
     }
 
     /// <summary>
-    /// 
+    /// ITestPresenter - interface for test presenters
     /// </summary>
     /// <typeparam name="QuestForView">Child of IAdaptedQuestToView</typeparam>
     public interface ITestPresenter<QuestForView>
     {
-        QuestForView GetAdaptedQuest(Action<object> _onAnswerClick);
+        QuestForView GetAdaptedQuest(Action<object> _onAnswerClick); 
         void view_OnAnswering(object _userAnswer);
         void view_OnAnswerDid(object _userData);
         void view_OnQuestTimeout(object _obj, EventArgs _eventArgs);
@@ -97,7 +97,7 @@ namespace NewQuestionModel
     public abstract class ATestPresenter<QuestModel, AdaptedQuestModel>
     {
         protected ATestModel<QuestModel> testModel;
-        protected ITestView testQuestionsView;
+        protected ITestView testView;
 
         protected abstract void GenerateAnswersId();
         protected abstract Dictionary<int, AdaptedQuestModel> AdaptedQuestionData { get; set; }

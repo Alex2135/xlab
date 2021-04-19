@@ -32,10 +32,10 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
     {
         if (_screenName != null)
         {
-            var resultScreen = _screensController.GetScreenByName("ResultScreen");
+            var TestStatsScreen = _screensController.GetScreenByName("TestStatsScreen");
             var screen = _screensController.GetScreenByName(_screenName);
-            resultScreen.NextScreen = screen;
-            _screensController.Activate(resultScreen, this);
+            TestStatsScreen.NextScreen = screen;
+            _screensController.Activate(TestStatsScreen, this);
         }
         else
         {

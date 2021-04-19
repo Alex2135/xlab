@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using NewQuestionModel;
 
 [Serializable]
 public class FacesImage : LoadedImage
@@ -14,8 +15,6 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
 {
     public Image Background;
     public string _screenName;
-    public List<FacesImage> loadedImages;
-    public List<FacesImage> imagesForFaceByName;
     public RememberFacesTestUIController rememberFacesUIC;
     public NameByFaceTestUIController nameByFaceUIC;
     public FaceByNameTestUIController faceByNameUIC;
@@ -24,6 +23,11 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
     public IScreenController PrevScreen { get; set; }
     public string ScreenName { get => _screenName; set => _screenName = value; }
     private ScreensUIController _screensController;
+
+    public List<FacesImage> loadedImages;
+    public List<FacesImage> imagesForFaceByName;
+
+    private FacesTestModel model;
 
     /*
      * В FacesTestUIController происходит загрузка данных
@@ -35,6 +39,9 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
 
     void Awake()
     {
+        // TODO: Get data from model and throw them to presenters by scheme
+        //model = new FacesTestModel();
+
         NextScreen = rememberFacesUIC;
         rememberFacesUIC.NextScreen = nameByFaceUIC;
         nameByFaceUIC.NextScreen = faceByNameUIC;
