@@ -91,9 +91,11 @@
     <Compile Include="Assets\Scripts\Downloaders\DownloadStrategy.cs" />
     <Compile Include="Assets\Scripts\Loader\LoaderTester.cs" />
     <Compile Include="Assets\Scripts\Loader\LoaderUiController.cs" />
-    <Compile Include="Assets\Scripts\Result\ResultsUiController.cs" />
+    <Compile Include="Assets\Scripts\Result\TestStatsUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\FacesTestUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\ScreensUIController.cs" />
+    <Compile Include="Assets\Scripts\ScreensControllers\SubjectsTestUIController.cs" />
+    <Compile Include="Assets\Scripts\ScreensControllers\TestResultController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\TestsScreensUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\WordsTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\FacesTest\FaceByNameTestUIController.cs" />
@@ -110,6 +112,9 @@
     <Compile Include="Assets\Scripts\Tests\QuestGenericModel.cs" />
     <Compile Include="Assets\Scripts\Tests\Quests.cs" />
     <Compile Include="Assets\Scripts\Tests\ShowQuestResult.cs" />
+    <Compile Include="Assets\Scripts\Tests\SubjectsTest\SubjectsTestModel.cs" />
+    <Compile Include="Assets\Scripts\Tests\SubjectsTest\SubjectsTestPresenter.cs" />
+    <Compile Include="Assets\Scripts\Tests\SubjectsTest\SubjectsTestView.cs" />
     <Compile Include="Assets\Scripts\Tests\Tests.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsPanelUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsTest\ChooseWords.cs" />

@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using NewQuestionModel;
 
-public class NameByFaceTestUIController : MonoBehaviour, IResetableScreenController
+public class NameByFaceTestUIController : MonoBehaviour, IResetableScreenController, NewQuestionModel.ITestView
 {
     // Screen objects
     public Image faceImage;
@@ -24,10 +25,15 @@ public class NameByFaceTestUIController : MonoBehaviour, IResetableScreenControl
     public NameByFaceTestView testView;
     private bool isButtonPressed;
 
+    public event Action<object> OnAnswering;
+    public event Action<object> OnAnswerDid;
+    public event Action<object> OnQuestTimeout;
+
     // TODO: Fetch test data from source (web, file) and throw it to testview
     public string ScreenName { get => _screenName; set => _screenName = value; }
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }
+    public IAdaptedQuestToView QuestionToView { get; set; }
 
     void Awake()
     {
@@ -194,7 +200,22 @@ public class NameByFaceTestUIController : MonoBehaviour, IResetableScreenControl
 
     public void ResetScreenState()
     {
-        throw new NotImplementedException();
+        
+    }
+
+    public void ShowQuestion()
+    {
+        
+    }
+
+    public void ShowQuestResult()
+    {
+        
+    }
+
+    public void ResetView()
+    {
+        
     }
 }
 

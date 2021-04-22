@@ -9,7 +9,8 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
     public MathTestUIController mathTestUIC;
     public FacesTestUIController facesTestUIC;
     public WordsTestUIController wordsTestUIC;
-    public ResultsUiController testsResultUIC;
+    public SubjectsTestUIController subjectsTestUIC;
+    public TestStatsUIController testsResultUIC;
 
     private ScreensUIController _screensController;
 
@@ -25,6 +26,7 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
         _screensController.Add(mathTestUIC);
         _screensController.Add(facesTestUIC);
         _screensController.Add(wordsTestUIC);
+        _screensController.Add(subjectsTestUIC);
         _screensController.DiactivateScreens();
     }
 

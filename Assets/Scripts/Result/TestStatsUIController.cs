@@ -16,7 +16,7 @@ using TMPro;
  * если тест обязательный для прохождения, то тест не будет считаться 
  * пройденым.
  */
-public class ResultsUiController : MonoBehaviour, IScreenController, IDecorableScreen
+public class TestStatsUIController : MonoBehaviour, IScreenController, IDecorableScreen
 {
     public TextMeshProUGUI RateText;
     public TextMeshProUGUI TriesText;
@@ -51,6 +51,7 @@ public class ResultsUiController : MonoBehaviour, IScreenController, IDecorableS
         _screenNameTestName.Add("MathTest", "Арифметика");
         _screenNameTestName.Add("FacesTest", "Лица");
         _screenNameTestName.Add("WordsTest", "Слова");
+        _screenNameTestName.Add("SubjectsTest", "Предметы");
     }
 
     void Start()
@@ -90,20 +91,23 @@ public class ResultsUiController : MonoBehaviour, IScreenController, IDecorableS
 
     private void OnEnable()
     {
-        if (PrevScreen.ScreenName == "MainScreen")
+        if (PrevScreen?.ScreenName == "MainScreen")
         {
             TestName.text = _screenNameTestName[NextScreen.ScreenName];
+            var s = (NextScreen as IDecorableScreen).GetBackground().sprite;
+            Background.sprite = Sprite.Create(s.texture, s.textureRect, new Vector2(0.5f, 0.5f));
             GoOnButtonText.text = "НАЧАТЬ";
         }
         else 
-        if (PrevScreen != null &&
-            (PrevScreen as IResultableScreen).GetResult() is Result result)
+        if (PrevScreen != null)
+            //&& (PrevScreen as IResultableScreen).GetResult() is Result result)
         {
+            Result result = (PrevScreen as IResultableScreen).GetResult() as Result;
             GoOnButtonText.text = "ЗАНОВО";
-            RateText.text = result.Grade.ToString();
-            var s = (NextScreen as IDecorableScreen).GetBackground().sprite;
-            Background.sprite = Sprite.Create(s.texture, s.textureRect, new Vector2(0.5f, 0.5f));
-            float percent = (float)result.TruePositive / result.QuestsCount * 100;
+            RateText.text = result?.Grade.ToString() ?? "";
+            //var s = (NextScreen as IDecorableScreen).GetBackground().sprite;
+            //Background.sprite = Sprite.Create(s.texture, s.textureRect, new Vector2(0.5f, 0.5f));
+            float percent = (float)result?.TruePositive / result?.QuestsCount * 100 ?? 0;
             RightAnswersText.text = Mathf.RoundToInt(percent).ToString() + "%";
             TriesText.text = "1";
         }

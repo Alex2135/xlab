@@ -9,7 +9,7 @@ public class WordsTestUIController : MonoBehaviour, IScreenController, IDecorabl
     public Image Background;
     public string _screenName;
     public RememberWords rememberWordsUIC;
-    public ResultsUiController testResultView;
+    public TestStatsUIController testResultView;
 
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }

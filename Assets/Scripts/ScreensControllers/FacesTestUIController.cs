@@ -18,7 +18,7 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
     public RememberFacesTestUIController rememberFacesUIC;
     public NameByFaceTestUIController nameByFaceUIC;
     public FaceByNameTestUIController faceByNameUIC;
-    public ResultsUiController testResultView;
+    public TestStatsUIController testResultView;
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }
     public string ScreenName { get => _screenName; set => _screenName = value; }
@@ -26,6 +26,8 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
 
     public List<FacesImage> loadedImages;
     public List<FacesImage> imagesForFaceByName;
+
+    public List<string> numbers;
 
     private FacesTestModel model;
 
@@ -40,7 +42,10 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
     void Awake()
     {
         // TODO: Get data from model and throw them to presenters by scheme
-        //model = new FacesTestModel();
+        model = new FacesTestModel(gameObject.GetComponent<FacesTestGeneratedDataProvider>());
+
+        RememberFacesPresenter rememberFacesPresenter = new RememberFacesPresenter(model, rememberFacesUIC);
+        //FacesTestPresenter facesTestPresenter = new FacesTestPresenter(model, nameByFaceUIC, faceByNameUIC, );
 
         NextScreen = rememberFacesUIC;
         rememberFacesUIC.NextScreen = nameByFaceUIC;

@@ -7,11 +7,18 @@ using NewQuestionModel;
 public class FacesTestPresenter : ATestPresenter<FacesQuestModel, FacesAdaptedQuestModel>, ITestPresenter<FacesAdaptedQuestToViewModel>
 {
     protected override Dictionary<int, FacesAdaptedQuestModel> AdaptedQuestionData { get; set; }
+    private NewQuestionModel.ITestView nameByFaceView;
+    private NewQuestionModel.ITestView faceByNameView;
 
-    public FacesTestPresenter(ATestModel<FacesQuestModel> model, NewQuestionModel.ITestView view, WordsPanelUIController _wordsPanel)
+    public FacesTestPresenter(
+        ATestModel<FacesQuestModel> model, 
+        NewQuestionModel.ITestView _nameByFaceView, 
+        NewQuestionModel.ITestView _faceByNameView, 
+        WordsPanelUIController _wordsPanel)
     {
         testModel = model;
-        testView = view;
+        nameByFaceView = _nameByFaceView;
+        faceByNameView = _faceByNameView;
         AdaptedQuestionData = new Dictionary<int, FacesAdaptedQuestModel>();
 
         testView.OnAnswerDid += view_OnAnswerDid;

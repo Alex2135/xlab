@@ -18,7 +18,7 @@ public class MathTestUIController : MonoBehaviour, IResetableScreenController, I
     // Logic objects 
     public MathTestView _testView;
     public LoaderUiController _loader;
-    public ResultsUiController _testResultView;
+    public TestStatsUIController _testResultView;
     public float _startTime;
     public float _currentTime;
     private bool _isPressed = false;
@@ -166,7 +166,7 @@ public class MathTestUIController : MonoBehaviour, IResetableScreenController, I
     public async void Start()
     {
         _nextScreen = _testResultView;
-        (_nextScreen as ResultsUiController).TestName.text = (_testView.test as Test).name;
+        (_nextScreen as TestStatsUIController).TestName.text = (_testView.test as Test).name;
         _startTime = _testView.GetTime() * 1000;
         _currentTime = _startTime;
 

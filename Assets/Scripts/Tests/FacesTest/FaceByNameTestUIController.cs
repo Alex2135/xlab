@@ -5,7 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class FaceByNameTestUIController : MonoBehaviour, IResetableScreenController
+public class FaceByNameTestUIController : MonoBehaviour, IResetableScreenController, NewQuestionModel.ITestView
 {
     // Screen objects
     public TextMeshProUGUI nameAndLastnameTMP;
@@ -26,9 +26,14 @@ public class FaceByNameTestUIController : MonoBehaviour, IResetableScreenControl
     private bool isButtonPressed;
     private int _score;
 
+    public event Action<object> OnAnswering;
+    public event Action<object> OnAnswerDid;
+    public event Action<object> OnQuestTimeout;
+
     public string ScreenName { get => _screenName; set => _screenName = value; }
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }
+    public NewQuestionModel.IAdaptedQuestToView QuestionToView { get; set; }
 
     public void Awake()
     {
@@ -173,6 +178,21 @@ public class FaceByNameTestUIController : MonoBehaviour, IResetableScreenControl
     public void ResetScreenState()
     {
         testView.ResetTestAndQuestView();
+    }
+
+    public void ShowQuestion()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ShowQuestResult()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ResetView()
+    {
+        throw new NotImplementedException();
     }
 }
 

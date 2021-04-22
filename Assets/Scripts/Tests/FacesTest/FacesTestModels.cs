@@ -172,6 +172,7 @@ namespace NewQuestionModel
             wrongQuestions = 0;
             questionIndex = -1;
             _dataSource = _source;
+            _questions = (List<FacesQuestModel>)_source.GetQuests();
             PointsPerQuest = 10;
         }
 
