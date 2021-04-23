@@ -86,7 +86,6 @@ namespace NewQuestionModel
     {
         private IDataSource<WordsQuestModel> _dataSource;
         private List<WordsQuestModel> _questions;
-        public int QuestionCount { get => _questions.Count; }
         public int PointsPerQuest { get; set; }
         public IDataSource<WordsQuestModel> DataSource { set => _dataSource = value; }
 

@@ -25,7 +25,7 @@ public class RememberWords : MonoBehaviour, IScreenController, NewQuestionModel.
 
     public event Action<object> OnAnswering;
     public event Action<object> OnAnswerDid;
-    public event Action<object> OnQuestTimeout;
+    public event Action<object, EventArgs> OnQuestTimeout;
 
     private WordsTestPresenter presenter;
     private bool isRemember;

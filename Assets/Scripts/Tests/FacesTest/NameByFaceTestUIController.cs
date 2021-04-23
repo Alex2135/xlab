@@ -27,7 +27,7 @@ public class NameByFaceTestUIController : MonoBehaviour, IResetableScreenControl
 
     public event Action<object> OnAnswering;
     public event Action<object> OnAnswerDid;
-    public event Action<object> OnQuestTimeout;
+    public event Action<object, EventArgs> OnQuestTimeout;
 
     // TODO: Fetch test data from source (web, file) and throw it to testview
     public string ScreenName { get => _screenName; set => _screenName = value; }

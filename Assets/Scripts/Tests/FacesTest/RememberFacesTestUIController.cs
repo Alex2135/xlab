@@ -27,7 +27,7 @@ public class RememberFacesTestUIController : MonoBehaviour, IScreenController, N
 
     public event Action<object> OnAnswering;
     public event Action<object> OnAnswerDid;
-    public event Action<object> OnQuestTimeout;
+    public event Action<object, EventArgs> OnQuestTimeout;
 
     void OnEnable()
     {

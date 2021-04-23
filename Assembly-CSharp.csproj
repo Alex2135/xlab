@@ -105,6 +105,7 @@
     <Compile Include="Assets\Scripts\Tests\FacesTest\RememberFacesPresenter.cs" />
     <Compile Include="Assets\Scripts\Tests\FacesTest\RememberFacesTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\FacesTestGeneratedDataProvider.cs" />
+    <Compile Include="Assets\Scripts\Tests\Helpers\RandomList.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\SubjectsTestGeneratedDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\Timer.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\WordsPanel.cs" />

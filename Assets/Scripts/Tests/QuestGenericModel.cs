@@ -119,6 +119,6 @@ namespace NewQuestionModel
 
         event Action<object> OnAnswering;
         event Action<object> OnAnswerDid;
-        event Action<object> OnQuestTimeout;
+        event Action<object, EventArgs> OnQuestTimeout;
     }
 }

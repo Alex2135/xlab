@@ -1,18 +1,78 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NewQuestionModel;
 
-public class SubjectsTestPresenter : MonoBehaviour
+public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedSubjectsQuestModel>, NewQuestionModel.ITestPresenter<SubjectsQuestView>
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override Dictionary<int, AdaptedSubjectsQuestModel> AdaptedQuestionData { get; set; }
+
+    public SubjectsTestPresenter(ATestModel<SubjectsQuestModel> _model, NewQuestionModel.ITestView _view)
+    {
+        testModel = _model;
+        testView = _view;
+        testView.OnAnswerDid += view_OnAnswerDid;
+        testView.OnAnswering += view_OnAnswering;
+        testView.OnQuestTimeout += view_OnQuestTimeout;
+
+        AdaptedQuestionData = new Dictionary<int, AdaptedSubjectsQuestModel>();
+    }
+
+    protected override void GenerateAnswersId()
+    {
+        // Get next question model and index
+        var quest = testModel.GetNextQuestion();
+        if (quest == null) return;
+        var (questData, questIndex) = quest.Value;
+        int answerIndex = 0;
+
+        // Create adapted quest model
+        var adaptedQuest = new AdaptedSubjectsQuestModel();
+        for (int i = 0; i < questData.Quest.Count; i++)
+        {
+            adaptedQuest.Quest.Add(i, questData.Quest[i]);
+        }
+        for (int i = 0; i < questData.RightAnswers.Count; i++)
+        {
+            adaptedQuest.RightAnswers.Add(answerIndex, questData.RightAnswers[i]);
+            answerIndex++;
+        }
+        for (int i = 0; i < questData.AdditionalAnswers.Count; i++)
+        {
+            adaptedQuest.AdditionalAnswers.Add(answerIndex, questData.AdditionalAnswers[i]);
+            answerIndex++;
+        }
+
+        AdaptedQuestionData.Add(0, adaptedQuest);
+    }
+
+    public SubjectsQuestView GetAdaptedQuest(Action<object> _onAnswerClick)
+    {
+        var adaptedQuest = AdaptedQuestionData[0];
+
+
+
+        return null;
+    }
+
+    public void view_OnAnswering(object _userAnswer)
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void view_OnAnswerDid(object _userData)
     {
         
+    }
+
+    public void view_OnQuestTimeout(object _obj, EventArgs _eventArgs)
+    {
+        
+    }
+
+    public float GetTestTime()
+    {
+        return testModel.GetTestTime();
     }
 }
