@@ -6,7 +6,10 @@ using NewQuestionModel;
 
 public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedSubjectsQuestModel>, NewQuestionModel.ITestPresenter<SubjectsQuestView>
 {
+    public SubjectsPanelUIController QuestPanel { get; set; }
+    public SubjectsPanelUIController AnswerPanel { get; set; }
     protected override Dictionary<int, AdaptedSubjectsQuestModel> AdaptedQuestionData { get; set; }
+    private bool isRememberState;
 
     public SubjectsTestPresenter(ATestModel<SubjectsQuestModel> _model, NewQuestionModel.ITestView _view)
     {
@@ -17,6 +20,7 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
         testView.OnQuestTimeout += view_OnQuestTimeout;
 
         AdaptedQuestionData = new Dictionary<int, AdaptedSubjectsQuestModel>();
+        isRememberState = true;
     }
 
     protected override void GenerateAnswersId()
@@ -51,6 +55,11 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
     {
         var adaptedQuest = AdaptedQuestionData[0];
 
+        var allAnswers = new Dictionary<int, GameObject>();
+        foreach (var ans in adaptedQuest.RightAnswers)
+        {
+            //allAnswers.Add(ans.Key, new);
+        }
 
 
         return null;

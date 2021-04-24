@@ -25,7 +25,6 @@ public class RandomList<T>
         if (_capacity < 0 || _capacity >= list.Count) throw new ArgumentOutOfRangeException("_capacity out of list range");
 
         var result = new List<T>();
-        int rightItemIndex = -1;
 
         for (int i = 0; i < list.Count; i++)
         {
@@ -36,9 +35,9 @@ public class RandomList<T>
             }
         }
 
-        if (rightItemIndex == -1) throw new ArgumentException("_item not in list!");
+        if (result.Count == 0) throw new ArgumentException("_item not in list!");
 
-        for (int i = 0; i < _capacity; i++)
+        for (int i = 1; i < _capacity; i++)
         {
             var index = UnityEngine.Random.Range(0, list.Count);
             var item = list[index];

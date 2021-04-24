@@ -1,16 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using TMPro;
+
 using NewQuestionModel;
-using System;
 
 public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionModel.ITestView
 {
     public string screenName;
     public TextMeshProUGUI instruct;
-    public GameObject subjectsGrid;
-    public GameObject answersGrid;
+    public SubjectsPanelUIController questPanelUIC;
+    public SubjectsPanelUIController answerPanelUIC;
 
     public event Action<object> OnAnswering;
     public event Action<object> OnAnswerDid;
@@ -26,6 +28,8 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
     {
         var model = new SubjectsTestModel(new SubjectsTestGeneratedDataProvider());
         presenter = new SubjectsTestPresenter(model, this);
+        presenter.QuestPanel = questPanelUIC;
+        presenter.AnswerPanel = answerPanelUIC;
         ShowQuestion();
     }
 
