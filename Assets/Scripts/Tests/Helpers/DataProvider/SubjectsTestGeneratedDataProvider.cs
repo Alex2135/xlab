@@ -13,8 +13,7 @@ public class SubjectsTestGeneratedDataProvider : MonoBehaviour, IDataSource<Subj
         var result = new List<SubjectsQuestModel>();
         var quest = new SubjectsQuestModel();
 
-        quest.RightAnswers = rightAnswers;
-        quest.RightAnswers = quest.RightAnswers.Shuffle();
+        quest.RightAnswers = rightAnswers.Shuffle();
         quest.AdditionalAnswers = additionAnswers;
 
         var quests = new Texture2D[rightAnswers.Count];
@@ -27,12 +26,13 @@ public class SubjectsTestGeneratedDataProvider : MonoBehaviour, IDataSource<Subj
             var idx = Random.Range(0, nullImagesCount);
             if (quests[idx] != null)
             {
-                quests = null;
+                quests[idx] = null;
                 nullsCount++;
             }
         }
 
         quest.Quest = new List<Texture2D>(quests);
+        result.Add(quest);
         return result;
     }
 }

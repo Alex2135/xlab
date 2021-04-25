@@ -117,8 +117,8 @@ namespace NewQuestionModel
         void ShowQuestResult();
         void ResetView();
 
-        event Action<object> OnAnswering;
-        event Action<object> OnAnswerDid;
-        event Action<object, EventArgs> OnQuestTimeout;
+        event Action<object> OnAnsweringEvent;
+        event Action<object> OnAnswerDidEvent;
+        event Action<object, EventArgs> OnQuestTimeoutEvent;
     }
 }

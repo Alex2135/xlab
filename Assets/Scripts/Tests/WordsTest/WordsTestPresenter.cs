@@ -25,8 +25,8 @@ class WordsTestPresenter : ATestPresenter<WordsQuestModel, WordsQuestView>, ITes
         _userAnswers = new List<int>();
         GenerateAnswersId();
 
-        testView.OnAnswering += view_OnAnswering;
-        testView.OnAnswerDid += view_OnAnswerDid;
+        testView.OnAnsweringEvent += view_OnAnswering;
+        testView.OnAnswerDidEvent += view_OnAnswerDid;
     }
 
     public void view_OnAnswering(object _userAnswer)

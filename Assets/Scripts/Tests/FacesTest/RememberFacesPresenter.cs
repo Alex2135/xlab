@@ -11,8 +11,8 @@ public class RememberFacesPresenter : ATestPresenter<FacesQuestModel, FacesAdapt
         testModel = model;
         testView = view;
 
-        testView.OnAnswerDid += view_OnAnswerDid;
-        testView.OnAnswering += view_OnAnswering;
+        testView.OnAnswerDidEvent += view_OnAnswerDid;
+        testView.OnAnsweringEvent += view_OnAnswering;
     }
 
     public FacesAdaptedQuestToViewModel GetAdaptedQuest(Action<object> _onAnswerClick)

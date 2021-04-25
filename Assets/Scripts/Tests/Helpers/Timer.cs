@@ -10,10 +10,10 @@ public class Timer
     private float currentTimeSeconds;
     private bool isRun;
 
-    public event Action<object, EventArgs> OnTimerStart;
-    public event Action<object, EventArgs> OnTimerTick;
-    public event Action<object, EventArgs> OnTimerStop;
-    public event Action<object, EventArgs> OnTimeout;
+    public event Action<object, EventArgs> OnTimerStartEvent;
+    public event Action<object, EventArgs> OnTimerTickEvent;
+    public event Action<object, EventArgs> OnTimerStopEvent;
+    public event Action<object, EventArgs> OnTimeoutEvent;
 
     public Timer(float _maxTimeSeconds)
     {
@@ -25,26 +25,26 @@ public class Timer
     public void StartTimer(object _context = null)
     {
         isRun = true;
-        OnTimerStart?.Invoke(_context, new EventArgs());
+        OnTimerStartEvent?.Invoke(_context, new EventArgs());
     }
 
     public void StopTimer(object _context = null)
     {
         currentTimeSeconds = maxTimeSeconds;
         isRun = false;
-        OnTimerStop?.Invoke(_context, new EventArgs());
+        OnTimerStopEvent?.Invoke(_context, new EventArgs());
     }
 
     public void TimerTick(float _deltaTime, object _context = null)
     {
         if (isRun)
         {
-            OnTimerTick?.Invoke(_context, new EventArgs());
+            OnTimerTickEvent?.Invoke(_context, new EventArgs());
             if (currentTimeSeconds > 0)
                 currentTimeSeconds -= _deltaTime;
             else
             {
-                OnTimeout?.Invoke(_context, new EventArgs());
+                OnTimeoutEvent?.Invoke(_context, new EventArgs());
             }
         }
     }

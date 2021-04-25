@@ -25,9 +25,9 @@ public class NameByFaceTestUIController : MonoBehaviour, IResetableScreenControl
     public NameByFaceTestView testView;
     private bool isButtonPressed;
 
-    public event Action<object> OnAnswering;
-    public event Action<object> OnAnswerDid;
-    public event Action<object, EventArgs> OnQuestTimeout;
+    public event Action<object> OnAnsweringEvent;
+    public event Action<object> OnAnswerDidEvent;
+    public event Action<object, EventArgs> OnQuestTimeoutEvent;
 
     // TODO: Fetch test data from source (web, file) and throw it to testview
     public string ScreenName { get => _screenName; set => _screenName = value; }

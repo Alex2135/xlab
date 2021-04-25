@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using NewQuestionModel;
 
 public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedSubjectsQuestModel>, NewQuestionModel.ITestPresenter<SubjectsQuestView>
@@ -9,18 +10,19 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
     public SubjectsPanelUIController QuestPanel { get; set; }
     public SubjectsPanelUIController AnswerPanel { get; set; }
     protected override Dictionary<int, AdaptedSubjectsQuestModel> AdaptedQuestionData { get; set; }
-    private bool isRememberState;
+    public bool isRememberState;
 
     public SubjectsTestPresenter(ATestModel<SubjectsQuestModel> _model, NewQuestionModel.ITestView _view)
     {
         testModel = _model;
         testView = _view;
-        testView.OnAnswerDid += view_OnAnswerDid;
-        testView.OnAnswering += view_OnAnswering;
-        testView.OnQuestTimeout += view_OnQuestTimeout;
+        testView.OnAnswerDidEvent += view_OnAnswerDid;
+        testView.OnAnsweringEvent += view_OnAnswering;
+        testView.OnQuestTimeoutEvent += view_OnQuestTimeout;
 
         AdaptedQuestionData = new Dictionary<int, AdaptedSubjectsQuestModel>();
         isRememberState = true;
+        GenerateAnswersId();
     }
 
     protected override void GenerateAnswersId()
@@ -53,21 +55,55 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
 
     public SubjectsQuestView GetAdaptedQuest(Action<object> _onAnswerClick)
     {
+        var result = new SubjectsQuestView();
         var adaptedQuest = AdaptedQuestionData[0];
-
-        var allAnswers = new Dictionary<int, GameObject>();
-        foreach (var ans in adaptedQuest.RightAnswers)
+        if (isRememberState)
         {
-            //allAnswers.Add(ans.Key, new);
+            result.Quest = QuestPanel.GeneratePanel(adaptedQuest.RightAnswers);
+        }
+        else
+        {
+            result.Quest = QuestPanel.GeneratePanel(adaptedQuest.Quest);
+            foreach (var questButton in result.Quest)
+            {
+                var button = questButton.Value.GetComponent<Button>();
+                button.onClick.AddListener( 
+                    () => { _onAnswerClick(questButton.Key); }
+                );
+            }
         }
 
-
-        return null;
+        return result;
     }
 
     public void view_OnAnswering(object _userAnswer)
     {
-        
+        int ans = (int)_userAnswer;
+        Debug.Log($"{ans}");
+
+        var adaptedQuest = AdaptedQuestionData[0];
+        var merged = new List<int>();
+        merged.AddRange(adaptedQuest.RightAnswers.Keys);
+        merged.AddRange(adaptedQuest.AdditionalAnswers.Keys);
+
+        var rl = new RandomList<int>(merged);
+        int answerPanelButtonsCount = 5;
+        var panelKeys = rl.GetRandomSubsetWithRightItem(ans, answerPanelButtonsCount, (a, b) => a == b);
+        var panelButtons = new Dictionary<int, Texture2D>();
+        foreach (var key in panelKeys)
+        {
+            if (adaptedQuest.AdditionalAnswers.ContainsKey(key))
+                panelButtons.Add(key, adaptedQuest.AdditionalAnswers[key]);
+            else
+                panelButtons.Add(key, adaptedQuest.RightAnswers[key]);
+        }
+        var answersButtons = AnswerPanel.GeneratePanel(panelButtons);
+        foreach (var button in answersButtons)
+        {
+            button.Value.GetComponent<Button>().onClick.AddListener(
+                () => view_OnAnswerDid(button.Key)
+            );
+        }    
     }
 
     public void view_OnAnswerDid(object _userData)

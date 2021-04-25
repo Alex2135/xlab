@@ -11,12 +11,13 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
 {
     public string screenName;
     public TextMeshProUGUI instruct;
+    public GameObject rememberButton;
     public SubjectsPanelUIController questPanelUIC;
     public SubjectsPanelUIController answerPanelUIC;
 
-    public event Action<object> OnAnswering;
-    public event Action<object> OnAnswerDid;
-    public event Action<object, EventArgs> OnQuestTimeout;
+    public event Action<object> OnAnsweringEvent;
+    public event Action<object> OnAnswerDidEvent;
+    public event Action<object, EventArgs> OnQuestTimeoutEvent;
 
     public string ScreenName { get => screenName; set => screenName = value; }
     public IScreenController NextScreen { get; set; }
@@ -26,7 +27,8 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
 
     void OnEnable()
     {
-        var model = new SubjectsTestModel(new SubjectsTestGeneratedDataProvider());
+        var data = gameObject.GetComponent<SubjectsTestGeneratedDataProvider>() ?? throw new Exception("No data provider");
+        var model = new SubjectsTestModel(data);
         presenter = new SubjectsTestPresenter(model, this);
         presenter.QuestPanel = questPanelUIC;
         presenter.AnswerPanel = answerPanelUIC;
@@ -38,9 +40,24 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
         ResetView();
     }
 
+    public void OnRememberClick()
+    {
+        presenter.isRememberState = false;
+        instruct.gameObject.SetActive(false);
+        rememberButton.SetActive(false);
+        ShowQuestion();
+    }
+
     public void ShowQuestion()
     {
-        presenter.GetAdaptedQuest(obj => { });
+        if (presenter.isRememberState)
+        {
+            presenter.GetAdaptedQuest(obj => { });
+        }
+        else
+        {
+            presenter.GetAdaptedQuest(obj => { OnAnsweringEvent.Invoke(obj); });
+        }
     }
 
     public void ShowQuestResult()

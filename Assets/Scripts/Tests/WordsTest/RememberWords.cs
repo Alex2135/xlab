@@ -23,9 +23,9 @@ public class RememberWords : MonoBehaviour, IScreenController, NewQuestionModel.
     public IScreenController PrevScreen { get; set; }
     public IAdaptedQuestToView QuestionToView { get; set; }
 
-    public event Action<object> OnAnswering;
-    public event Action<object> OnAnswerDid;
-    public event Action<object, EventArgs> OnQuestTimeout;
+    public event Action<object> OnAnsweringEvent;
+    public event Action<object> OnAnswerDidEvent;
+    public event Action<object, EventArgs> OnQuestTimeoutEvent;
 
     private WordsTestPresenter presenter;
     private bool isRemember;
@@ -36,10 +36,10 @@ public class RememberWords : MonoBehaviour, IScreenController, NewQuestionModel.
         var model = new WordsTestModel(new WordsTestGeneratedDataSource());
         presenter = new WordsTestPresenter(model, this, wordsPanelUIC);
         timer = new Timer(presenter.GetTestTime());
-        timer.OnTimerStart += Timer_OnTimerStart;
-        timer.OnTimerTick += Timer_OnTimerTick;
-        timer.OnTimerStop += Timer_OnTimerStop;
-        timer.OnTimeout += presenter.view_OnQuestTimeout;
+        timer.OnTimerStartEvent += Timer_OnTimerStart;
+        timer.OnTimerTickEvent += Timer_OnTimerTick;
+        timer.OnTimerStopEvent += Timer_OnTimerStop;
+        timer.OnTimeoutEvent += presenter.view_OnQuestTimeout;
         timer.StartTimer();
         isRemember = true;
         isAnswered = false;
@@ -100,7 +100,7 @@ public class RememberWords : MonoBehaviour, IScreenController, NewQuestionModel.
             instructionTMP.gameObject.SetActive(true);
             QuestionToView = presenter.GetAdaptedQuest(
                 (obj) => { 
-                    if (!isAnswered) OnAnswering.Invoke(obj); 
+                    if (!isAnswered) OnAnsweringEvent.Invoke(obj); 
                 }
             );
             timer.StopTimer();
@@ -111,7 +111,7 @@ public class RememberWords : MonoBehaviour, IScreenController, NewQuestionModel.
     {
         instructionTMP.gameObject.SetActive(false);
         questScoreTMP.gameObject.SetActive(true);
-        OnAnswerDid?.Invoke(questScoreTMP);
+        OnAnswerDidEvent?.Invoke(questScoreTMP);
         isAnswered = true;
     }
 

@@ -21,8 +21,8 @@ public class FacesTestPresenter : ATestPresenter<FacesQuestModel, FacesAdaptedQu
         faceByNameView = _faceByNameView;
         AdaptedQuestionData = new Dictionary<int, FacesAdaptedQuestModel>();
 
-        testView.OnAnswerDid += view_OnAnswerDid;
-        testView.OnAnswering += view_OnAnswering;
+        testView.OnAnswerDidEvent += view_OnAnswerDid;
+        testView.OnAnsweringEvent += view_OnAnswering;
     }
 
     public FacesAdaptedQuestToViewModel GetAdaptedQuest(Action<object> _onAnswerClick)

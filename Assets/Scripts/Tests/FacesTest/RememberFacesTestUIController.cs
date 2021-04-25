@@ -25,15 +25,15 @@ public class RememberFacesTestUIController : MonoBehaviour, IScreenController, N
     public IScreenController PrevScreen { get; set; }
     public IAdaptedQuestToView QuestionToView { get ; set; }
 
-    public event Action<object> OnAnswering;
-    public event Action<object> OnAnswerDid;
-    public event Action<object, EventArgs> OnQuestTimeout;
+    public event Action<object> OnAnsweringEvent;
+    public event Action<object> OnAnswerDidEvent;
+    public event Action<object, EventArgs> OnQuestTimeoutEvent;
 
     void OnEnable()
     {
         _generatedImages = new List<GameObject>();
 
-        OnAnswering += OnImageClick;
+        OnAnsweringEvent += OnImageClick;
         ShowQuestion();
     }
 
@@ -86,7 +86,7 @@ public class RememberFacesTestUIController : MonoBehaviour, IScreenController, N
         _offset = _offset + (int)rt.rect.width + 16;
         
         var prefabButton = _go.GetComponent<Button>();
-        prefabButton.onClick.AddListener(() => OnAnswering?.Invoke(_index));
+        prefabButton.onClick.AddListener(() => OnAnsweringEvent?.Invoke(_index));
     }
 
     public void OnImageClick(object _obj)
@@ -105,7 +105,7 @@ public class RememberFacesTestUIController : MonoBehaviour, IScreenController, N
 
     public void OnRememberButtonClick()
     {
-        OnAnswerDid?.Invoke(null);
+        OnAnswerDidEvent?.Invoke(null);
         var sc = ScreensUIController.GetInstance();
         this.gameObject.SetActive(false);
         sc.Activate(NextScreen, null, false);

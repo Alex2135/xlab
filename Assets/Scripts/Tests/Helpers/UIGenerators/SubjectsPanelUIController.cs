@@ -15,15 +15,21 @@ public class SubjectsPanelUIController : MonoBehaviour
         if (grid == null) throw new NullReferenceException("grid is null");
         if (buttonPrefab == null) throw new NullReferenceException("buttonPrefab is null");
 
+        grid.DestroyChildren();
         var result = new Dictionary<int, GameObject>();
-        GameObject newButton;
-        Image img;
 
         foreach (var data in _adaptedData)
         {
-            newButton = Instantiate(buttonPrefab, grid.transform);
-            img = newButton.FindByName("ButtonIMG").GetComponent<Image>();
-            if (data.Value != null) LoadedImage.SetTextureToImage(ref img, data.Value);
+            GameObject newButton = Instantiate(buttonPrefab, grid.transform);
+            var buttonImg = newButton.ChildByName("ButtonIMG");
+            Image img = buttonImg?.GetComponent<Image>();
+            if (data.Value != null)
+            {
+                LoadedImage.SetTextureToImage(ref img, data.Value);
+                img.color = new Color(1f, 1f, 1f, 1f);
+            }
+            else img.color = new Color(1f, 1f, 1f, 0f);
+            result.Add(data.Key, newButton);
         }
 
         return result;
@@ -32,13 +38,25 @@ public class SubjectsPanelUIController : MonoBehaviour
 
 public static class GameObjectExtension
 {
-    public static GameObject FindByName(this GameObject _obj, string _name)
+    public static GameObject ChildByName(this GameObject _obj, string _name)
     {
         GameObject result = null;
 
         Transform trans = _obj.gameObject.transform;
         Transform childTrans = trans.Find(_name);
+        result = childTrans.gameObject;
 
         return result;
+    }
+
+    public static void DestroyChildren(this GameObject _obj)
+    {
+        var childs = _obj.GetComponentsInChildren<Transform>();
+        var objTransform = _obj.GetComponent<Transform>();
+        foreach (var child in childs)
+        {
+            if (!child.Equals(objTransform))
+                UnityEngine.Object.Destroy(child.gameObject);
+        }
     }
 }

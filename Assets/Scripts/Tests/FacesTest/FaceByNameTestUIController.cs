@@ -26,9 +26,9 @@ public class FaceByNameTestUIController : MonoBehaviour, IResetableScreenControl
     private bool isButtonPressed;
     private int _score;
 
-    public event Action<object> OnAnswering;
-    public event Action<object> OnAnswerDid;
-    public event Action<object, EventArgs> OnQuestTimeout;
+    public event Action<object> OnAnsweringEvent;
+    public event Action<object> OnAnswerDidEvent;
+    public event Action<object, EventArgs> OnQuestTimeoutEvent;
 
     public string ScreenName { get => _screenName; set => _screenName = value; }
     public IScreenController NextScreen { get; set; }
