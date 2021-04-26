@@ -5,11 +5,29 @@ using NewQuestionModel;
 
 public class SubjectsTestGeneratedDataProvider : MonoBehaviour, IDataSource<SubjectsQuestModel>
 {
-    public List<Texture2D> rightAnswers;
-    public List<Texture2D> additionAnswers;
+    public List<Texture2D> answers;
+    private List<Texture2D> rightAnswers;
+    private List<Texture2D> additionAnswers;
+
+    private void InitializeAnswers()
+    {
+        rightAnswers = new List<Texture2D>();
+        additionAnswers = new List<Texture2D>();
+
+        int rightAnswersCount = 4;
+
+        answers = answers.Shuffle();
+        
+        rightAnswers.AddRange(
+            answers.GetRange(0, rightAnswersCount));
+
+        additionAnswers.AddRange(
+            answers.GetRange(rightAnswersCount, answers.Count - rightAnswersCount));
+    }
 
     public IEnumerable<SubjectsQuestModel> GetQuests()
     {
+        InitializeAnswers();
         var result = new List<SubjectsQuestModel>();
         var quest = new SubjectsQuestModel();
 
@@ -23,7 +41,7 @@ public class SubjectsTestGeneratedDataProvider : MonoBehaviour, IDataSource<Subj
         
         while (nullsCount != nullImagesCount)
         {
-            var idx = Random.Range(0, nullImagesCount);
+            var idx = Random.Range(0, rightAnswers.Count);
             if (quests[idx] != null)
             {
                 quests[idx] = null;

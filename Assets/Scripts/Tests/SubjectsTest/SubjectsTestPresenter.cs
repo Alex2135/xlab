@@ -67,9 +67,7 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
             foreach (var questButton in result.Quest)
             {
                 var button = questButton.Value.GetComponent<Button>();
-                button.onClick.AddListener( 
-                    () => { _onAnswerClick(questButton.Key); }
-                );
+                button.onClick.AddListener( ()=>_onAnswerClick(questButton.Key) );
             }
         }
 
@@ -87,7 +85,7 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
         merged.AddRange(adaptedQuest.AdditionalAnswers.Keys);
 
         var rl = new RandomList<int>(merged);
-        int answerPanelButtonsCount = 5;
+        int answerPanelButtonsCount = 10;
         var panelKeys = rl.GetRandomSubsetWithRightItem(ans, answerPanelButtonsCount, (a, b) => a == b);
         var panelButtons = new Dictionary<int, Texture2D>();
         foreach (var key in panelKeys)
@@ -97,18 +95,20 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
             else
                 panelButtons.Add(key, adaptedQuest.RightAnswers[key]);
         }
+        panelButtons = panelButtons.Shuffle();
         var answersButtons = AnswerPanel.GeneratePanel(panelButtons);
-        foreach (var button in answersButtons)
+        foreach (var answerButton in answersButtons)
         {
-            button.Value.GetComponent<Button>().onClick.AddListener(
-                () => view_OnAnswerDid(button.Key)
-            );
+            var button = answerButton.Value.GetComponent<Button>();
+            button?.onClick.AddListener( ()=>view_OnAnswerDid((answerButton.Key, ans)) );
         }    
     }
 
     public void view_OnAnswerDid(object _userData)
     {
-        
+        testView.ShowQuestResult();
+        (int, int) data = ((int, int))_userData;
+        Debug.Log($"{data.Item1}, {data.Item2}");
     }
 
     public void view_OnQuestTimeout(object _obj, EventArgs _eventArgs)

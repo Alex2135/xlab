@@ -12,6 +12,8 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
     public string screenName;
     public TextMeshProUGUI instruct;
     public GameObject rememberButton;
+    public GameObject answerPanel;
+    public Texture2D questionSignImage;
     public SubjectsPanelUIController questPanelUIC;
     public SubjectsPanelUIController answerPanelUIC;
 
@@ -56,13 +58,17 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
         }
         else
         {
-            presenter.GetAdaptedQuest(obj => { OnAnsweringEvent.Invoke(obj); });
+            presenter.GetAdaptedQuest(obj => 
+            {
+                answerPanel.gameObject.SetActive(true);
+                OnAnsweringEvent.Invoke(obj); 
+            });
         }
     }
 
     public void ShowQuestResult()
     {
-        
+        answerPanel.SetActive(false);
     }
 
     public void ResetView()

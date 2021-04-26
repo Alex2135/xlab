@@ -8602,8 +8602,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -554}
-  m_SizeDelta: {x: 32, y: 110}
+  m_AnchoredPosition: {x: 0, y: -557.18}
+  m_SizeDelta: {x: 32, y: 87.95004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1014548741
 MonoBehaviour:
@@ -8624,8 +8624,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fc616b65a2a02f04cadf626eb4b6f45c, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: a7ed5be20ebf97241bd0cd7486dae144, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -12272,6 +12272,8 @@ MonoBehaviour:
   screenName: SubjectsTestViewer
   instruct: {fileID: 1126509060}
   rememberButton: {fileID: 522686195}
+  answerPanel: {fileID: 1014548739}
+  questionSignImage: {fileID: 2800000, guid: 9162f70028772fd408bea4f4a37d38b5, type: 3}
   questPanelUIC: {fileID: 1353762953}
   answerPanelUIC: {fileID: 1353762954}
 --- !u!114 &1353762951
@@ -12353,12 +12355,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 950a83fa4f9662c4390763ed5c1c5f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightAnswers:
+  answers:
   - {fileID: 2800000, guid: 6f4751964abc5cd4ea763b6e9403aed3, type: 3}
   - {fileID: 2800000, guid: cd092431f2d7296429c10b0ba8e236fa, type: 3}
   - {fileID: 2800000, guid: b9ba430be3e64ec4cb348eba6b2c0288, type: 3}
   - {fileID: 2800000, guid: f7d005828deaed74599ac3a8e4ebc4c0, type: 3}
-  additionAnswers:
   - {fileID: 2800000, guid: c7d15e1b6707ec448b355b6ad7d0ec76, type: 3}
   - {fileID: 2800000, guid: f11e21621aa0655448620f703010bac6, type: 3}
   - {fileID: 2800000, guid: 8610bdf2bdf428345968e44a519f2275, type: 3}
