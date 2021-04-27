@@ -8,6 +8,7 @@ public class SubjectsPanelUIController : MonoBehaviour
 {
     public GameObject grid;
     public GameObject buttonPrefab;
+    public Dictionary<int, GameObject> Buttons { get; set; }
 
     public Dictionary<int, GameObject> GeneratePanel(Dictionary<int, Texture2D> _adaptedData)
     {
@@ -32,6 +33,7 @@ public class SubjectsPanelUIController : MonoBehaviour
             result.Add(data.Key, newButton);
         }
 
+        Buttons = result;
         return result;
     }
 }

@@ -3707,9 +3707,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 400540915}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fb2b5863d5db8145bc0d9c75d55fafb, type: 3}
+  m_Script: {fileID: 11500000, guid: d244b3448867ac44496d6dde0474ec4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadedImages:
+  - _image: {fileID: 2800000, guid: 64480dcbd4ec7d742b3b765172b1cb0d, type: 3}
+    _name: Cameron Williamson
+  - _image: {fileID: 2800000, guid: 25d63413e810a864ba6999d36ec488b8, type: 3}
+    _name: Darrel Steward
+  - _image: {fileID: 2800000, guid: e7fa4618480556341b40dbcb60b9ff22, type: 3}
+    _name: Zoya Persikova
+  - _image: {fileID: 2800000, guid: 8afdd72e9c6b5cf4a85c700880f8a7fa, type: 3}
+    _name: Pavel Klukov
+  - _image: {fileID: 2800000, guid: 96b46e23e1359d14ea22691d7b1d8d40, type: 3}
+    _name: Persie Warren
+  - _image: {fileID: 2800000, guid: 706f8b5ef2533ed4dbb5f053c54c38c2, type: 3}
+    _name: Maria Yorsh
+  - _image: {fileID: 2800000, guid: 3c9bc08a3dfa6a347aefb29ff95d5071, type: 3}
+    _name: Nikolay Parhomenko
+  - _image: {fileID: 2800000, guid: 46e60d5e9b20a554e9b7b68209412a71, type: 3}
+    _name: Leslie Alexander
+  - _image: {fileID: 2800000, guid: d59d9a913e917324c86c36c12835c47f, type: 3}
+    _name: Wade Warren
+  questedFaces: 4
 --- !u!1 &408921341
 GameObject:
   m_ObjectHideFlags: 0
@@ -12273,7 +12293,11 @@ MonoBehaviour:
   instruct: {fileID: 1126509060}
   rememberButton: {fileID: 522686195}
   answerPanel: {fileID: 1014548739}
+  normalStateQuestImage: {fileID: 2800000, guid: b48d38c2dce635d4786a4007acb2414c,
+    type: 3}
   questionSignImage: {fileID: 2800000, guid: 9162f70028772fd408bea4f4a37d38b5, type: 3}
+  rightAnswerImage: {fileID: 2800000, guid: e318d1ca89dc1bd4092f92aa79d0dc2e, type: 3}
+  wrongAnswerImage: {fileID: 2800000, guid: fb81cdacbda72f44eafe8a6be9186e5b, type: 3}
   questPanelUIC: {fileID: 1353762953}
   answerPanelUIC: {fileID: 1353762954}
 --- !u!114 &1353762951
@@ -15185,7 +15209,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -203.00002}
+  m_AnchoredPosition: {x: 0, y: -203}
   m_SizeDelta: {x: -32, y: 22}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1624399494
@@ -19520,7 +19544,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -73.60001}
+  m_AnchoredPosition: {x: 0, y: -73.600006}
   m_SizeDelta: {x: -32, y: 22}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2134001331

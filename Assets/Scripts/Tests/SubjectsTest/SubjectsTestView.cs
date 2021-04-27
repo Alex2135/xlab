@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 using NewQuestionModel;
@@ -13,7 +14,10 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
     public TextMeshProUGUI instruct;
     public GameObject rememberButton;
     public GameObject answerPanel;
+    public Texture2D normalStateQuestImage;
     public Texture2D questionSignImage;
+    public Texture2D rightAnswerImage;
+    public Texture2D wrongAnswerImage;
     public SubjectsPanelUIController questPanelUIC;
     public SubjectsPanelUIController answerPanelUIC;
 
@@ -34,6 +38,9 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
         presenter = new SubjectsTestPresenter(model, this);
         presenter.QuestPanel = questPanelUIC;
         presenter.AnswerPanel = answerPanelUIC;
+
+
+
         ShowQuestion();
     }
 
@@ -58,10 +65,14 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
         }
         else
         {
-            presenter.GetAdaptedQuest(obj => 
+            QuestionToView = presenter.GetAdaptedQuest(obj => 
             {
                 answerPanel.gameObject.SetActive(true);
-                OnAnsweringEvent.Invoke(obj); 
+                
+                var img = questPanelUIC.Buttons[(int)obj].GetComponent<Image>();
+                LoadedImage.SetTextureToImage(ref img, questionSignImage);
+
+                OnAnsweringEvent.Invoke(obj);
             });
         }
     }

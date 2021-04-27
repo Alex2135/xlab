@@ -9,8 +9,10 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
 {
     public SubjectsPanelUIController QuestPanel { get; set; }
     public SubjectsPanelUIController AnswerPanel { get; set; }
+    public int QuestionId { get; set; }
     protected override Dictionary<int, AdaptedSubjectsQuestModel> AdaptedQuestionData { get; set; }
     public bool isRememberState;
+    private Dictionary<int, int?> userAnswers;
 
     public SubjectsTestPresenter(ATestModel<SubjectsQuestModel> _model, NewQuestionModel.ITestView _view)
     {
@@ -21,6 +23,7 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
         testView.OnQuestTimeoutEvent += view_OnQuestTimeout;
 
         AdaptedQuestionData = new Dictionary<int, AdaptedSubjectsQuestModel>();
+        userAnswers = new Dictionary<int, int?>();
         isRememberState = true;
         GenerateAnswersId();
     }
@@ -37,7 +40,10 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
         var adaptedQuest = new AdaptedSubjectsQuestModel();
         for (int i = 0; i < questData.Quest.Count; i++)
         {
-            adaptedQuest.Quest.Add(i, questData.Quest[i]);
+            var questImg = questData.Quest[i];
+            adaptedQuest.Quest.Add(i, questImg);
+            if (questImg == null) userAnswers.Add(i, null);
+            else userAnswers.Add(i, i);
         }
         for (int i = 0; i < questData.RightAnswers.Count; i++)
         {
@@ -77,7 +83,8 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
     public void view_OnAnswering(object _userAnswer)
     {
         int ans = (int)_userAnswer;
-        Debug.Log($"{ans}");
+        QuestionId = ans;
+        if (userAnswers[ans] != null) return;
 
         var adaptedQuest = AdaptedQuestionData[0];
         var merged = new List<int>();
@@ -100,15 +107,31 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
         foreach (var answerButton in answersButtons)
         {
             var button = answerButton.Value.GetComponent<Button>();
-            button?.onClick.AddListener( ()=>view_OnAnswerDid((answerButton.Key, ans)) );
-        }    
+            button?.onClick.AddListener( ()=>view_OnAnswerDid((ans, answerButton.Key)) );
+        }
     }
 
     public void view_OnAnswerDid(object _userData)
     {
         testView.ShowQuestResult();
-        (int, int) data = ((int, int))_userData;
-        Debug.Log($"{data.Item1}, {data.Item2}");
+        (int rightId, int selectedId) = ((int, int))_userData;
+        if (userAnswers[rightId] != null) return;
+        else userAnswers[rightId] = selectedId;
+        Debug.Log($"{rightId}, {selectedId}");
+
+        GameObject questButton = testView.QuestionToView.Quest[rightId];
+        Texture2D answerImage;
+        var adaptedQuest = AdaptedQuestionData[0];
+        if (adaptedQuest.RightAnswers.ContainsKey(selectedId))
+            answerImage = adaptedQuest.RightAnswers[selectedId];
+        else
+            answerImage = adaptedQuest.AdditionalAnswers[selectedId];
+
+        var qstImg = questButton.ChildByName("ButtonIMG").GetComponent<Image>();
+
+        qstImg.color = new Color(1f, 1f, 1f, 1f);
+        LoadedImage.SetTextureToImage(ref qstImg, answerImage);
+        testView.ShowQuestResult();
     }
 
     public void view_OnQuestTimeout(object _obj, EventArgs _eventArgs)
