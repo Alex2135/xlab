@@ -14,12 +14,9 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
     public TextMeshProUGUI instruct;
     public GameObject rememberButton;
     public GameObject answerPanel;
-    public Texture2D normalStateQuestImage;
-    public Texture2D questionSignImage;
-    public Texture2D rightAnswerImage;
-    public Texture2D wrongAnswerImage;
     public SubjectsPanelUIController questPanelUIC;
     public SubjectsPanelUIController answerPanelUIC;
+    public SubjectsButtonsStates buttonsStates;
 
     public event Action<object> OnAnsweringEvent;
     public event Action<object> OnAnswerDidEvent;
@@ -38,8 +35,7 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
         presenter = new SubjectsTestPresenter(model, this);
         presenter.QuestPanel = questPanelUIC;
         presenter.AnswerPanel = answerPanelUIC;
-
-
+        presenter.buttonsStates = buttonsStates;
 
         ShowQuestion();
     }
@@ -51,7 +47,7 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
 
     public void OnRememberClick()
     {
-        presenter.isRememberState = false;
+        presenter.isRememberScreenState = false;
         instruct.gameObject.SetActive(false);
         rememberButton.SetActive(false);
         ShowQuestion();
@@ -59,22 +55,61 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
 
     public void ShowQuestion()
     {
-        if (presenter.isRememberState)
+        if (presenter.isRememberScreenState)
         {
-            presenter.GetAdaptedQuest(obj => { });
+            QuestionToView = presenter.GetAdaptedQuest(obj => { });
         }
         else
         {
-            QuestionToView = presenter.GetAdaptedQuest(obj => 
-            {
-                answerPanel.gameObject.SetActive(true);
-                
-                var img = questPanelUIC.Buttons[(int)obj].GetComponent<Image>();
-                LoadedImage.SetTextureToImage(ref img, questionSignImage);
+            Action callback = () => {
+                QuestionToView = presenter.GetAdaptedQuest(obj =>
+                {
+                    answerPanel.gameObject.SetActive(true);
+                    OnAnsweringEvent.Invoke(obj);
+                });
+            };
 
-                OnAnsweringEvent.Invoke(obj);
-            });
+            StartCoroutine( ShowPreQuestedState(3f, callback) );
         }
+
+        var button = QuestionToView.Quest[0];
+        var icon = button.ChildByName("ButtonIMG");
+
+        switch (QuestionToView.Quest.Count)
+        {
+            case 4: break;
+            case 6: 
+
+                break;
+            default: 
+                break;
+        }
+    }
+
+    IEnumerator ShowPreQuestedState(float _duration, Action _callback = null)
+    {
+        foreach (var button in QuestionToView.Quest)
+        {
+            var buttonBG = button.Value.ChildByName("ButtonBG");
+            var buttonIMG = button.Value.ChildByName("ButtonIMG");
+            var bg = buttonBG.GetComponent<Image>();
+            var img = buttonIMG.GetComponent<Image>();
+            bg.color = new Color(1f, 1f, 1f, 1f);
+            img.color = new Color(1f, 1f, 1f, 0f);
+            LoadedImage.SetTextureToImage(ref bg, buttonsStates.questionSignImage);
+        }
+        yield return new WaitForSecondsRealtime(_duration);
+        foreach (var button in QuestionToView.Quest)
+        {
+            var buttonBG = button.Value.ChildByName("ButtonBG");
+            var buttonIMG = button.Value.ChildByName("ButtonIMG");
+            var bg = buttonBG.GetComponent<Image>();
+            var img = buttonIMG.GetComponent<Image>();
+            bg.color = new Color(1f, 1f, 1f, 0f);
+            img.color = new Color(1f, 1f, 1f, 0f);
+            LoadedImage.SetTextureToImage(ref bg, buttonsStates.normalStateQuestImage);
+        }
+        if (_callback != null) _callback();
     }
 
     public void ShowQuestResult()

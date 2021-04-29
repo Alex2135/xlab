@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using NewQuestionModel;
+using UnityEngine.Events;
 
 public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedSubjectsQuestModel>, NewQuestionModel.ITestPresenter<SubjectsQuestView>
 {
     public SubjectsPanelUIController QuestPanel { get; set; }
     public SubjectsPanelUIController AnswerPanel { get; set; }
-    public int QuestionId { get; set; }
+    public SubjectsButtonsStates buttonsStates { get; set; }
+    public int SelectedQuestId { get; set; }
     protected override Dictionary<int, AdaptedSubjectsQuestModel> AdaptedQuestionData { get; set; }
-    public bool isRememberState;
+    public bool isRememberScreenState;
     private Dictionary<int, int?> userAnswers;
 
     public SubjectsTestPresenter(ATestModel<SubjectsQuestModel> _model, NewQuestionModel.ITestView _view)
@@ -24,7 +26,7 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
 
         AdaptedQuestionData = new Dictionary<int, AdaptedSubjectsQuestModel>();
         userAnswers = new Dictionary<int, int?>();
-        isRememberState = true;
+        isRememberScreenState = true;
         GenerateAnswersId();
     }
 
@@ -61,39 +63,57 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
 
     public SubjectsQuestView GetAdaptedQuest(Action<object> _onAnswerClick)
     {
-        var result = new SubjectsQuestView();
+        var resultQuestView = new SubjectsQuestView();
         var adaptedQuest = AdaptedQuestionData[0];
-        if (isRememberState)
+        if (isRememberScreenState)
         {
-            result.Quest = QuestPanel.GeneratePanel(adaptedQuest.RightAnswers);
+            resultQuestView.Quest = QuestPanel.GeneratePanel(adaptedQuest.RightAnswers);
         }
         else
         {
-            result.Quest = QuestPanel.GeneratePanel(adaptedQuest.Quest);
-            foreach (var questButton in result.Quest)
+            resultQuestView.Quest = QuestPanel.GeneratePanel(adaptedQuest.Quest);
+            foreach (var questButton in resultQuestView.Quest)
             {
                 var button = questButton.Value.GetComponent<Button>();
                 button.onClick.AddListener( ()=>_onAnswerClick(questButton.Key) );
             }
         }
 
-        return result;
+        return resultQuestView;
+    }
+
+    void ResetSelectedButtonQuestSign()
+    {
+        var selectedQuestButton = testView.QuestionToView.Quest[SelectedQuestId];
+        var buttonBG = selectedQuestButton.ChildByName("ButtonBG").GetComponent<Image>();
+        LoadedImage.SetTextureToImage(ref buttonBG, buttonsStates.normalStateQuestImage);
+        buttonBG.color = new Color(1f, 1f, 1f, 0f);
     }
 
     public void view_OnAnswering(object _userAnswer)
     {
+        ResetSelectedButtonQuestSign();
         int ans = (int)_userAnswer;
-        QuestionId = ans;
-        if (userAnswers[ans] != null) return;
+        SelectedQuestId = ans;
+        if (userAnswers[SelectedQuestId] != null) return;
 
+        var selectedQuestButton = testView.QuestionToView.Quest[SelectedQuestId];
+        var buttonBG = selectedQuestButton.ChildByName("ButtonBG").GetComponent<Image>();
+        LoadedImage.SetTextureToImage(ref buttonBG, buttonsStates.questionSignImage);
+        buttonBG.color = new Color(1f, 1f, 1f, 1f);
+
+        // Get quest data and merge answers keys for shuffling
         var adaptedQuest = AdaptedQuestionData[0];
         var merged = new List<int>();
         merged.AddRange(adaptedQuest.RightAnswers.Keys);
         merged.AddRange(adaptedQuest.AdditionalAnswers.Keys);
 
+        // Get shuffled keys for answers
         var rl = new RandomList<int>(merged);
         int answerPanelButtonsCount = 10;
         var panelKeys = rl.GetRandomSubsetWithRightItem(ans, answerPanelButtonsCount, (a, b) => a == b);
+        
+        // Create Answer buttons 
         var panelButtons = new Dictionary<int, Texture2D>();
         foreach (var key in panelKeys)
         {
@@ -103,32 +123,47 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
                 panelButtons.Add(key, adaptedQuest.RightAnswers[key]);
         }
         panelButtons = panelButtons.Shuffle();
+
+        // Create answer panel
         var answersButtons = AnswerPanel.GeneratePanel(panelButtons);
         foreach (var answerButton in answersButtons)
         {
             var button = answerButton.Value.GetComponent<Button>();
-            button?.onClick.AddListener( ()=>view_OnAnswerDid((ans, answerButton.Key)) );
+            UnityAction onAnswerClick = () => {
+                view_OnAnswerDid(answerButton.Key);
+                ResetSelectedButtonQuestSign();
+            };
+            button?.onClick.AddListener( onAnswerClick );
         }
     }
 
     public void view_OnAnswerDid(object _userData)
     {
-        testView.ShowQuestResult();
-        (int rightId, int selectedId) = ((int, int))_userData;
-        if (userAnswers[rightId] != null) return;
-        else userAnswers[rightId] = selectedId;
-        Debug.Log($"{rightId}, {selectedId}");
+        int selectedAnswerId = (int)_userData;
+        if (userAnswers[SelectedQuestId] != null) return;
+        else userAnswers[SelectedQuestId] = selectedAnswerId;
+        //Debug.Log($"{SelectedQuestId}, {selectedAnswerId}");
 
-        GameObject questButton = testView.QuestionToView.Quest[rightId];
+        GameObject questButton = testView.QuestionToView.Quest[SelectedQuestId];
         Texture2D answerImage;
         var adaptedQuest = AdaptedQuestionData[0];
-        if (adaptedQuest.RightAnswers.ContainsKey(selectedId))
-            answerImage = adaptedQuest.RightAnswers[selectedId];
+        if (SelectedQuestId == selectedAnswerId)
+        {
+            answerImage = adaptedQuest.RightAnswers[selectedAnswerId];
+            var buttonBG = questButton.GetComponent<Image>();
+            LoadedImage.SetTextureToImage(ref buttonBG, buttonsStates.rightAnswerImage);
+        }
         else
-            answerImage = adaptedQuest.AdditionalAnswers[selectedId];
+        {
+            if (adaptedQuest.RightAnswers.ContainsKey(selectedAnswerId))
+                answerImage = adaptedQuest.RightAnswers[selectedAnswerId];
+            else
+                answerImage = adaptedQuest.AdditionalAnswers[selectedAnswerId];
+            var buttonBG = questButton.GetComponent<Image>();
+            LoadedImage.SetTextureToImage(ref buttonBG, buttonsStates.wrongAnswerImage);
+        }
 
         var qstImg = questButton.ChildByName("ButtonIMG").GetComponent<Image>();
-
         qstImg.color = new Color(1f, 1f, 1f, 1f);
         LoadedImage.SetTextureToImage(ref qstImg, answerImage);
         testView.ShowQuestResult();

@@ -116,6 +116,7 @@
     <Compile Include="Assets\Scripts\Tests\MathTest\MathTestView.cs" />
     <Compile Include="Assets\Scripts\Tests\QuestGenericModel.cs" />
     <Compile Include="Assets\Scripts\Tests\Quests.cs" />
+    <Compile Include="Assets\Scripts\Tests\SubjectsTest\SubjectsButtonsStates.cs" />
     <Compile Include="Assets\Scripts\Tests\SubjectsTest\SubjectsTestModel.cs" />
     <Compile Include="Assets\Scripts\Tests\SubjectsTest\SubjectsTestPresenter.cs" />
     <Compile Include="Assets\Scripts\Tests\SubjectsTest\SubjectsTestView.cs" />

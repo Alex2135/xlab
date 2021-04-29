@@ -36,7 +36,7 @@ public class SubjectsTestGeneratedDataProvider : MonoBehaviour, IDataSource<Subj
 
         var quests = new Texture2D[rightAnswers.Count];
         int nullsCount = 0;
-        int nullImagesCount = (int)(rightAnswers.Count * 3f / 4f);
+        int nullImagesCount = (int)(rightAnswers.Count * 4f / 4f);
         rightAnswers.CopyTo(quests);
         
         while (nullsCount != nullImagesCount)
