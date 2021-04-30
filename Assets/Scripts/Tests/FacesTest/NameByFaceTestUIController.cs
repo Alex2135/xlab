@@ -217,6 +217,16 @@ public class NameByFaceTestUIController : MonoBehaviour, IResetableScreenControl
     {
         
     }
+
+    public void SetScore(float _score)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetQuestionTime(float _time, object _params = null)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public class NameByFaceTestView : ITestView, ITest

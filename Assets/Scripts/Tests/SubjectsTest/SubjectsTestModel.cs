@@ -81,8 +81,8 @@ public class SubjectsTestModel : ATestModel<SubjectsQuestModel>
 
     public override int GetScore()
     {
-        int maxScore = _questions.Count * PointsPerQuest;
-        int result = rightQuestions * PointsPerQuest - wrongQuestions * 1 / 4 * maxScore;
+        int maxScore = _questions[0].Quest.Count * PointsPerQuest;
+        int result = rightQuestions * PointsPerQuest - wrongQuestions * (int)(1f/4f * maxScore);
         return result;
     }
 

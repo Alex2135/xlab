@@ -93,6 +93,7 @@
     <Compile Include="Assets\Scripts\Loader\LoaderUiController.cs" />
     <Compile Include="Assets\Scripts\Result\TestStatsUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\FacesTestUIController.cs" />
+    <Compile Include="Assets\Scripts\ScreensControllers\NumbersTestUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\ScreensUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\SubjectsTestUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\TestResultController.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Assets\Scripts\Tests\FacesTest\RememberFacesPresenter.cs" />
     <Compile Include="Assets\Scripts\Tests\FacesTest\RememberFacesTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\FacesTestGeneratedDataProvider.cs" />
+    <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\NumbersTestDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\SubjectsTestGeneratedDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\RandomList.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\ShowQuestResult.cs" />
@@ -114,6 +116,9 @@
     <Compile Include="Assets\Scripts\Tests\Helpers\UIGenerators\WordsPanelUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\MathTest\MathTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\MathTest\MathTestView.cs" />
+    <Compile Include="Assets\Scripts\Tests\NumbersTest\NumbersTestModel.cs" />
+    <Compile Include="Assets\Scripts\Tests\NumbersTest\NumbersTestPresenter.cs" />
+    <Compile Include="Assets\Scripts\Tests\NumbersTest\NumbersTestView.cs" />
     <Compile Include="Assets\Scripts\Tests\QuestGenericModel.cs" />
     <Compile Include="Assets\Scripts\Tests\Quests.cs" />
     <Compile Include="Assets\Scripts\Tests\SubjectsTest\SubjectsButtonsStates.cs" />
@@ -125,6 +130,7 @@
     <Compile Include="Assets\Scripts\Tests\WordsTest\RememberWords.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsTest\WordsTestModels.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsTest\WordsTestPresenter.cs" />
+    <Compile Include="Assets\Scripts\UserData\UserModel.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

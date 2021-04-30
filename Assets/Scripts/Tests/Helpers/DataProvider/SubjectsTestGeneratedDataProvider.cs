@@ -5,6 +5,7 @@ using NewQuestionModel;
 
 public class SubjectsTestGeneratedDataProvider : MonoBehaviour, IDataSource<SubjectsQuestModel>
 {
+    public int rightAnswersCount;
     public List<Texture2D> answers;
     private List<Texture2D> rightAnswers;
     private List<Texture2D> additionAnswers;
@@ -13,8 +14,6 @@ public class SubjectsTestGeneratedDataProvider : MonoBehaviour, IDataSource<Subj
     {
         rightAnswers = new List<Texture2D>();
         additionAnswers = new List<Texture2D>();
-
-        int rightAnswersCount = 4;
 
         answers = answers.Shuffle();
         

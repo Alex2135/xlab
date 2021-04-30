@@ -121,6 +121,16 @@ public class RememberFacesTestUIController : MonoBehaviour, IScreenController, N
     {
         
     }
+
+    public void SetScore(float _score)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetQuestionTime(float _time, object _params = null)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public static class UIExtensions

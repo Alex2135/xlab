@@ -116,6 +116,7 @@ namespace NewQuestionModel
         void ShowQuestion();
         void ShowQuestResult();
         void ResetView();
+        void SetScore(float _score);
 
         event Action<object> OnAnsweringEvent;
         event Action<object> OnAnswerDidEvent;

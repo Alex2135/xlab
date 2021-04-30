@@ -194,6 +194,16 @@ public class FaceByNameTestUIController : MonoBehaviour, IResetableScreenControl
     {
         throw new NotImplementedException();
     }
+
+    public void SetScore(float _score)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetQuestionTime(float _time, object _params = null)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 

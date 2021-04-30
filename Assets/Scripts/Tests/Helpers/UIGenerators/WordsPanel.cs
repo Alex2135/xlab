@@ -142,8 +142,7 @@ public class WordsPanel
         if (buttonTMP == null) throw new Exception("TMP not in prefab!");
         buttonTMP.text = _word;
         // Get size of text
-        var textInfo = buttonTMP.GetTextInfo(_word);
-        var sizes = GetTextSizes(textInfo);
+        var sizes = buttonTMP.GetTextSize(_word);
         var hPadding = 16f;
         var vPadding = 8f;
 
@@ -158,7 +157,7 @@ public class WordsPanel
         {
             var character = _TMP_TextInfo.characterInfo[i];
             result.x += Math.Abs(character.bottomRight.x - character.bottomLeft.x);
-            result.y += Math.Abs(character.topLeft.x - character.bottomLeft.x);
+            result.y += Math.Abs(character.topLeft.y - character.bottomLeft.y);
         }
 
         return result;
@@ -174,5 +173,24 @@ public class WordsPanel
         }
         if (Words != null && Words.Count > 0)
             Words.Clear();
+    }
+}
+
+public static class TMPExtension
+{ 
+    public static Vector2 GetTextSize(this TextMeshProUGUI _tmp, string _text)
+    {
+        Vector2 result = new Vector2(0f, 0f);
+
+        var textInfo = _tmp.GetTextInfo(_text);
+        var size = textInfo.characterCount;
+        for (int i = 0; i < size; i++)
+        {
+            var character = textInfo.characterInfo[i];
+            result.x += Math.Abs(character.bottomRight.x - character.bottomLeft.x);
+            result.y += Math.Abs(character.topLeft.x - character.bottomLeft.x);
+        }
+
+        return result;
     }
 }

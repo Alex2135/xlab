@@ -152,6 +152,7 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
             answerImage = adaptedQuest.RightAnswers[selectedAnswerId];
             var buttonBG = questButton.GetComponent<Image>();
             LoadedImage.SetTextureToImage(ref buttonBG, buttonsStates.rightAnswerImage);
+            testModel.RewardRightAnswer();
         }
         else
         {
@@ -161,11 +162,13 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
                 answerImage = adaptedQuest.AdditionalAnswers[selectedAnswerId];
             var buttonBG = questButton.GetComponent<Image>();
             LoadedImage.SetTextureToImage(ref buttonBG, buttonsStates.wrongAnswerImage);
+            testModel.PenaltieWrongAnswer();
         }
 
         var qstImg = questButton.ChildByName("ButtonIMG").GetComponent<Image>();
         qstImg.color = new Color(1f, 1f, 1f, 1f);
         LoadedImage.SetTextureToImage(ref qstImg, answerImage);
+        testView.SetScore(testModel.GetScore());
         testView.ShowQuestResult();
     }
 
