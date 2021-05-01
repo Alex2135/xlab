@@ -7,6 +7,7 @@ using System;
 class NumbersTestPresenter : ATestPresenter<NumbersQuestModel, NumbersAdaptedQuestModel>, ITestPresenter<NumbersQuestView>
 {
     protected override Dictionary<int, NumbersAdaptedQuestModel> AdaptedQuestionData { get; set; }
+    public NumbersPanelCreator numbersPanelCreator;
     public bool isRememberScreenState;
 
     public NumbersTestPresenter(NewQuestionModel.ITestView _view, ATestModel<NumbersQuestModel> _model)
@@ -35,7 +36,7 @@ class NumbersTestPresenter : ATestPresenter<NumbersQuestModel, NumbersAdaptedQue
             clonedList.Add(numb);
         }
         adaptedQuest.RightAnswers.Add(questIndex, clonedList);
-        
+        AdaptedQuestionData.Add(0, adaptedQuest);
     }
 
     public NumbersQuestView GetAdaptedQuest(Action<object> _onAnswerClick)
@@ -44,7 +45,14 @@ class NumbersTestPresenter : ATestPresenter<NumbersQuestModel, NumbersAdaptedQue
 
         if (isRememberScreenState)
         {
-
+            var adaptedQuest = AdaptedQuestionData[0];
+            var (_, questIndex) = testModel.GetCurrentQuestion().Value;
+            
+            var buttons = numbersPanelCreator.CreatePanel(adaptedQuest.RightAnswers[questIndex]);
+            for (int i = 0; i < buttons.Count; i++)
+            {
+                questView.RightAnswers.Add(i, buttons[i]);
+            }
         }
         else
         {

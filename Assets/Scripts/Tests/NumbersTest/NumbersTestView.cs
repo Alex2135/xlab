@@ -13,6 +13,7 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
     public TextMeshProUGUI instructionTMP;
     public Button rememberButton;
     public string screenName;
+    public NumbersPanelCreator numbersPanel;
 
     public IAdaptedQuestToView QuestionToView { get; set; }
     public string ScreenName { get => screenName; set => screenName = value; }
@@ -30,6 +31,10 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
         var data = gameObject.GetComponent<NumbersTestDataProvider>() ?? throw new Exception("Numbers test have no data provider");
         var model = new NumbersTestModel(data);
         presenter = new NumbersTestPresenter(this, model);
+        presenter.isRememberScreenState = true;
+        presenter.numbersPanelCreator = numbersPanel;
+
+        ShowQuestion();
     }
 
     public void ResetView()
@@ -44,7 +49,14 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
 
     public void ShowQuestion()
     {
-        
+        if (presenter.isRememberScreenState)
+        {
+            QuestionToView = presenter.GetAdaptedQuest(obj => { });
+        }
+        else
+        {
+
+        }
     }
 
     public void ShowQuestResult()
