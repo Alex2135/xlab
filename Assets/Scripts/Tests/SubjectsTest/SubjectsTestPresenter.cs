@@ -8,8 +8,10 @@ using UnityEngine.Events;
 
 public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedSubjectsQuestModel>, NewQuestionModel.ITestPresenter<SubjectsQuestView>
 {
+    // Set panels from view
     public SubjectsPanelUIController QuestPanel { get; set; }
     public SubjectsPanelUIController AnswerPanel { get; set; }
+    // States of the quest buttons
     public SubjectsButtonsStates buttonsStates { get; set; }
     public int SelectedQuestId { get; set; }
     protected override Dictionary<int, AdaptedSubjectsQuestModel> AdaptedQuestionData { get; set; }

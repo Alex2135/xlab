@@ -3,28 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using NewQuestionModel;
 
-class NumbersQuestModel : IGenericQuestModel<List<string>, List<string>>
+public class NumbersQuestModel : IGenericQuestModel<List<int>, List<int>>
 {
-    public List<string> Quest { get; set; } = null;
-    public List<string> RightAnswers { get; set; }
-    public List<string> AdditionalAnswers { get; set; } = null;
+    public List<int> Quest { get; set; } = null;
+    public List<int> RightAnswers { get; set; }
+    public List<int> AdditionalAnswers { get; set; } = null;
+
+    public NumbersQuestModel()
+    {
+        RightAnswers = new List<int>();
+    }
 }
 
-class NumbersAdaptedQuestModel : IAdaptedQuestModel<List<string>, List<string>>
+public class NumbersAdaptedQuestModel : IAdaptedQuestModel<List<int>, List<int>>
 {
-    public Dictionary<int, List<string>> Quest { get; set; } = null;
-    public Dictionary<int, List<string>> RightAnswers { get; set; }
-    public Dictionary<int, List<string>> AdditionalAnswers { get; set; } = null;
+    public Dictionary<int, List<int>> Quest { get; set; } = null;
+    public Dictionary<int, List<int>> RightAnswers { get; set; }
+    public Dictionary<int, List<int>> AdditionalAnswers { get; set; } = null;
+
+    public NumbersAdaptedQuestModel()
+    {
+        RightAnswers = new Dictionary<int, List<int>>();
+    }
 }
 
-class NumbersQuestView : IAdaptedQuestToView
+public class NumbersQuestView : IAdaptedQuestToView
 {
     public Dictionary<int, GameObject> Quest { get; set; } = null;
     public Dictionary<int, GameObject> RightAnswers { get; set; }
     public Dictionary<int, GameObject> AdditionalAnswers { get; set; } = null;
+
+    public NumbersQuestView()
+    {
+        RightAnswers = new Dictionary<int, GameObject>();
+    }
 }
 
-class NumbersTestModel : ATestModel<NumbersQuestModel>
+public class NumbersTestModel : ATestModel<NumbersQuestModel>
 {
     private List<NumbersQuestModel> _questions;
     private int PointsPerQuest { get; set; }
