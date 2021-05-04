@@ -101,15 +101,12 @@ public class TestStatsUIController : MonoBehaviour, IScreenController, IDecorabl
         }
         else 
         if (PrevScreen != null)
-            //&& (PrevScreen as IResultableScreen).GetResult() is Result result)
         {
-            Result result = (PrevScreen as IResultableScreen).GetResult() as Result;
+            //Result result = (PrevScreen as IResultableScreen).GetResult() as Result;
             GoOnButtonText.text = "ЗАНОВО";
-            RateText.text = result?.Grade.ToString() ?? "";
-            //var s = (NextScreen as IDecorableScreen).GetBackground().sprite;
-            //Background.sprite = Sprite.Create(s.texture, s.textureRect, new Vector2(0.5f, 0.5f));
-            float percent = (float)result?.TruePositive / result?.QuestsCount * 100 ?? 0;
-            RightAnswersText.text = Mathf.RoundToInt(percent).ToString() + "%";
+            //RateText.text = result?.Grade.ToString() ?? "";
+            //float percent = (float)result?.TruePositive / result?.QuestsCount * 100 ?? 0;
+            //RightAnswersText.text = Mathf.RoundToInt(percent).ToString() + "%";
             TriesText.text = "1";
         }
     }

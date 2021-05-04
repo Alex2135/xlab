@@ -29,13 +29,14 @@ public class NumbersAdaptedQuestModel : IAdaptedQuestModel<List<int>, List<int>>
 
 public class NumbersQuestView : IAdaptedQuestToView
 {
-    public Dictionary<int, GameObject> Quest { get; set; } = null;
+    public Dictionary<int, GameObject> Quest { get; set; }
     public Dictionary<int, GameObject> RightAnswers { get; set; }
     public Dictionary<int, GameObject> AdditionalAnswers { get; set; } = null;
 
     public NumbersQuestView()
     {
         RightAnswers = new Dictionary<int, GameObject>();
+        Quest = new Dictionary<int, GameObject>();
     }
 }
 

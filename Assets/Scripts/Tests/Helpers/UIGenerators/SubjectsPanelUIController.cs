@@ -16,7 +16,7 @@ public class SubjectsPanelUIController : MonoBehaviour
         if (grid == null) throw new NullReferenceException("grid is null");
         if (buttonPrefab == null) throw new NullReferenceException("buttonPrefab is null");
 
-        grid.DestroyChildren();
+        grid.DestroyChildrenObjects();
         var result = new Dictionary<int, GameObject>();
 
         foreach (var data in _adaptedData)
@@ -51,7 +51,7 @@ public static class GameObjectExtension
         return result;
     }
 
-    public static void DestroyChildren(this GameObject _obj)
+    public static void DestroyChildrenObjects(this GameObject _obj)
     {
         var childs = _obj.GetComponentsInChildren<Transform>();
         var objTransform = _obj.GetComponent<Transform>();

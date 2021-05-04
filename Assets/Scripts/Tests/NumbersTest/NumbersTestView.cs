@@ -12,8 +12,13 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
     public TextMeshProUGUI scoreTMP;
     public TextMeshProUGUI instructionTMP;
     public Button rememberButton;
+    public VerticalLayoutGroup verticalGroupRemember;
+    public VerticalLayoutGroup verticalGroupQuestion;
     public string screenName;
     public NumbersPanelCreator numbersPanel;
+    public NumbersPanelCreator inputFieldsPanel;
+    public NumbersInputPanel numbersInputPanel;
+
 
     public IAdaptedQuestToView QuestionToView { get; set; }
     public string ScreenName { get => screenName; set => screenName = value; }
@@ -33,7 +38,15 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
         presenter = new NumbersTestPresenter(this, model);
         presenter.isRememberScreenState = true;
         presenter.numbersPanelCreator = numbersPanel;
+        presenter.inputFieldsCreator = inputFieldsPanel;
+        numbersInputPanel.gameObject.SetActive(false);
 
+        ShowQuestion();
+    }
+
+    public void OnRememberClick()
+    {
+        presenter.isRememberScreenState = false;
         ShowQuestion();
     }
 
@@ -49,13 +62,23 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
 
     public void ShowQuestion()
     {
+        verticalGroupQuestion.gameObject.DestroyChildrenObjects();
+        verticalGroupRemember.gameObject.DestroyChildrenObjects();
         if (presenter.isRememberScreenState)
         {
             QuestionToView = presenter.GetAdaptedQuest(obj => { });
         }
         else
         {
-
+            numbersInputPanel.gameObject.SetActive(true);
+            QuestionToView = presenter.GetAdaptedQuest(obj => { 
+                numbersInputPanel.inputField = (TMP_InputField)obj;
+            });
+            foreach (var keyVal in QuestionToView.Quest)
+            {
+                numbersInputPanel.inputField = keyVal.Value.GetComponentInChildren<TMP_InputField>();
+                break;
+            }
         }
     }
 

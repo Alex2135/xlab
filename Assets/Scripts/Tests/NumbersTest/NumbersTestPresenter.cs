@@ -1,13 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using NewQuestionModel;
-using System;
+
 
 class NumbersTestPresenter : ATestPresenter<NumbersQuestModel, NumbersAdaptedQuestModel>, ITestPresenter<NumbersQuestView>
 {
     protected override Dictionary<int, NumbersAdaptedQuestModel> AdaptedQuestionData { get; set; }
     public NumbersPanelCreator numbersPanelCreator;
+    public NumbersPanelCreator inputFieldsCreator;
     public bool isRememberScreenState;
 
     public NumbersTestPresenter(NewQuestionModel.ITestView _view, ATestModel<NumbersQuestModel> _model)
@@ -42,12 +45,11 @@ class NumbersTestPresenter : ATestPresenter<NumbersQuestModel, NumbersAdaptedQue
     public NumbersQuestView GetAdaptedQuest(Action<object> _onAnswerClick)
     {
         NumbersQuestView questView = new NumbersQuestView();
+        var adaptedQuest = AdaptedQuestionData[0];
+        var (_, questIndex) = testModel.GetCurrentQuestion().Value;
 
         if (isRememberScreenState)
         {
-            var adaptedQuest = AdaptedQuestionData[0];
-            var (_, questIndex) = testModel.GetCurrentQuestion().Value;
-            
             var buttons = numbersPanelCreator.CreatePanel(adaptedQuest.RightAnswers[questIndex]);
             for (int i = 0; i < buttons.Count; i++)
             {
@@ -56,7 +58,13 @@ class NumbersTestPresenter : ATestPresenter<NumbersQuestModel, NumbersAdaptedQue
         }
         else
         {
-
+            var inputFields = inputFieldsCreator.CreatePanel(adaptedQuest.RightAnswers[questIndex]);
+            for (int i = 0; i < inputFields.Count; i++)
+            {
+                var fieldComponent = inputFields[i].GetComponentInChildren<TMP_InputField>();
+                fieldComponent.onSelect.AddListener(val => _onAnswerClick(fieldComponent));
+                questView.Quest.Add(i, inputFields[i]);
+            }
         }
 
         return questView;
