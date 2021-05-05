@@ -1,55 +1,56 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-[Serializable]
-public class UserModel
+class UserModel
 {
-    string userName;
-    List<TestWholeStats> generalStats;
-}
+    private static UserModel _instance;
+    public UserData Data { get; set; }
+    private IUserDataSource _dataSource;
 
-[Serializable]
-public class TestWholeStats
-{
-    static public int pointsPerLevel = 40;
-    public string testName;
-    public int testLevel;
-    public List<TestResultStats> testScores;
-
-    public TestWholeStats()
+    private UserModel(IUserDataSource _source = null) 
     {
-        testScores = new List<TestResultStats>();
+        Data = _source?.LoadUserModel() ?? new UserData();
+        _dataSource = _source;
     }
 
-    public void AddNewScore(int _newScore, int _rightAnswers, int _worongAnswers)
+    public static UserModel GetInstance(IUserDataSource _dataSource = null)
     {
-        int testScore = _newScore;
-        if (testScore > pointsPerLevel * testLevel
-            && testScore >= pointsPerLevel * (testLevel + 1))
+        if (_instance == null)
         {
-            testLevel++;
+            if (_dataSource == null) throw new ArgumentNullException("_dataSource is null");
+            _instance = new UserModel(_dataSource);
         }
-        else 
-        if ( testScore < pointsPerLevel * testLevel 
-            && testLevel > 0)
-        {
-            testLevel--;
-            if (testScore < 0) testScore = 0;
-        }
-        TestResultStats newTry = new TestResultStats() {
-            testScore = testScore,
-            rightAnswers = _rightAnswers,
-            wrongAnswers = _worongAnswers
-        };
-        testScores.Add(newTry);
+        return _instance;
     }
-}
 
-public class TestResultStats
-{
-    public int rightAnswers;
-    public int wrongAnswers;
-    public int testScore;
+    public void SaveData()
+    {
+        _dataSource.SaveUserModel(Data);
+    }
+
+    public void AddTestStats(string _testName)
+    {
+        if (Data.generalStats == null)
+            Data.generalStats = new List<TestWholeStats>();
+        if (!Data.generalStats.Any(test => test.testName == _testName))
+            Data.generalStats.Add(new TestWholeStats(_testName));
+    }
+
+    public void AddNewScore(string _testName, int _newScore, int _rightAnswers, int _worongAnswers)
+    {
+        TestWholeStats selectedTestStats = null;
+        foreach (var testStats in Data.generalStats)
+        {
+            if (testStats.testName == _testName)
+            {
+                selectedTestStats = testStats;
+                break;
+            }
+        }
+        if (selectedTestStats == null) throw new ArgumentException("Invalid _testName argument");
+        selectedTestStats.AddNewScore(_newScore, _rightAnswers, _worongAnswers);
+    }
 }

@@ -56,8 +56,8 @@ public class SubjectsTestModel : ATestModel<SubjectsQuestModel>
         DataSource = _source;
         _questions = (List<SubjectsQuestModel>)_dataSource.GetQuests();
         PointsPerQuest = 10;
-        rightQuestions = 0;
-        wrongQuestions = 0;
+        rightAnswers = 0;
+        wrongAnswers = 0;
         questionIndex = -1;
     }
 
@@ -82,7 +82,7 @@ public class SubjectsTestModel : ATestModel<SubjectsQuestModel>
     public override int GetScore()
     {
         int maxScore = _questions[0].Quest.Count * PointsPerQuest;
-        int result = rightQuestions * PointsPerQuest - wrongQuestions * (int)(1f/4f * maxScore);
+        int result = rightAnswers * PointsPerQuest - wrongAnswers * (int)(1f/4f * maxScore);
         return result;
     }
 
@@ -93,11 +93,22 @@ public class SubjectsTestModel : ATestModel<SubjectsQuestModel>
 
     public override void PenaltieWrongAnswer()
     {
-        wrongQuestions++;
+        wrongAnswers++;
     }
 
     public override void RewardRightAnswer()
     {
-        rightQuestions++;
+        rightAnswers++;
+    }
+
+    public override void RegisterScore()
+    {
+        var user = UserModel.GetInstance();
+        user.AddNewScore(
+            "Subjects", 
+            GetScore(), 
+            rightAnswers, 
+            wrongAnswers
+        );
     }
 }

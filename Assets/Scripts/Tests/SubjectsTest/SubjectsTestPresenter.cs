@@ -172,6 +172,7 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
         LoadedImage.SetTextureToImage(ref qstImg, answerImage);
         testView.SetScore(testModel.GetScore());
         testView.ShowQuestResult();
+        testModel.RegisterScore();
     }
 
     public void view_OnQuestTimeout(object _obj, EventArgs _eventArgs)

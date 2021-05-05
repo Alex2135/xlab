@@ -62,8 +62,8 @@ namespace NewQuestionModel
     /// <typeparam name="QuestModel">Child of IGenericQuestModel</typeparam>
     public abstract class ATestModel<QuestModel>
     {
-        protected int rightQuestions;
-        protected int wrongQuestions;
+        protected int rightAnswers;
+        protected int wrongAnswers;
         protected int questionIndex;
         protected IDataSource<QuestModel> _dataSource;
 
@@ -74,6 +74,7 @@ namespace NewQuestionModel
         public abstract int GetScore();
         public abstract int GetQuestsCount();
         public abstract float GetTestTime();
+        public abstract void RegisterScore();
     }
 
     /// <summary>
@@ -82,7 +83,7 @@ namespace NewQuestionModel
     /// <typeparam name="QuestForView">Child of IAdaptedQuestToView</typeparam>
     public interface ITestPresenter<QuestForView>
     {
-        QuestForView GetAdaptedQuest(Action<object> _onAnswerClick); 
+        QuestForView GetAdaptedQuest(Action<object> _onAnswerAction); 
         void view_OnAnswering(object _userAnswer);
         void view_OnAnswerDid(object _userData);
         void view_OnQuestTimeout(object _obj, EventArgs _eventArgs);

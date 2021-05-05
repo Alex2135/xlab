@@ -168,8 +168,8 @@ namespace NewQuestionModel
 
         public FacesTestModel(IDataSource<FacesQuestModel> _source)
         {
-            rightQuestions = 0;
-            wrongQuestions = 0;
+            rightAnswers = 0;
+            wrongAnswers = 0;
             questionIndex = -1;
             _dataSource = _source;
             _questions = (List<FacesQuestModel>)_source.GetQuests();
@@ -197,7 +197,7 @@ namespace NewQuestionModel
         public override int GetScore()
         {
             int maxScore = _questions.Count * PointsPerQuest;
-            int result = rightQuestions * PointsPerQuest - wrongQuestions * 1 / 4 * maxScore;
+            int result = rightAnswers * PointsPerQuest - wrongAnswers * 1 / 4 * maxScore;
             return result;
         }
 
@@ -208,12 +208,12 @@ namespace NewQuestionModel
 
         public override void PenaltieWrongAnswer()
         {
-            wrongQuestions++;
+            wrongAnswers++;
         }
 
         public override void RewardRightAnswer()
         {
-            rightQuestions++;
+            rightAnswers++;
         }
     }
 }

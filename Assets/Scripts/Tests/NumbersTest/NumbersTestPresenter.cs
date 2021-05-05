@@ -11,7 +11,9 @@ class NumbersTestPresenter : ATestPresenter<NumbersQuestModel, NumbersAdaptedQue
     protected override Dictionary<int, NumbersAdaptedQuestModel> AdaptedQuestionData { get; set; }
     public NumbersPanelCreator numbersPanelCreator;
     public NumbersPanelCreator inputFieldsCreator;
+    public int digitsNumber;
     public bool isRememberScreenState;
+    public Action<object> onFieldSelect;
 
     public NumbersTestPresenter(NewQuestionModel.ITestView _view, ATestModel<NumbersQuestModel> _model)
     {
@@ -42,7 +44,7 @@ class NumbersTestPresenter : ATestPresenter<NumbersQuestModel, NumbersAdaptedQue
         AdaptedQuestionData.Add(0, adaptedQuest);
     }
 
-    public NumbersQuestView GetAdaptedQuest(Action<object> _onAnswerClick)
+    public NumbersQuestView GetAdaptedQuest(Action<object> _onAnswerAction)
     {
         NumbersQuestView questView = new NumbersQuestView();
         var adaptedQuest = AdaptedQuestionData[0];
@@ -52,9 +54,7 @@ class NumbersTestPresenter : ATestPresenter<NumbersQuestModel, NumbersAdaptedQue
         {
             var buttons = numbersPanelCreator.CreatePanel(adaptedQuest.RightAnswers[questIndex]);
             for (int i = 0; i < buttons.Count; i++)
-            {
                 questView.RightAnswers.Add(i, buttons[i]);
-            }
         }
         else
         {
@@ -62,7 +62,32 @@ class NumbersTestPresenter : ATestPresenter<NumbersQuestModel, NumbersAdaptedQue
             for (int i = 0; i < inputFields.Count; i++)
             {
                 var fieldComponent = inputFields[i].GetComponentInChildren<TMP_InputField>();
-                fieldComponent.onSelect.AddListener(val => _onAnswerClick(fieldComponent));
+                fieldComponent.onSelect.AddListener(val => onFieldSelect(fieldComponent));
+                fieldComponent.characterLimit = digitsNumber;
+                int index = i;
+                if (i + 1 < inputFields.Count)
+                {
+                    var nextField = inputFields[i + 1].GetComponentInChildren<TMP_InputField>();
+                    fieldComponent.onValueChanged.AddListener(val => {
+                        if (val.Length == fieldComponent.characterLimit)
+                        {
+                            (int, string) data = (index, val);
+                            _onAnswerAction(data);
+                            nextField.Select();
+                        }
+                    });
+                }
+                else
+                {
+                    fieldComponent.onValueChanged.AddListener(val => {
+                        if (val.Length == fieldComponent.characterLimit)
+                        {
+                            (int, string) data = (index, val);
+                            _onAnswerAction(data);
+                            view_OnAnswerDid(null);
+                        }
+                    });
+                }
                 questView.Quest.Add(i, inputFields[i]);
             }
         }
@@ -75,12 +100,13 @@ class NumbersTestPresenter : ATestPresenter<NumbersQuestModel, NumbersAdaptedQue
         return testModel.GetTestTime();
     }
 
-    public void view_OnAnswerDid(object _userData)
+    public void view_OnAnswering(object _userAnswer)
     {
-
+        (int id, string val) = ((int, string))_userAnswer;
+        Debug.Log($"{id} - {val}");
     }
 
-    public void view_OnAnswering(object _userAnswer)
+    public void view_OnAnswerDid(object _userData)
     {
 
     }

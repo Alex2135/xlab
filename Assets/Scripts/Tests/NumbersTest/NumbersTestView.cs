@@ -36,9 +36,13 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
         var data = gameObject.GetComponent<NumbersTestDataProvider>() ?? throw new Exception("Numbers test have no data provider");
         var model = new NumbersTestModel(data);
         presenter = new NumbersTestPresenter(this, model);
+        presenter.digitsNumber = data.digitsNumber;
         presenter.isRememberScreenState = true;
         presenter.numbersPanelCreator = numbersPanel;
         presenter.inputFieldsCreator = inputFieldsPanel;
+        presenter.onFieldSelect = obj => {
+            numbersInputPanel.inputField = (TMP_InputField)obj;
+        };
         numbersInputPanel.gameObject.SetActive(false);
 
         ShowQuestion();
@@ -71,8 +75,8 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
         else
         {
             numbersInputPanel.gameObject.SetActive(true);
-            QuestionToView = presenter.GetAdaptedQuest(obj => { 
-                numbersInputPanel.inputField = (TMP_InputField)obj;
+            QuestionToView = presenter.GetAdaptedQuest(obj => {
+                presenter.view_OnAnswering(obj);
             });
             foreach (var keyVal in QuestionToView.Quest)
             {

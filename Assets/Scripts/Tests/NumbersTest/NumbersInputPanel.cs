@@ -17,7 +17,8 @@ public class NumbersInputPanel : MonoBehaviour
         }
         else
         {
-            inputField.text += token;
+            if (inputField.text.Length < inputField.characterLimit)
+                inputField.text += token;
         }
     }
 }

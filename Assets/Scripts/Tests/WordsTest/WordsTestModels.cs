@@ -89,13 +89,13 @@ namespace NewQuestionModel
         public int PointsPerQuest { get; set; }
         public IDataSource<WordsQuestModel> DataSource { set => _dataSource = value; }
 
-        public WordsTestModel(IDataSource<WordsQuestModel> _dataSource)
+        public WordsTestModel(IDataSource<WordsQuestModel> _source)
         {
-            DataSource = _dataSource;
+            DataSource = _source;
             _questions = _dataSource.GetQuests() as List<WordsQuestModel>;
             questionIndex = -1;
-            rightQuestions = 0;
-            wrongQuestions = 0;
+            rightAnswers = 0;
+            wrongAnswers = 0;
             PointsPerQuest = 10;
         }
 
@@ -110,19 +110,19 @@ namespace NewQuestionModel
 
         public override void RewardRightAnswer()
         {
-            rightQuestions++;
+            rightAnswers++;
         }
 
         public override void PenaltieWrongAnswer()
         {
-            wrongQuestions++;
-            if (wrongQuestions > 4) wrongQuestions = 4;
+            wrongAnswers++;
+            if (wrongAnswers > 4) wrongAnswers = 4;
         }
 
         public override int GetScore()
         {
             int maxScore = _questions.Count * PointsPerQuest;
-            int result = rightQuestions * PointsPerQuest - wrongQuestions * 1/4 * maxScore;
+            int result = rightAnswers * PointsPerQuest - wrongAnswers * 1/4 * maxScore;
             return result;
         }
 
@@ -143,6 +143,17 @@ namespace NewQuestionModel
         {
             // TODO: Change time
             return 10f;
+        }
+
+        public override void RegisterScore()
+        {
+            var user = UserModel.GetInstance();
+            user.AddNewScore(
+                "Words",
+                GetScore(),
+                rightAnswers,
+                wrongAnswers
+            );
         }
     }
 }

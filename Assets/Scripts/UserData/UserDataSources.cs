@@ -5,8 +5,8 @@ using Newtonsoft.Json;
 
 public interface IUserDataSource
 {
-    void SaveUserModel(UserModel _user);
-    UserModel LoadUserModel();
+    void SaveUserModel(UserData _user);
+    UserData LoadUserModel();
 }
 
 public class FileUserDataSource : IUserDataSource
@@ -18,19 +18,19 @@ public class FileUserDataSource : IUserDataSource
         path = Path.Combine(Application.persistentDataPath, _fileName);
     }
 
-    public UserModel LoadUserModel()
+    public UserData LoadUserModel()
     {
-        UserModel result = null;
+        UserData result = null;
         if ( System.IO.File.Exists(path) )
         {
             string rawFileData = System.IO.File.ReadAllText(path);
-            result = JsonConvert.DeserializeObject<UserModel>(rawFileData);
+            result = JsonConvert.DeserializeObject<UserData>(rawFileData);
         }
 
         return result;
     }
 
-    public void SaveUserModel(UserModel _user)
+    public void SaveUserModel(UserData _user)
     {
         JsonSerializer serializer = new JsonSerializer();
 

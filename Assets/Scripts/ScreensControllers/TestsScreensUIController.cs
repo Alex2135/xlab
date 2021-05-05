@@ -23,6 +23,14 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
     private void Awake()
     {
         ScreenName = "MainScreen";
+        var user = UserModel.GetInstance(new FileUserDataSource("user.netxt"));
+        user.AddTestStats("Math");
+        user.AddTestStats("Faces");
+        user.AddTestStats("Numbers");
+        user.AddTestStats("Subjects");
+        user.AddTestStats("Words");
+        user.SaveData();
+
         _screensController = ScreensUIController.GetInstance();
         _screensController.Add(testsResultUIC);
         _screensController.Add(mathTestUIC);
