@@ -9,7 +9,7 @@ public class FacesTestGeneratedDataProvider : MonoBehaviour, IDataSource<FacesQu
     public List<FacesImage> loadedImages;
     public int questedFaces;
 
-    public IEnumerable<FacesQuestModel> GetQuests()
+    public IEnumerable<FacesQuestModel> GetQuests(TestWholeStats test)
     {
         if (loadedImages == null) throw new NullReferenceException("loadedImages is null");
         if (questedFaces > loadedImages.Count || questedFaces == 0) throw new Exception("Parameter questedFaces invalid");

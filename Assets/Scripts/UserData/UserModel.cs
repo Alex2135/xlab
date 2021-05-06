@@ -26,16 +26,36 @@ class UserModel
         return _instance;
     }
 
+    public static int GetLastScore(string _testName)
+    {
+        var user = GetInstance();
+        var score = user.GetTestData(_testName) ?? throw new ArgumentNullException("Invalid _testName");
+
+        return score.GetLastScore();
+    }
+
     public void SaveData()
     {
         _dataSource.SaveUserModel(Data);
     }
 
-    public void AddTestStats(string _testName)
+    public bool IsTestDataExists(string _testName)
     {
         if (Data.generalStats == null)
-            Data.generalStats = new List<TestWholeStats>();
-        if (!Data.generalStats.Any(test => test.testName == _testName))
+            return false;
+        return Data.generalStats.Any(test => test.testName == _testName);
+    }
+
+    public TestWholeStats GetTestData(string _testName)
+    {
+        TestWholeStats result;
+        result = Data.generalStats.Find(test => test.testName == _testName);
+        return result;
+    }
+
+    public void AddTestStats(string _testName)
+    {
+        if (!IsTestDataExists(_testName))
             Data.generalStats.Add(new TestWholeStats(_testName));
     }
 

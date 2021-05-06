@@ -6,15 +6,16 @@ using NewQuestionModel;
 public class NumbersTestDataProvider : MonoBehaviour, IDataSource<NumbersQuestModel>
 {
     public int digits;
-    public int digitsNumber;
+    public int DigitsNumber { get; set; }
 
-    public IEnumerable<NumbersQuestModel> GetQuests()
+    public IEnumerable<NumbersQuestModel> GetQuests(TestWholeStats test)
     {
+        DigitsNumber = test.testLevel;
         var result = new List<NumbersQuestModel>();
         var quest = new NumbersQuestModel();
         int randomNumber;
-        int minValue = Mathf.RoundToInt(Mathf.Pow(10, digitsNumber - 1));
-        int maxValue = Mathf.RoundToInt(Mathf.Pow(10, digitsNumber)) - 1;
+        int minValue = Mathf.RoundToInt(Mathf.Pow(10, DigitsNumber - 1));
+        int maxValue = Mathf.RoundToInt(Mathf.Pow(10, DigitsNumber)) - 1;
 
         for (int i = 0; i < digits; i++)
         {

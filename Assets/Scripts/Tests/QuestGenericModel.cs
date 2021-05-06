@@ -53,7 +53,7 @@ namespace NewQuestionModel
     /// <typeparam name="QuestModel">Child from IGenericQuestModel</typeparam>
     public interface IDataSource<QuestModel> 
     {
-        IEnumerable<QuestModel> GetQuests();
+        IEnumerable<QuestModel> GetQuests(TestWholeStats _test);
     }
 
     /// <summary>
@@ -71,7 +71,8 @@ namespace NewQuestionModel
         public abstract void PenaltieWrongAnswer();
         public abstract (QuestModel, int)? GetNextQuestion();
         public abstract (QuestModel, int)? GetCurrentQuestion();
-        public abstract int GetScore();
+        public abstract int CalculateScore();
+        public abstract int GetLastScore();
         public abstract int GetQuestsCount();
         public abstract float GetTestTime();
         public abstract void RegisterScore();

@@ -130,11 +130,10 @@
     <Compile Include="Assets\Scripts\Tests\Tests.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsTest\ChooseWords.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsTest\RememberWords.cs" />
-    <Compile Include="Assets\Scripts\Tests\WordsTest\WordsTestModel.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsTest\WordsTestModels.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsTest\WordsTestPresenter.cs" />
+    <Compile Include="Assets\Scripts\UserData\UserData.cs" />
     <Compile Include="Assets\Scripts\UserData\UserDataSources.cs" />
-    <Compile Include="Assets\Scripts\UserData\UserDatal.cs" />
     <Compile Include="Assets\Scripts\UserData\UserModel.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />

@@ -14,6 +14,7 @@ class NumbersTestPresenter : ATestPresenter<NumbersQuestModel, NumbersAdaptedQue
     public int digitsNumber;
     public bool isRememberScreenState;
     public Action<object> onFieldSelect;
+    public Dictionary<int, bool> rightAnswers;
 
     public NumbersTestPresenter(NewQuestionModel.ITestView _view, ATestModel<NumbersQuestModel> _model)
     {
@@ -23,7 +24,9 @@ class NumbersTestPresenter : ATestPresenter<NumbersQuestModel, NumbersAdaptedQue
         testView.OnAnsweringEvent += view_OnAnswering;
         testView.OnQuestTimeoutEvent += view_OnQuestTimeout;
         AdaptedQuestionData = new Dictionary<int, NumbersAdaptedQuestModel>();
+        rightAnswers = new Dictionary<int, bool>();
 
+        testView.SetScore(testModel.GetLastScore());
         GenerateAnswersId();
     }
 
@@ -104,11 +107,24 @@ class NumbersTestPresenter : ATestPresenter<NumbersQuestModel, NumbersAdaptedQue
     {
         (int id, string val) = ((int, string))_userAnswer;
         Debug.Log($"{id} - {val}");
+        var adaptedQuest = AdaptedQuestionData[0];
+        var (_, questIndex) = testModel.GetCurrentQuestion().Value;
+        var result = Convert.ToInt32(val) == adaptedQuest.RightAnswers[questIndex][id];
+        if (!rightAnswers.ContainsKey(id))
+        {
+            rightAnswers[id] = result;
+            if (result)
+                testModel.RewardRightAnswer();
+            else
+                testModel.PenaltieWrongAnswer();
+        }
     }
 
     public void view_OnAnswerDid(object _userData)
     {
-
+        testModel.RegisterScore();
+        testView.SetScore(testModel.GetLastScore());
+        testView.ShowQuestResult();
     }
 
     public void view_OnQuestTimeout(object _obj, EventArgs _eventArgs)

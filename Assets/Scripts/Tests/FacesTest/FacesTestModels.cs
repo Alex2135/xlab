@@ -168,11 +168,13 @@ namespace NewQuestionModel
 
         public FacesTestModel(IDataSource<FacesQuestModel> _source)
         {
+            var user = UserModel.GetInstance();
+            var data = user.GetTestData("Faces");
+            _dataSource = _source;
+            _questions = _source.GetQuests(data) as List<FacesQuestModel>;
             rightAnswers = 0;
             wrongAnswers = 0;
             questionIndex = -1;
-            _dataSource = _source;
-            _questions = (List<FacesQuestModel>)_source.GetQuests();
             PointsPerQuest = 10;
         }
 
@@ -194,7 +196,7 @@ namespace NewQuestionModel
             return _questions.Count;
         }
 
-        public override int GetScore()
+        public override int CalculateScore()
         {
             int maxScore = _questions.Count * PointsPerQuest;
             int result = rightAnswers * PointsPerQuest - wrongAnswers * 1 / 4 * maxScore;
@@ -214,6 +216,22 @@ namespace NewQuestionModel
         public override void RewardRightAnswer()
         {
             rightAnswers++;
+        }
+
+        public override void RegisterScore()
+        {
+            var user = UserModel.GetInstance();
+            user.AddNewScore(
+                "Faces",
+                CalculateScore(),
+                rightAnswers,
+                wrongAnswers
+            );
+        }
+
+        public override int GetLastScore()
+        {
+            return UserModel.GetLastScore("Faces");
         }
     }
 }

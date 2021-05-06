@@ -10,6 +10,7 @@ public class NumbersPanelCreator : MonoBehaviour
     public GameObject VerticalPanel;
     public GameObject HorizontalPanelPrefab;
     public GameObject InnerObjectPrefab;
+    public List<GameObject> CreatedGameObjects { get; set; }
 
     public List<GameObject> CreatePanel(List<int> _data)
     {
@@ -91,6 +92,7 @@ public class NumbersPanelCreator : MonoBehaviour
             if (wordIndex < _data.Count)
                 horizontalPanel = Instantiate(HorizontalPanelPrefab, VerticalPanel.transform);
         }
+        CreatedGameObjects = result;
 
         return result;
     }

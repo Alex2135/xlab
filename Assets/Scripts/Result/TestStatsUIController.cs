@@ -18,10 +18,10 @@ using TMPro;
  */
 public class TestStatsUIController : MonoBehaviour, IScreenController, IDecorableScreen
 {
-    public TextMeshProUGUI RateText;
-    public TextMeshProUGUI TriesText;
-    public TextMeshProUGUI RightAnswersText;
-    public TextMeshProUGUI TestName;
+    public TextMeshProUGUI rateTMP;
+    public TextMeshProUGUI triesTMP;
+    public TextMeshProUGUI rightAnswersTMP;
+    public TextMeshProUGUI testNameTMP;
     public TestsScreensUIController MainScreen;
     public Image Background;
     public Button GoOnButton;
@@ -94,7 +94,7 @@ public class TestStatsUIController : MonoBehaviour, IScreenController, IDecorabl
     {
         if (PrevScreen?.ScreenName == "MainScreen")
         {
-            TestName.text = _screenNameTestName[NextScreen.ScreenName];
+            testNameTMP.text = _screenNameTestName[NextScreen.ScreenName];
             var s = (NextScreen as IDecorableScreen).GetBackground().sprite;
             Background.sprite = Sprite.Create(s.texture, s.textureRect, new Vector2(0.5f, 0.5f));
             GoOnButtonText.text = "НАЧАТЬ";
@@ -107,7 +107,7 @@ public class TestStatsUIController : MonoBehaviour, IScreenController, IDecorabl
             //RateText.text = result?.Grade.ToString() ?? "";
             //float percent = (float)result?.TruePositive / result?.QuestsCount * 100 ?? 0;
             //RightAnswersText.text = Mathf.RoundToInt(percent).ToString() + "%";
-            TriesText.text = "1";
+            triesTMP.text = "1";
         }
     }
 

@@ -64,7 +64,7 @@ namespace NewQuestionModel
 
     public class WordsTestGeneratedDataSource : IDataSource<WordsQuestModel>
     {
-        IEnumerable<WordsQuestModel> IDataSource<WordsQuestModel>.GetQuests()
+        IEnumerable<WordsQuestModel> IDataSource<WordsQuestModel>.GetQuests(TestWholeStats test)
         {
             var result = new List<WordsQuestModel>();
             var quest1 = new WordsQuestModel();
@@ -91,8 +91,10 @@ namespace NewQuestionModel
 
         public WordsTestModel(IDataSource<WordsQuestModel> _source)
         {
+            var user = UserModel.GetInstance();
+            var data = user.GetTestData("Words");
             DataSource = _source;
-            _questions = _dataSource.GetQuests() as List<WordsQuestModel>;
+            _questions = _source.GetQuests(data) as List<WordsQuestModel>;
             questionIndex = -1;
             rightAnswers = 0;
             wrongAnswers = 0;
@@ -119,7 +121,7 @@ namespace NewQuestionModel
             if (wrongAnswers > 4) wrongAnswers = 4;
         }
 
-        public override int GetScore()
+        public override int CalculateScore()
         {
             int maxScore = _questions.Count * PointsPerQuest;
             int result = rightAnswers * PointsPerQuest - wrongAnswers * 1/4 * maxScore;
@@ -141,7 +143,6 @@ namespace NewQuestionModel
 
         public override float GetTestTime()
         {
-            // TODO: Change time
             return 10f;
         }
 
@@ -150,10 +151,15 @@ namespace NewQuestionModel
             var user = UserModel.GetInstance();
             user.AddNewScore(
                 "Words",
-                GetScore(),
+                CalculateScore(),
                 rightAnswers,
                 wrongAnswers
             );
+        }
+
+        public override int GetLastScore()
+        {
+            return UserModel.GetLastScore("Words");
         }
     }
 }

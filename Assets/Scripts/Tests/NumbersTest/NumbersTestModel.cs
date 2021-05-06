@@ -47,8 +47,10 @@ public class NumbersTestModel : ATestModel<NumbersQuestModel>
 
     public NumbersTestModel(IDataSource<NumbersQuestModel> _source)
     {
+        var user = UserModel.GetInstance();
+        var data = user.GetTestData("Numbers");
         _dataSource = _source;
-        _questions = (List<NumbersQuestModel>)_dataSource.GetQuests();
+        _questions = _source.GetQuests(data) as List<NumbersQuestModel>;
         PointsPerQuest = 10;
         rightAnswers = 0;
         wrongAnswers = 0;
@@ -71,9 +73,9 @@ public class NumbersTestModel : ATestModel<NumbersQuestModel>
         return _questions.Count;
     }
 
-    public override int GetScore()
+    public override int CalculateScore()
     {
-        int maxScore = _questions[0].Quest.Count * PointsPerQuest;
+        int maxScore = _questions[0].RightAnswers.Count * PointsPerQuest;
         int result = rightAnswers * PointsPerQuest - wrongAnswers * (int)(1f / 4f * maxScore);
         return result;
     }
@@ -98,9 +100,15 @@ public class NumbersTestModel : ATestModel<NumbersQuestModel>
         var user = UserModel.GetInstance();
         user.AddNewScore(
             "Numbers",
-            GetScore(),
+            CalculateScore(),
             rightAnswers,
             wrongAnswers
         );
+        user.SaveData();
+    }
+
+    public override int GetLastScore()
+    {
+        return UserModel.GetLastScore("Numbers");
     }
 }

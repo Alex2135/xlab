@@ -24,7 +24,7 @@ public class SubjectsTestGeneratedDataProvider : MonoBehaviour, IDataSource<Subj
             answers.GetRange(rightAnswersCount, answers.Count - rightAnswersCount));
     }
 
-    public IEnumerable<SubjectsQuestModel> GetQuests()
+    public IEnumerable<SubjectsQuestModel> GetQuests(TestWholeStats test)
     {
         InitializeAnswers();
         var result = new List<SubjectsQuestModel>();

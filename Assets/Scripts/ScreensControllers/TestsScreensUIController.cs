@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class TestsScreensUIController : MonoBehaviour, IScreenController
 {
@@ -11,6 +12,13 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
     public WordsTestUIController wordsTestUIC;
     public SubjectsTestUIController subjectsTestUIC;
     public NumbersTestUIController numbersTestUIC;
+
+    public TextMeshProUGUI mathScoreTMP;
+    public TextMeshProUGUI facesScoreTMP;
+    public TextMeshProUGUI wordsScoreTMP;
+    public TextMeshProUGUI subjectsScoreTMP;
+    public TextMeshProUGUI numbersScoreTMP;
+    public TextMeshProUGUI wordsColorScoreTMP;
 
     public TestStatsUIController testsResultUIC;
 
@@ -29,6 +37,7 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
         user.AddTestStats("Numbers");
         user.AddTestStats("Subjects");
         user.AddTestStats("Words");
+        user.AddTestStats("WordsColor");
         user.SaveData();
 
         _screensController = ScreensUIController.GetInstance();
@@ -39,6 +48,16 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
         _screensController.Add(subjectsTestUIC);
         _screensController.Add(numbersTestUIC);
         _screensController.DiactivateScreens();
+    }
+
+    void OnEnable()
+    {
+        mathScoreTMP.text = $"{UserModel.GetLastScore("Math")}";
+        facesScoreTMP.text = $"{UserModel.GetLastScore("Faces")}";
+        wordsScoreTMP.text = $"{UserModel.GetLastScore("Words")}";
+        subjectsScoreTMP.text = $"{UserModel.GetLastScore("Subjects")}";
+        numbersScoreTMP.text = $"{UserModel.GetLastScore("Numbers")}";
+        wordsColorScoreTMP.text = $"{UserModel.GetLastScore("WordsColor")}";
     }
 
     public void OnAssignmentTestButtonClick(string _screenName)

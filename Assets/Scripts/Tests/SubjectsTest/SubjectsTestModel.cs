@@ -53,8 +53,10 @@ public class SubjectsTestModel : ATestModel<SubjectsQuestModel>
 
     public SubjectsTestModel(IDataSource<SubjectsQuestModel> _source)
     {
+        var user = UserModel.GetInstance();
+        var data = user.GetTestData("Subjects");
         DataSource = _source;
-        _questions = (List<SubjectsQuestModel>)_dataSource.GetQuests();
+        _questions = _dataSource.GetQuests(data) as List<SubjectsQuestModel>;
         PointsPerQuest = 10;
         rightAnswers = 0;
         wrongAnswers = 0;
@@ -79,7 +81,7 @@ public class SubjectsTestModel : ATestModel<SubjectsQuestModel>
         return _questions.Count;
     }
 
-    public override int GetScore()
+    public override int CalculateScore()
     {
         int maxScore = _questions[0].Quest.Count * PointsPerQuest;
         int result = rightAnswers * PointsPerQuest - wrongAnswers * (int)(1f/4f * maxScore);
@@ -106,9 +108,15 @@ public class SubjectsTestModel : ATestModel<SubjectsQuestModel>
         var user = UserModel.GetInstance();
         user.AddNewScore(
             "Subjects", 
-            GetScore(), 
+            CalculateScore(), 
             rightAnswers, 
             wrongAnswers
         );
+        user.SaveData();
+    }
+
+    public override int GetLastScore()
+    {
+        return UserModel.GetLastScore("Subjects");
     }
 }

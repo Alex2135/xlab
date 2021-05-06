@@ -170,7 +170,7 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
         var qstImg = questButton.ChildByName("ButtonIMG").GetComponent<Image>();
         qstImg.color = new Color(1f, 1f, 1f, 1f);
         LoadedImage.SetTextureToImage(ref qstImg, answerImage);
-        testView.SetScore(testModel.GetScore());
+        testView.SetScore(testModel.CalculateScore());
         testView.ShowQuestResult();
         testModel.RegisterScore();
     }

@@ -18,7 +18,10 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
     public NumbersPanelCreator numbersPanel;
     public NumbersPanelCreator inputFieldsPanel;
     public NumbersInputPanel numbersInputPanel;
-
+    public Button continueButton;
+    public Texture2D rightAnswerState;
+    public Texture2D worngAnswerState;
+    public Texture2D unansweredState;
 
     public IAdaptedQuestToView QuestionToView { get; set; }
     public string ScreenName { get => screenName; set => screenName = value; }
@@ -36,7 +39,7 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
         var data = gameObject.GetComponent<NumbersTestDataProvider>() ?? throw new Exception("Numbers test have no data provider");
         var model = new NumbersTestModel(data);
         presenter = new NumbersTestPresenter(this, model);
-        presenter.digitsNumber = data.digitsNumber;
+        presenter.digitsNumber = data.DigitsNumber;
         presenter.isRememberScreenState = true;
         presenter.numbersPanelCreator = numbersPanel;
         presenter.inputFieldsCreator = inputFieldsPanel;
@@ -44,6 +47,7 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
             numbersInputPanel.inputField = (TMP_InputField)obj;
         };
         numbersInputPanel.gameObject.SetActive(false);
+        continueButton.gameObject.SetActive(false);
 
         ShowQuestion();
     }
@@ -61,7 +65,7 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
 
     public void SetScore(float _score)
     {
-        
+        scoreTMP.text = $"{_score}";
     }
 
     public void ShowQuestion()
@@ -86,8 +90,47 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
         }
     }
 
+    public void OnBackButtonClick()
+    {
+
+    }
+
     public void ShowQuestResult()
     {
-        
+        StartCoroutine(ShowResult());
+    }
+
+    IEnumerator ShowResult()
+    {
+        var objects = inputFieldsPanel.CreatedGameObjects;
+        var answers = presenter.rightAnswers;
+        for (int i = 0; i < objects.Count; i++)
+        {
+            var img = objects[i].GetComponent<Image>();
+            if (answers[i])
+                LoadedImage.SetTextureToImage(ref img, rightAnswerState);
+            else
+                LoadedImage.SetTextureToImage(ref img, worngAnswerState);
+        }
+        //scoreTMP.text = $"";
+
+        yield return new WaitForSecondsRealtime(4f);
+
+        for (int i = 0; i < objects.Count; i++)
+        {
+            var img = objects[i].GetComponent<Image>();
+            LoadedImage.SetTextureToImage(ref img, unansweredState);
+        }
+
+        //if (PrevScreen != null)
+        //{
+        //    var screensController = ScreensUIController.GetInstance();
+        //    screensController.DiactivateScreens();
+        //    screensController.Activate(PrevScreen);
+        //}
+        //else
+        //{
+        //    Debug.Log("Prev screen not set!");
+        //}
     }
 }

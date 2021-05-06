@@ -166,7 +166,7 @@ public class MathTestUIController : MonoBehaviour, IResetableScreenController, I
     public async void Start()
     {
         _nextScreen = _testResultView;
-        (_nextScreen as TestStatsUIController).TestName.text = (_testView.test as Test).name;
+        (_nextScreen as TestStatsUIController).testNameTMP.text = (_testView.test as Test).name;
         _startTime = _testView.GetTime() * 1000;
         _currentTime = _startTime;
 

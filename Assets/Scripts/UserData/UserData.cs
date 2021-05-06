@@ -31,9 +31,18 @@ public class TestWholeStats
         testScores = new List<TestResultStats>();
     }
 
+    public int GetLastScore()
+    {
+        int lastScore = 0;
+        if (testScores.Count > 0)
+            lastScore = testScores[testScores.Count - 1].testScore;
+        return lastScore;
+    }
+
     public void AddNewScore(int _newScore, int _rightAnswers, int _worongAnswers)
     {
-        int testScore = _newScore;
+        int lastScore = GetLastScore();
+        int testScore = _newScore + lastScore;
         if (testScore > pointsPerLevel * testLevel
             && testScore >= pointsPerLevel * (testLevel + 1))
         {
