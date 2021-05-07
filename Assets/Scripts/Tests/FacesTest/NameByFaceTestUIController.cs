@@ -229,7 +229,7 @@ public class NameByFaceTestUIController : MonoBehaviour, IResetableScreenControl
     }
 }
 
-public class NameByFaceTestView : ITestView, ITest
+public class NameByFaceTestView : ITestScreenController, ITest
 {
     // Test info
     public ITest test { get; set; } // Casted test object

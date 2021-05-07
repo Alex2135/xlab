@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using NewQuestionModel;
 
-public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionModel.ITestView
+public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionModel.ITestView, NewQuestionModel.ITestScreenController
 {
     public string screenName;
     public TextMeshProUGUI instructTMP;
@@ -26,6 +26,9 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }
     public IAdaptedQuestToView QuestionToView { get; set; }
+
+    public string TestName => "Subjects";
+
     private SubjectsTestPresenter presenter;
     private Timer timer;
 

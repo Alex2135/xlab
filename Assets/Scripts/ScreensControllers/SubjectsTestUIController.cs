@@ -19,7 +19,7 @@ public class SubjectsTestUIController : MonoBehaviour, IScreenController, IDecor
         return background;
     }
 
-    void Awake()
+    void OnEnable()
     {
         _screensController = ScreensUIController.GetInstance();
         _screensController.Add(view);

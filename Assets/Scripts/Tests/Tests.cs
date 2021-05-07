@@ -49,7 +49,7 @@ class QuestImagesMapper
 }
 
 
-public interface ITestView
+public interface ITestScreenController
 {
     QuestionView CurrentQuestionView { get; set; }
     ITest test { get; set; }

@@ -207,7 +207,7 @@ public class FaceByNameTestUIController : MonoBehaviour, IResetableScreenControl
 }
 
 
-public class FaceByNameTestView : ITestView, ITest
+public class FaceByNameTestView : ITestScreenController, ITest
 {
     public QuestionView CurrentQuestionView { get; set; }
     public ITest test { get; set; }

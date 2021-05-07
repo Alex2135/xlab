@@ -9,7 +9,7 @@ public class WordsTestUIController : MonoBehaviour, IScreenController, IDecorabl
     public Image Background;
     public string _screenName;
     public RememberWords rememberWordsUIC;
-    public TestStatsUIController testResultView;
+    public TestStatsUIController testStatsView;
 
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }
@@ -43,10 +43,10 @@ public class WordsTestUIController : MonoBehaviour, IScreenController, IDecorabl
         }
     }
 
-    void Awake()
+    void OnEnable()
     {
-        rememberWordsUIC.NextScreen = testResultView;
-
+        rememberWordsUIC.PrevScreen = testStatsView;
+        rememberWordsUIC.NextScreen = testStatsView;
         var screensController = ScreensUIController.GetInstance();
         screensController.Add(rememberWordsUIC);
         screensController.Activate(rememberWordsUIC, null, false);

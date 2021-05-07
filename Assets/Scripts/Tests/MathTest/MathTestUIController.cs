@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Newtonsoft.Json;
+using NewQuestionModel;
 
-public class MathTestUIController : MonoBehaviour, IResetableScreenController, IDecorableScreen, IResultableScreen
+public class MathTestUIController : MonoBehaviour, IResetableScreenController, IDecorableScreen, NewQuestionModel.ITestScreenController
 {
     // Screen objects
     public QuestionView _currentQuestionView;
@@ -44,12 +45,7 @@ public class MathTestUIController : MonoBehaviour, IResetableScreenController, I
         set { _screenName = value; }
     }
 
-    public object GetResult()
-    {
-        var result = _testView.ResultScore;
-        result.ResultTime = _currentTime;
-        return result;
-    }
+    public string TestName => "Math";
 
     public void OnBackClick()
     {

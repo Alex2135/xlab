@@ -98,6 +98,7 @@
     <Compile Include="Assets\Scripts\ScreensControllers\SubjectsTestUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\TestResultController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\TestsScreensUIController.cs" />
+    <Compile Include="Assets\Scripts\ScreensControllers\WordsColorTestUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\WordsTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\FacesTest\FaceByNameTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\FacesTest\FacesTestModels.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\FacesTestGeneratedDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\NumbersTestDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\SubjectsTestGeneratedDataProvider.cs" />
+    <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\WordsColorTestGeneratedDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\RandomList.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\ShowQuestResult.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\Timer.cs" />
@@ -128,6 +130,9 @@
     <Compile Include="Assets\Scripts\Tests\SubjectsTest\SubjectsTestPresenter.cs" />
     <Compile Include="Assets\Scripts\Tests\SubjectsTest\SubjectsTestView.cs" />
     <Compile Include="Assets\Scripts\Tests\Tests.cs" />
+    <Compile Include="Assets\Scripts\Tests\WordsColorTest\WordsColorTestModels.cs" />
+    <Compile Include="Assets\Scripts\Tests\WordsColorTest\WordsColorTestPresenter.cs" />
+    <Compile Include="Assets\Scripts\Tests\WordsColorTest\WordsColorTestView.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsTest\ChooseWords.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsTest\RememberWords.cs" />
     <Compile Include="Assets\Scripts\Tests\WordsTest\WordsTestModels.cs" />

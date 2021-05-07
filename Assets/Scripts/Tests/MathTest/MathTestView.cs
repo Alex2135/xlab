@@ -8,7 +8,7 @@ using TMPro;
 /*
  * 
  */
-public class MathTestView : ITestView, ITest, IRewarder
+public class MathTestView : ITestScreenController, ITest, IRewarder
 {
     private Test _test;
     public QuestionView CurrentQuestionView { get; set; }

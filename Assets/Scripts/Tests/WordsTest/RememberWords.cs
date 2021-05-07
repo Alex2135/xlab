@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class RememberWords : MonoBehaviour, IScreenController, NewQuestionModel.ITestView
+public class RememberWords : MonoBehaviour, IScreenController, NewQuestionModel.ITestView, NewQuestionModel.ITestScreenController
 {
     public VerticalLayoutGroup verticalLayout;
     public TextMeshProUGUI scoreTMP;
@@ -22,6 +22,8 @@ public class RememberWords : MonoBehaviour, IScreenController, NewQuestionModel.
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }
     public IAdaptedQuestToView QuestionToView { get; set; }
+
+    public string TestName { get; private set; } = "Words";
 
     public event Action<object> OnAnsweringEvent;
     public event Action<object> OnAnswerDidEvent;
@@ -45,6 +47,20 @@ public class RememberWords : MonoBehaviour, IScreenController, NewQuestionModel.
         isAnswered = false;
 
         ShowQuestion();
+    }
+
+    public void OnBackButtonClick()
+    {
+        if (PrevScreen != null)
+        {
+            var screensController = ScreensUIController.GetInstance();
+            screensController.DiactivateScreens();
+            screensController.Activate(PrevScreen);
+        }
+        else
+        {
+            Debug.Log("Prev screen not set!");
+        }
     }
 
     void Update()

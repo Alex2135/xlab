@@ -15,6 +15,15 @@ public interface IResetableScreenController: IScreenController
     void ResetScreenState();
 }
 
+namespace NewQuestionModel
+{
+
+    public interface ITestScreenController
+    {
+        string TestName { get; }
+    }
+}
+
 interface IResultableScreen
 {
     object GetResult();

@@ -39,7 +39,7 @@ public class FacesTestUIController : MonoBehaviour, IScreenController, IDecorabl
      * проведения.
      */
 
-    void Awake()
+    void OnEnable()
     {
         // TODO: Get data from model and throw them to presenters by scheme
         model = new FacesTestModel(gameObject.GetComponent<FacesTestGeneratedDataProvider>());

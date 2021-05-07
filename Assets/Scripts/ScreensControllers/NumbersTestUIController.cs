@@ -20,11 +20,12 @@ public class NumbersTestUIController : MonoBehaviour, IScreenController, IDecora
         return baackground;
     }
 
-    void Awake()
+    void OnEnable()
     {
         _screensController = ScreensUIController.GetInstance();
         _screensController.Add(view);
-        view.PrevScreen = this;
+        view.PrevScreen = PrevScreen;
+        view.NextScreen = _screensController.GetScreenByName("TestResultScreen");
 
         _screensController.Activate(view, null, false);
     }

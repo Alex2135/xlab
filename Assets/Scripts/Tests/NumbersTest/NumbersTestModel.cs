@@ -43,7 +43,7 @@ public class NumbersQuestView : IAdaptedQuestToView
 public class NumbersTestModel : ATestModel<NumbersQuestModel>
 {
     private List<NumbersQuestModel> _questions;
-    private int PointsPerQuest { get; set; }
+    private int PointsPerQuest { get; set; } = 10;
 
     public NumbersTestModel(IDataSource<NumbersQuestModel> _source)
     {
@@ -51,7 +51,6 @@ public class NumbersTestModel : ATestModel<NumbersQuestModel>
         var data = user.GetTestData("Numbers");
         _dataSource = _source;
         _questions = _source.GetQuests(data) as List<NumbersQuestModel>;
-        PointsPerQuest = 10;
         rightAnswers = 0;
         wrongAnswers = 0;
         questionIndex = -1;

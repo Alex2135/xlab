@@ -6,8 +6,8 @@ using NewQuestionModel;
 using System;
 using TMPro;
 
-public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScreenController
-{
+public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScreenController, NewQuestionModel.ITestScreenController
+{ 
     public TextMeshProUGUI timeTMP;
     public TextMeshProUGUI scoreTMP;
     public TextMeshProUGUI instructionTMP;
@@ -25,8 +25,19 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
 
     public IAdaptedQuestToView QuestionToView { get; set; }
     public string ScreenName { get => screenName; set => screenName = value; }
-    public IScreenController NextScreen { get; set; }
+
+    private IScreenController _nextScreen;
+    public IScreenController NextScreen
+    {
+        get { return _nextScreen; }
+        set
+        {
+            value.PrevScreen = this;
+            _nextScreen = value;
+        }
+    }
     public IScreenController PrevScreen { get; set; }
+    public string TestName { get; private set; } = "Numbers";
 
     public event Action<object> OnAnsweringEvent;
     public event Action<object> OnAnswerDidEvent;
@@ -92,7 +103,16 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
 
     public void OnBackButtonClick()
     {
-
+        if (PrevScreen != null)
+        {
+            var screensController = ScreensUIController.GetInstance();
+            screensController.DiactivateScreens();
+            screensController.Activate(PrevScreen);
+        }
+        else
+        {
+            Debug.Log("Prev screen not set!");
+        }
     }
 
     public void ShowQuestResult()
@@ -122,15 +142,20 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
             LoadedImage.SetTextureToImage(ref img, unansweredState);
         }
 
-        //if (PrevScreen != null)
-        //{
-        //    var screensController = ScreensUIController.GetInstance();
-        //    screensController.DiactivateScreens();
-        //    screensController.Activate(PrevScreen);
-        //}
-        //else
-        //{
-        //    Debug.Log("Prev screen not set!");
-        //}
+        if (NextScreen != null)
+        {
+            var screensController = ScreensUIController.GetInstance();
+            screensController.DiactivateScreens();
+            screensController.Activate(NextScreen);
+        }
+        else
+        {
+            Debug.Log("Next screen not set!");
+        }
+    }
+
+    public object GetResult()
+    {
+        throw new NotImplementedException();
     }
 }

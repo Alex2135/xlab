@@ -20,7 +20,8 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
     public TextMeshProUGUI numbersScoreTMP;
     public TextMeshProUGUI wordsColorScoreTMP;
 
-    public TestStatsUIController testsResultUIC;
+    public TestResultController testResultUIC;
+    public TestStatsUIController testsStatsUIC;
 
     private ScreensUIController _screensController;
 
@@ -41,7 +42,8 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
         user.SaveData();
 
         _screensController = ScreensUIController.GetInstance();
-        _screensController.Add(testsResultUIC);
+        _screensController.Add(testsStatsUIC);
+        _screensController.Add(testResultUIC);
         _screensController.Add(mathTestUIC);
         _screensController.Add(facesTestUIC);
         _screensController.Add(wordsTestUIC);
