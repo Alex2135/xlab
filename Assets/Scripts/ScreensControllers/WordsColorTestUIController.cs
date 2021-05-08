@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-class WordsColorTestUIController : MonoBehaviour, IScreenController, IDecorableScreen
+public class WordsColorTestUIController : MonoBehaviour, IScreenController, IDecorableScreen
 {
     public Image background;
     public string screenName;

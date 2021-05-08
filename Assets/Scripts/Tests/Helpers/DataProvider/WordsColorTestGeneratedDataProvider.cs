@@ -12,11 +12,23 @@ public class WordsColorTestGeneratedDataProvider : MonoBehaviour, IDataSource<Wo
     {
         var result = new List<WordsColorQuestModel>();
 
-        colorUnits = colorUnits.Shuffle();
+        var shuffledUnits = new ColorUnit[colorUnits.Count]; // For quests
+        colorUnits.Shuffle().CopyTo(shuffledUnits); // For answers
 
         for (int i = 0; i < questsCount; i++)
         {
-            // TODO: form colors quests
+            colorUnits.Shuffle();
+            var newQuest = new WordsColorQuestModel();
+            var quest = new ColorUnit()
+            {
+                color = colorUnits[0].color,
+                colorName = shuffledUnits[i].colorName
+            };
+            newQuest.Quest.Add(quest);
+            newQuest.RightAnswers.Add(colorUnits[0]);
+            newQuest.AdditionalAnswers.AddRange(
+                colorUnits.GetRange(1, colorUnits.Count - 1));
+            result.Add(newQuest);
         }
 
         return result;

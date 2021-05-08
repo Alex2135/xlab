@@ -12,6 +12,7 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
     public WordsTestUIController wordsTestUIC;
     public SubjectsTestUIController subjectsTestUIC;
     public NumbersTestUIController numbersTestUIC;
+    public WordsColorTestUIController wordsColorTestUIC;
 
     public TextMeshProUGUI mathScoreTMP;
     public TextMeshProUGUI facesScoreTMP;
@@ -44,11 +45,14 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
         _screensController = ScreensUIController.GetInstance();
         _screensController.Add(testsStatsUIC);
         _screensController.Add(testResultUIC);
+
         _screensController.Add(mathTestUIC);
         _screensController.Add(facesTestUIC);
         _screensController.Add(wordsTestUIC);
         _screensController.Add(subjectsTestUIC);
         _screensController.Add(numbersTestUIC);
+        _screensController.Add(wordsColorTestUIC);
+
         _screensController.DiactivateScreens();
     }
 

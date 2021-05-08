@@ -17,6 +17,13 @@ public class WordsColorQuestModel : IGenericQuestModel<List<ColorUnit>, List<Col
     public List<ColorUnit> Quest { get; set; }
     public List<ColorUnit> RightAnswers { get; set; }
     public List<ColorUnit> AdditionalAnswers { get; set; }
+
+    public WordsColorQuestModel()
+    {
+        Quest = new List<ColorUnit>();
+        RightAnswers = new List<ColorUnit>();
+        AdditionalAnswers = new List<ColorUnit>();
+    }
 }
 
 public class AdaptedWordsColorQuestModel : IAdaptedQuestModel<List<ColorUnit>, List<ColorUnit>>
