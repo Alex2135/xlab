@@ -31,6 +31,13 @@ public class AdaptedWordsColorQuestModel : IAdaptedQuestModel<List<ColorUnit>, L
     public Dictionary<int, List<ColorUnit>> Quest { get; set; }
     public Dictionary<int, List<ColorUnit>> RightAnswers { get; set; }
     public Dictionary<int, List<ColorUnit>> AdditionalAnswers { get; set; }
+
+    public AdaptedWordsColorQuestModel()
+    {
+        Quest = new Dictionary<int, List<ColorUnit>>();
+        RightAnswers = new Dictionary<int, List<ColorUnit>>();
+        AdditionalAnswers = new Dictionary<int, List<ColorUnit>>();
+    }
 }
 
 public class WordsColorAdaptedQuestToView : IAdaptedQuestToView
@@ -38,6 +45,13 @@ public class WordsColorAdaptedQuestToView : IAdaptedQuestToView
     public Dictionary<int, GameObject> Quest { get; set; }
     public Dictionary<int, GameObject> RightAnswers { get; set; }
     public Dictionary<int, GameObject> AdditionalAnswers { get; set; }
+
+    public WordsColorAdaptedQuestToView()
+    {
+        Quest = new Dictionary<int, GameObject>();
+        RightAnswers = new Dictionary<int, GameObject>();
+        AdditionalAnswers = new Dictionary<int, GameObject>();
+    }
 }
 
 public class WordsColorTestModel : ATestModel<WordsColorQuestModel>
@@ -65,7 +79,9 @@ public class WordsColorTestModel : ATestModel<WordsColorQuestModel>
 
     public override (WordsColorQuestModel, int)? GetCurrentQuestion()
     {
-        return (_questions[questionIndex], questionIndex);
+        if (questionIndex < _questions.Count)
+            return (_questions[questionIndex], questionIndex);
+        return null;
     }
 
     public override int GetLastScore()

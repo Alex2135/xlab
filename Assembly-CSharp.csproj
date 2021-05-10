@@ -115,6 +115,7 @@
     <Compile Include="Assets\Scripts\Tests\Helpers\Timer.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\UIGenerators\NumbersPanelCreator.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\UIGenerators\SubjectsPanelUIController.cs" />
+    <Compile Include="Assets\Scripts\Tests\Helpers\UIGenerators\WordsColorUIGenerator.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\UIGenerators\WordsPanel.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\UIGenerators\WordsPanelUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\MathTest\MathTestUIController.cs" />
