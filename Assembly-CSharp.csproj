@@ -64,6 +64,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\NatSuite\Examples\Giffy\Giffy.cs" />
+    <Compile Include="Assets\NatSuite\Examples\HotMic\ClipRecorder.cs" />
+    <Compile Include="Assets\NatSuite\Examples\HotMic\HotMic.cs" />
+    <Compile Include="Assets\NatSuite\Examples\HotMic\MicrophoneButton.cs" />
+    <Compile Include="Assets\NatSuite\Examples\Karaoke\Karaoke.cs" />
+    <Compile Include="Assets\NatSuite\Examples\MiniCam\MiniCam.cs" />
+    <Compile Include="Assets\NatSuite\Examples\ReplayCam\CameraPreview.cs" />
+    <Compile Include="Assets\NatSuite\Examples\ReplayCam\RecordButton.cs" />
+    <Compile Include="Assets\NatSuite\Examples\ReplayCam\ReplayCam.cs" />
+    <Compile Include="Assets\NatSuite\Examples\WebCam\WebCam.cs" />
+    <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\AudioDevice.cs" />
+    <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\CameraDevice.cs" />
+    <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\CameraDeviceTypes.cs" />
+    <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\IMediaDevice.cs" />
+    <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\Internal\Bridge.cs" />
+    <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\Internal\NativeAudioDevice.cs" />
+    <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\Internal\NativeCameraDevice.cs" />
+    <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\MediaDeviceCriteria.cs" />
+    <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\MediaDevicePermissions.cs" />
+    <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\MediaDeviceQuery.cs" />
+    <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\MixerDevice.cs" />
+    <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\WebCameraDevice.cs" />
+    <Compile Include="Assets\NatSuite\VideoRecorder.cs" />
     <Compile Include="Assets\RestClient\DemoScene\Scripts\MainScript.cs" />
     <Compile Include="Assets\RestClient\DemoScene\Scripts\Model\Photo.cs" />
     <Compile Include="Assets\RestClient\DemoScene\Scripts\Model\Post.cs" />
@@ -147,6 +170,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\NatSuite\Examples\ReplayCam\UI\CameraPreview.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
@@ -742,6 +766,10 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{EF538421-D193-8D2C-6859-912FEE6D66D3}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
+    <ProjectReference Include="NatSuite.Recorders.csproj">
+      <Project>{EEFC703E-7377-B43E-EE0E-3937371F49A9}</Project>
+      <Name>NatSuite.Recorders</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

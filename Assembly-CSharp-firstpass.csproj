@@ -651,7 +651,12 @@
       <HintPath>D:/Disk D/Programms from me/Unity/xlab/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup></ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="NatSuite.Recorders.csproj">
+      <Project>{EEFC703E-7377-B43E-EE0E-3937371F49A9}</Project>
+      <Name>NatSuite.Recorders</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
