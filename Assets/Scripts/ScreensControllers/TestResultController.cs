@@ -24,6 +24,7 @@ public class TestResultController : MonoBehaviour, IScreenController
         levelTMP.text = $"Вы успешно достигли {testData.testLevel} уровня";
 
         LoadedImage.SetTextureToImage(ref background, img.sprite.texture);
+
     }
 
     public void OnContinueClick()
