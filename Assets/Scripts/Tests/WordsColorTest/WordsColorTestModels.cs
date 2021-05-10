@@ -72,7 +72,7 @@ public class WordsColorTestModel : ATestModel<WordsColorQuestModel>
 
     public override int CalculateScore()
     {
-        int maxScore = _questions[0].Quest.Count * PointsPerQuest;
+        int maxScore = _questions.Count * PointsPerQuest;
         int result = rightAnswers * PointsPerQuest - wrongAnswers * (int)(1f / 4f * maxScore);
         return result;
     }

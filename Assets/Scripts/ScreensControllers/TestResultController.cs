@@ -25,4 +25,11 @@ public class TestResultController : MonoBehaviour, IScreenController
 
         LoadedImage.SetTextureToImage(ref background, img.sprite.texture);
     }
+
+    public void OnContinueClick()
+    {
+        var screenController = ScreensUIController.GetInstance();
+        screenController.DiactivateScreens();
+        screenController.Activate(PrevScreen.PrevScreen);
+    }
 }

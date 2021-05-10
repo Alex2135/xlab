@@ -16,7 +16,16 @@ public class WordsColorTestView : MonoBehaviour, IScreenController, NewQuestionM
     public GameObject wrongAnswerSign;
 
     public string ScreenName { get; set; }
-    public IScreenController NextScreen { get; set; }
+    private IScreenController _nextScreen;
+    public IScreenController NextScreen
+    {
+        get { return _nextScreen; }
+        set
+        {
+            value.PrevScreen = this;
+            _nextScreen = value;
+        }
+    }
     public IScreenController PrevScreen { get; set; }
     public IAdaptedQuestToView QuestionToView { get; set; }
     public string TestName => "WordsColor";
