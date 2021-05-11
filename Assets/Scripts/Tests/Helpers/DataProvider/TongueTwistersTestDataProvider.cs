@@ -18,8 +18,6 @@ public class TongueTwistersTestDataProvider : MonoBehaviour, IDataSource<TongueT
 
         foreach (var questText in tongueTwisters)
         {
-            // « Интервьюер интервента 
-            // интервьюировал »
             var quest = new TongueTwistersQuestModel();
             quest.Quest.Add($"« {questText} »");
             result.Add(quest);

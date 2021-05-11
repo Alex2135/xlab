@@ -3,13 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NewQuestionModel;
+using TMPro;
 
 public class TongueTwistersTestView : MonoBehaviour, IScreenController, NewQuestionModel.ITestView
 {
+    public TextMeshProUGUI scoreTMP;
+    public TextMeshProUGUI questTMP;
+    public GameObject sendButton;
     public string screenName;
 
     public string ScreenName { get => screenName; set => screenName = value; }
-    public IScreenController NextScreen { get; set; }
+    private IScreenController _nextScreen;
+    public IScreenController NextScreen
+    {
+        get { return _nextScreen; }
+        set
+        {
+            value.PrevScreen = this;
+            _nextScreen = value;
+        }
+    }
     public IScreenController PrevScreen { get; set; }
     public IAdaptedQuestToView QuestionToView { get; set; }
 
@@ -21,8 +34,12 @@ public class TongueTwistersTestView : MonoBehaviour, IScreenController, NewQuest
 
     void OnEnable()
     {
-        var model = new TongueTwistersTestModel(null);
+        var data = gameObject.GetComponent<TongueTwistersTestDataProvider>() ?? 
+            throw new Exception("No data provider for tongue twisters test");
+        var model = new TongueTwistersTestModel(data);
         _presenter = new TongueTwistersTestPresenter(null, this);
+
+        ShowQuestion();
     }
 
     public void ResetView()
@@ -32,7 +49,7 @@ public class TongueTwistersTestView : MonoBehaviour, IScreenController, NewQuest
 
     public void SetScore(float _score)
     {
-        
+        scoreTMP.text = $"{_score}";
     }
 
     public void ShowQuestion()

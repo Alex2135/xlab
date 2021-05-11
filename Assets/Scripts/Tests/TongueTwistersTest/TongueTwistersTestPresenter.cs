@@ -17,6 +17,7 @@ public class TongueTwistersTestPresenter :
         testView.OnAnsweringEvent += view_OnAnswering;
         testView.OnAnswerDidEvent += view_OnAnswerDid;
         testView.OnQuestTimeoutEvent += view_OnQuestTimeout;
+        testView.SetScore(UserModel.GetLastScore("TongueTwisters"));
     }
 
     protected override void GenerateAnswersId()

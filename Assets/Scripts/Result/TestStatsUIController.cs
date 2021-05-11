@@ -54,6 +54,7 @@ public class TestStatsUIController : MonoBehaviour, IScreenController, IDecorabl
         _screenNameTestName.Add("SubjectsTest", "Предметы");
         _screenNameTestName.Add("NumbersTest", "Цифры");
         _screenNameTestName.Add("WordsColorTest", "Цвет слов");
+        _screenNameTestName.Add("TongueTwistersTest", "Скороговорки");
     }
 
     void Start()
