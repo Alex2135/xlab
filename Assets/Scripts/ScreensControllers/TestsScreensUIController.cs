@@ -52,7 +52,6 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
         _screensController.Add(mathTestUIC);
         _screensController.Add(facesTestUIC);
         _screensController.Add(wordsTestUIC);
-        _screensController.Add(subjectsTestUIC);
         _screensController.Add(numbersTestUIC);
         _screensController.Add(wordsColorTestUIC);
         _screensController.Add(tongueTwistersUIC);
