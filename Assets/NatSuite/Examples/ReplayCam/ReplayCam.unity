@@ -371,7 +371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoWidth: 720
   videoHeight: 1280
-  recordMicrophone: 0
+  recordMicrophone: 1
 --- !u!4 &1112947564
 Transform:
   m_ObjectHideFlags: 0

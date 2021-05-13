@@ -10,7 +10,8 @@ namespace NatSuite.Examples.Components {
     using UnityEngine.Android;
     using UnityEngine.UI;
 
-	[RequireComponent(typeof(RawImage), typeof(AspectRatioFitter))]
+
+    [RequireComponent(typeof(RawImage), typeof(AspectRatioFitter))]
     public class CameraPreview : MonoBehaviour {
 
         public WebCamTexture cameraTexture { get; private set; }

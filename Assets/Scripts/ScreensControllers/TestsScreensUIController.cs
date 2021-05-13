@@ -7,6 +7,7 @@ using TMPro;
 
 public class TestsScreensUIController : MonoBehaviour, IScreenController
 {
+    [Header("Tests UI Controllers")]
     public MathTestUIController mathTestUIC;
     public FacesTestUIController facesTestUIC;
     public WordsTestUIController wordsTestUIC;
@@ -15,6 +16,7 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
     public WordsColorTestUIController wordsColorTestUIC;
     public TongueTwistersTestUIController tongueTwistersUIC;
 
+    [Header("Tests UI scores")]
     public TextMeshProUGUI mathScoreTMP;
     public TextMeshProUGUI facesScoreTMP;
     public TextMeshProUGUI wordsScoreTMP;
@@ -23,6 +25,7 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
     public TextMeshProUGUI wordsColorScoreTMP;
     public TextMeshProUGUI tongueTwistersScoreTMP;
 
+    [Header("Test results views")]
     public TestResultController testResultUIC;
     public TestStatsUIController testsStatsUIC;
 
@@ -52,6 +55,7 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
         _screensController.Add(mathTestUIC);
         _screensController.Add(facesTestUIC);
         _screensController.Add(wordsTestUIC);
+        _screensController.Add(subjectsTestUIC);
         _screensController.Add(numbersTestUIC);
         _screensController.Add(wordsColorTestUIC);
         _screensController.Add(tongueTwistersUIC);
