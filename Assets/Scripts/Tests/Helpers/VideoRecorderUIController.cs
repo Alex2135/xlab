@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,7 @@ public class VideoRecorderUIController: MonoBehaviour
     [Header("Recording events")]
     public UnityEvent OnRecordStart;
     public UnityEvent OnRecordStop;
+    public UnityEvent OnDeleteRecord;
 
     [Header("Play events")]
     public UnityEvent OnPlayStart;
@@ -44,15 +46,17 @@ public class VideoRecorderUIController: MonoBehaviour
         set
         {
             _isPlay = value;
-            if (_isPlay) OnPlayStart?.Invoke();
-            else OnPlayStop?.Invoke();
+            if (!_isPlay) OnPlayStop?.Invoke();
         }
     }
 
+    public string GetRecordPath => _videoFilePath;
+    private string _videoFilePath = "";
+
     private void OnEnable()
     {
-        IsRecord = false;
-        IsPlay = false;
+        _isRecord = false;
+        _isPlay = false;
         recordButton.SetActive(true);
         playButton.SetActive(false);
         deleteButton.SetActive(false);
@@ -63,6 +67,7 @@ public class VideoRecorderUIController: MonoBehaviour
 
         var buttonImg = recordButton.GetComponent<Image>();
         LoadedImage.SetTextureToImage(ref buttonImg, recordButtonState);
+        VideoRecorder.FileSaved += path => _videoFilePath = path;
     }
 
     public void OnRecordButtonClick()
@@ -116,6 +121,11 @@ public class VideoRecorderUIController: MonoBehaviour
         deleteButton.SetActive(false);
         sendButton.SetActive(false);
         IsPlay = false;
+        if (System.IO.File.Exists(_videoFilePath))
+        {
+            System.IO.File.Delete(_videoFilePath);
+            OnDeleteRecord?.Invoke();
+        }
     }
 
     private void Update()
