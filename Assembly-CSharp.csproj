@@ -86,7 +86,6 @@
     <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\MediaDeviceQuery.cs" />
     <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\MixerDevice.cs" />
     <Compile Include="Assets\NatSuite\Plugins\Managed\Devices\WebCameraDevice.cs" />
-    <Compile Include="Assets\NatSuite\VideoRecorder.cs" />
     <Compile Include="Assets\RestClient\DemoScene\Scripts\MainScript.cs" />
     <Compile Include="Assets\RestClient\DemoScene\Scripts\Model\Photo.cs" />
     <Compile Include="Assets\RestClient\DemoScene\Scripts\Model\Post.cs" />
@@ -135,6 +134,10 @@
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\SubjectsTestGeneratedDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\TongueTwistersTestDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\WordsColorTestGeneratedDataProvider.cs" />
+    <Compile Include="Assets\Scripts\Tests\Helpers\MediaRecorders\IRecorder.cs" />
+    <Compile Include="Assets\Scripts\Tests\Helpers\MediaRecorders\RecorderStates.cs" />
+    <Compile Include="Assets\Scripts\Tests\Helpers\MediaRecorders\VideoRecorder.cs" />
+    <Compile Include="Assets\Scripts\Tests\Helpers\MediaRecorders\VideoRecorderUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\RandomList.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\ShowQuestResult.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\Timer.cs" />
@@ -143,7 +146,6 @@
     <Compile Include="Assets\Scripts\Tests\Helpers\UIGenerators\WordsColorUIGenerator.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\UIGenerators\WordsPanel.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\UIGenerators\WordsPanelUIController.cs" />
-    <Compile Include="Assets\Scripts\Tests\Helpers\VideoRecorderUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\MathTest\MathTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\MathTest\MathTestView.cs" />
     <Compile Include="Assets\Scripts\Tests\NumbersTest\NumbersInputPanel.cs" />
