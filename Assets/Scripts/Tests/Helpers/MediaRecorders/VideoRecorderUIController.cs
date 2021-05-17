@@ -8,6 +8,12 @@ using UnityEngine.Video;
 using TMPro;
 using UnityEngine.Events;
 
+public interface IRecorder
+{
+    bool isRecordClicked { get; set; }
+    string FilePath { get; set; }
+}
+
 public class VideoRecorderUIController: MonoBehaviour
 {
     [Header("UI elements")]
@@ -31,7 +37,6 @@ public class VideoRecorderUIController: MonoBehaviour
     public VideoPlayer videoPlayer;
     public (int, int) Resolution => (resolutionWidth, resolutionHeight);
 
-    private ARecorderState state;
 
     private string _filePath;
     public string FilePath
@@ -45,41 +50,58 @@ public class VideoRecorderUIController: MonoBehaviour
         }
     }
 
-    public bool IsRecordSave { get; set; } = false;
 
-    public string GetRecordPath => _videoFilePath;
-    private string _videoFilePath = "";
+    private ARecorderState state;
+    public bool IsRecordClicked { get; set; }
 
     private void OnEnable()
     {
-        var bgColor = background.color;
-        background.color = new Color(bgColor.r, bgColor.g, bgColor.b, 0.1f);
-        rawImage.gameObject.SetActive(true);
-
-        var buttonImg = recordButton.GetComponent<Image>();
-        LoadedImage.SetTextureToImage(ref buttonImg, recordButtonState);
-        VideoRecorder.FileSaved += path => _videoFilePath = path;
+        ChangeState(new ReadyRecordState(this));
     }
+
+    private void StateRender() => state.Render();
+    private void StateProcessData() => state.ProcessData();
+    private void StateDispose() => state.Dispose();
 
     public void OnRecordClick()
     {
-
+        if (!IsRecordClicked)
+        {
+            Debug.Log("Start record");
+            IsRecordClicked = true;
+            ChangeState(new RecordState(this));
+            StateProcessData();
+        }
+        else
+        {
+            Debug.Log("Stop record");
+            IsRecordClicked = false;
+        }
     }
 
     public void OnPlayClick()
     {
-
+        StateProcessData();
     }
 
     public void OnDeleteClick()
     {
+        ChangeState(new DeleteRecord(this));
+        StateProcessData();
+        ChangeState(new ReadyRecordState(this));
+    }
 
+    public void SaveFile(string _path)
+    {
+        System.IO.File.Move(_path, FilePath);
+        Debug.Log($"File was saved {FilePath}");
     }
 
     public void ChangeState(ARecorderState _newState)
     {
+        if (state != null) StateDispose();
         state = _newState;
-        state.Render();
+        if (state != null) StateRender();
     }
 
     private void Update()

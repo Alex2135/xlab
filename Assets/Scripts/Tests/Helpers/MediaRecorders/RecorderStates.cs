@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 using UnityEngine;
@@ -25,7 +26,17 @@ public class ReadyRecordState : ARecorderState
 {
     private ICameraDevice display;
 
-    public ReadyRecordState(VideoRecorderUIController _context) : base(_context) { }
+    public ReadyRecordState(VideoRecorderUIController _context) : base(_context) 
+    {
+        var bgColor = context.background.color;
+        context.background.color = new Color(bgColor.r, bgColor.g, bgColor.b, 0.1f);
+
+        context.IsRecordClicked = false; 
+        context.FilePath = $"{Guid.NewGuid()}.mp4";
+        context.rawImage.gameObject.SetActive(true);
+        var buttonImg = context.recordButton.GetComponent<Image>();
+        LoadedImage.SetTextureToImage(ref buttonImg, context.recordButtonState);
+    }
 
     private async void DisplayPreview()
     {
@@ -61,7 +72,6 @@ public class ReadyRecordState : ARecorderState
 
     public override void Render()
     {
-        context.IsRecordSave = false;
         context.recordButton.SetActive(true);
         context.playButton.SetActive(false);
         context.deleteButton.SetActive(false);
@@ -88,10 +98,11 @@ public class ReadyRecordState : ARecorderState
 public class RecordState : ARecorderState
 {
     public RecordState(VideoRecorderUIController _context) : base(_context) { }
-    private bool recording = false;
+    private bool isRecording;
 
     public override void Render()
-    { 
+    {
+        isRecording = false;
         context.recordButton.SetActive(true);
         context.playButton.SetActive(false);
         context.deleteButton.SetActive(false);
@@ -102,7 +113,8 @@ public class RecordState : ARecorderState
 
     public override async void ProcessData()
     {
-        recording = true;
+        isRecording = true;
+
         var acriterion = MediaDeviceQuery.Criteria.AudioDevice;
         var aquery = new MediaDeviceQuery(acriterion);
         var adevice = aquery.currentDevice as AudioDevice;
@@ -112,16 +124,20 @@ public class RecordState : ARecorderState
         var device = query.currentDevice as ICameraDevice;
         device.previewResolution = context.Resolution;
 
-        var previewTexture = await device.StartRunning();
+        context.StartCoroutine(WaitUntilRecordFinish());
+        Debug.Log("Before device running");
+        //if (device != null && device.running)
+        //    device.StopRunning();
+        var previewTexture = await device.StartRunning(); // Не стартует при повторном запуске
+        Debug.Log("After device running");
         context.rawImage.texture = previewTexture;
         var recorder = new MP4Recorder(previewTexture.width, previewTexture.height, 15, adevice.sampleRate, adevice.channelCount, 2_250_000, 3);
         var clock = new RealtimeClock();
-
         adevice.StartRunning(
-            (sampleBuffer, timestamp) =>
-            recorder.CommitSamples(sampleBuffer, clock.timestamp)
+            (sampleBuffer, timestamp) => recorder.CommitSamples(sampleBuffer, clock.timestamp)
         );
-        while (recording)
+        Debug.Log($"Thread ID before clicked: {Thread.CurrentThread.ManagedThreadId}");
+        while (context.IsRecordClicked)
         {
             recorder.CommitFrame(previewTexture.GetPixels32(), clock.timestamp);
             await Task.Delay(20);
@@ -130,13 +146,23 @@ public class RecordState : ARecorderState
         if (device.running) device.StopRunning();
 
         await recorder.FinishWriting().ContinueWith(
-            (_path) => context.SaveFile(_path.Result)
+            (_path) => {
+                context.SaveFile(_path.Result);
+                isRecording = false;
+            }
         );
+    }
+
+    IEnumerator WaitUntilRecordFinish()
+    {
+        while (isRecording)
+            yield return new WaitForSeconds(0.1f);
+        context.ChangeState(new PlayRecord(context));
     }
 
     public override void Dispose()
     {
-        recording = false;
+        isRecording = false;
     }
 }
 
@@ -144,29 +170,64 @@ public class RecordState : ARecorderState
 
 public class PlayRecord : ARecorderState
 {
+    private ICameraDevice display;
+
     public PlayRecord(VideoRecorderUIController _context) : base(_context) { }
 
     public override void Render()
     {
+        Debug.Log($"Thread ID: {Thread.CurrentThread.ManagedThreadId}");
         context.playButton.SetActive(true);
+        context.recordButton.SetActive(false);
+        context.deleteButton.SetActive(true);
+        DisplayPreview();
+    }
+
+    private async void DisplayPreview()
+    {
+        var criterion = MediaDeviceQuery.Criteria.FrontFacing;
+        var query = new MediaDeviceQuery(criterion);
+        if (query.currentDevice != null)
+        {
+            display = query.currentDevice as ICameraDevice;
+            display.previewResolution = context.Resolution;
+            var aspectFitter = context.rawImage.GetComponent<AspectRatioFitter>();
+
+            try
+            {
+                var previewTexture = await display.StartRunning();
+                context.rawImage.texture = previewTexture;
+                var tex = context.rawImage.mainTexture;
+                if (tex.width > tex.height)
+                    aspectFitter.aspectRatio = (float)tex.width / tex.height;
+                else
+                    aspectFitter.aspectRatio = (float)tex.height / tex.width;
+            }
+            catch (Exception ex)
+            {
+                context.errorText.gameObject.SetActive(true);
+                Debug.Log($"{ex.Message}");
+            }
+        }
+        else
+        {
+            if (display.running)
+                display.StopRunning();
+        }
     }
 
     public override void ProcessData()
     {
+        display.StopRunning();
         context.playButton.SetActive(false);
         var fitter = context.videoPlayer.GetComponent<AspectRatioFitter>();
         fitter.aspectRatio = context.rawImage.GetComponent<AspectRatioFitter>().aspectRatio;
 
-        context.StartCoroutine(ShowVideoFromFile());
-    }
-
-    IEnumerator ShowVideoFromFile()
-    {
-        while (context.IsRecordSave == false)
-            yield return null;
         Debug.Log("Display video from file");
         context.videoPlayer.url = context.FilePath;
         context.rawImage.texture = context.videoPlayer.targetTexture;
+        context.videoPlayer.loopPointReached +=
+            source => context.ChangeState(new PlayRecord(context));
         context.videoPlayer.Play();
     }
 
@@ -180,9 +241,7 @@ public class PlayRecord : ARecorderState
 
 public class DeleteRecord : ARecorderState
 {
-    public DeleteRecord(VideoRecorderUIController _context) : base(_context)
-    {
-    }
+    public DeleteRecord(VideoRecorderUIController _context) : base(_context) { }
 
     public override void Dispose()
     {

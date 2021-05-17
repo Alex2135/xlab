@@ -54,7 +54,7 @@ public class VideoRecorder : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("Random hash: " + Guid.NewGuid().ToString());
+        //Debug.Log("Random hash: " + Guid.NewGuid().ToString());
         FilePath = "1.mp4";
         FileSaved += _path => Debug.Log($"Saved path {_path}");
     }

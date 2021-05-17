@@ -5952,7 +5952,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 935431522}
-        m_MethodName: OnDeleteButtonClick
+        m_MethodName: OnDeleteClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7021,7 +7021,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 935431522}
-        m_MethodName: OnPlayButtonClick
+        m_MethodName: OnPlayClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12401,70 +12401,15 @@ MonoBehaviour:
   deleteButton: {fileID: 406151207}
   sendButton: {fileID: 1513869218}
   playerScreen: {fileID: 935431518}
+  errorText: {fileID: 1982456004}
   rawImage: {fileID: 218864251}
   background: {fileID: 935431520}
   recordButtonState: {fileID: 2800000, guid: 34b60e5506aa65d438a4eff23f4cddef, type: 3}
   stopRecordButtonState: {fileID: 2800000, guid: a9b5901e95ad0c549817053342f67f45,
     type: 3}
-  OnRecordStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 935431524}
-        m_MethodName: set_Recording
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  OnRecordStop:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 935431524}
-        m_MethodName: set_Recording
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnDeleteRecord:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPlayStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 935431524}
-        m_MethodName: StartReplay
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnPlayStop:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 935431524}
-        m_MethodName: StopReplay
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  resolutionWidth: 0
+  resolutionHeight: 0
+  videoPlayer: {fileID: 1514859640}
 --- !u!114 &935431523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19328,7 +19273,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 935431522}
-        m_MethodName: OnRecordButtonClick
+        m_MethodName: OnRecordClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -22334,7 +22279,7 @@ VideoPlayer:
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 58aa2603082fbae44a347c7ac5785baf, type: 2}
   m_TimeReference: 0
   m_TargetMaterialRenderer: {fileID: 0}
   m_TargetMaterialProperty: _MainTex
