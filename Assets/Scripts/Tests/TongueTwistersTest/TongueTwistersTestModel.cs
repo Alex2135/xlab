@@ -29,11 +29,16 @@ public class AdaptedTongueTwistersQuestModel : IAdaptedQuestModel<List<string>, 
     }
 }
 
-public class TongueTwistersAdaptedQuestToView : IAdaptedQuestToView
+public class TongueTwistersQuestView : IAdaptedQuestToView
 {
     public Dictionary<int, GameObject> Quest { get; set; }
     public Dictionary<int, GameObject> RightAnswers { get; set; } = null;
     public Dictionary<int, GameObject> AdditionalAnswers { get; set; } = null;
+
+    public TongueTwistersQuestView()
+    {
+        Quest = new Dictionary<int, GameObject>();
+    }
 }
 
 public class TongueTwistersTestModel : ATestModel<TongueTwistersQuestModel>

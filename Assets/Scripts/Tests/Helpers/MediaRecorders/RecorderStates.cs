@@ -163,6 +163,7 @@ public class RecordState : ARecorderState
     public override void Dispose()
     {
         isRecording = false;
+        context.sendButton.SetActive(true);
     }
 }
 
@@ -180,7 +181,7 @@ public class PlayRecord : ARecorderState
         context.playButton.SetActive(true);
         context.recordButton.SetActive(false);
         context.deleteButton.SetActive(true);
-        DisplayPreview();
+        //DisplayPreview();
     }
 
     private async void DisplayPreview()
@@ -218,7 +219,7 @@ public class PlayRecord : ARecorderState
 
     public override void ProcessData()
     {
-        display.StopRunning();
+        //display.StopRunning();
         context.playButton.SetActive(false);
         var fitter = context.videoPlayer.GetComponent<AspectRatioFitter>();
         fitter.aspectRatio = context.rawImage.GetComponent<AspectRatioFitter>().aspectRatio;
@@ -261,6 +262,7 @@ public class DeleteRecord : ARecorderState
         context.recordButton.SetActive(true);
         context.playButton.SetActive(false);
         context.deleteButton.SetActive(false);
+        context.sendButton.SetActive(false);
         context.sendButton.SetActive(false);
     }
 }

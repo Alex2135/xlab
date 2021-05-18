@@ -115,6 +115,7 @@
     <Compile Include="Assets\Scripts\Loader\LoaderUiController.cs" />
     <Compile Include="Assets\Scripts\Result\TestStatsUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\FacesTestUIController.cs" />
+    <Compile Include="Assets\Scripts\ScreensControllers\NeuroGymTestUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\NumbersTestUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\ScreensUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\SubjectsTestUIController.cs" />
@@ -148,6 +149,9 @@
     <Compile Include="Assets\Scripts\Tests\Helpers\UIGenerators\WordsPanelUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\MathTest\MathTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\MathTest\MathTestView.cs" />
+    <Compile Include="Assets\Scripts\Tests\NeuroGymTest\NeuroGymTestModel.cs" />
+    <Compile Include="Assets\Scripts\Tests\NeuroGymTest\NeuroGymTestPresenter.cs" />
+    <Compile Include="Assets\Scripts\Tests\NeuroGymTest\NeuroGymTestView.cs" />
     <Compile Include="Assets\Scripts\Tests\NumbersTest\NumbersInputPanel.cs" />
     <Compile Include="Assets\Scripts\Tests\NumbersTest\NumbersTestModel.cs" />
     <Compile Include="Assets\Scripts\Tests\NumbersTest\NumbersTestPresenter.cs" />

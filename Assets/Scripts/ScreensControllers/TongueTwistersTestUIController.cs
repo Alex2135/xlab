@@ -13,10 +13,7 @@ public class TongueTwistersTestUIController : MonoBehaviour, IScreenController, 
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }
 
-    public Image GetBackground()
-    {
-        return background;
-    }
+    public Image GetBackground() => background;
     private ScreensUIController _screensController;
 
     void OnEnable()

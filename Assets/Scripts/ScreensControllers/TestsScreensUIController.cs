@@ -15,6 +15,7 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
     public NumbersTestUIController numbersTestUIC;
     public WordsColorTestUIController wordsColorTestUIC;
     public TongueTwistersTestUIController tongueTwistersUIC;
+    public NeuroGymTestUIController neuroGymUIC;
 
     [Header("Tests UI scores")]
     public TextMeshProUGUI mathScoreTMP;
@@ -24,6 +25,7 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
     public TextMeshProUGUI numbersScoreTMP;
     public TextMeshProUGUI wordsColorScoreTMP;
     public TextMeshProUGUI tongueTwistersScoreTMP;
+    public TextMeshProUGUI neuroGymScoreTMP;
 
     [Header("Test results views")]
     public TestResultController testResultUIC;
@@ -46,6 +48,7 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
         user.AddTestStats("Words");
         user.AddTestStats("WordsColor");
         user.AddTestStats("TongueTwisters");
+        user.AddTestStats("NeuroGym");
         user.SaveData();
 
         _screensController = ScreensUIController.GetInstance();
@@ -59,6 +62,7 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
         _screensController.Add(numbersTestUIC);
         _screensController.Add(wordsColorTestUIC);
         _screensController.Add(tongueTwistersUIC);
+        _screensController.Add(neuroGymUIC);
 
         _screensController.DiactivateScreens();
     }
@@ -72,6 +76,7 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
         numbersScoreTMP.text = $"{UserModel.GetLastScore("Numbers")}";
         wordsColorScoreTMP.text = $"{UserModel.GetLastScore("WordsColor")}";
         tongueTwistersScoreTMP.text = $"{UserModel.GetLastScore("TongueTwisters")}";
+        tongueTwistersScoreTMP.text = $"{UserModel.GetLastScore("NeuroGym")}";
     }
 
     public void OnAssignmentTestButtonClick(string _screenName)
