@@ -7,7 +7,7 @@ public class NeuroGymTestUIController : MonoBehaviour, IScreenController, IDecor
 {
     public Image background;
     public string screenName;
-    public IScreenController view;
+    public NeuroGymTestView view;
 
     public string ScreenName { get => screenName; set => screenName = value; }
     public IScreenController NextScreen { get; set; }

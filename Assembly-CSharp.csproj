@@ -131,11 +131,13 @@
     <Compile Include="Assets\Scripts\Tests\FacesTest\RememberFacesPresenter.cs" />
     <Compile Include="Assets\Scripts\Tests\FacesTest\RememberFacesTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\FacesTestGeneratedDataProvider.cs" />
+    <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\NeuroGymTestDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\NumbersTestDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\SubjectsTestGeneratedDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\TongueTwistersTestDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\WordsColorTestGeneratedDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\MediaRecorders\IRecorder.cs" />
+    <Compile Include="Assets\Scripts\Tests\Helpers\MediaRecorders\RecordPlayer.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\MediaRecorders\RecorderStates.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\MediaRecorders\VideoRecorder.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\MediaRecorders\VideoRecorderUIController.cs" />

@@ -69,14 +69,14 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
 
     void OnEnable()
     {
-        mathScoreTMP.text = $"{UserModel.GetLastScore("Math")}";
-        facesScoreTMP.text = $"{UserModel.GetLastScore("Faces")}";
-        wordsScoreTMP.text = $"{UserModel.GetLastScore("Words")}";
-        subjectsScoreTMP.text = $"{UserModel.GetLastScore("Subjects")}";
-        numbersScoreTMP.text = $"{UserModel.GetLastScore("Numbers")}";
-        wordsColorScoreTMP.text = $"{UserModel.GetLastScore("WordsColor")}";
+        mathScoreTMP.text           = $"{UserModel.GetLastScore("Math")}";
+        facesScoreTMP.text          = $"{UserModel.GetLastScore("Faces")}";
+        wordsScoreTMP.text          = $"{UserModel.GetLastScore("Words")}";
+        subjectsScoreTMP.text       = $"{UserModel.GetLastScore("Subjects")}";
+        numbersScoreTMP.text        = $"{UserModel.GetLastScore("Numbers")}";
+        wordsColorScoreTMP.text     = $"{UserModel.GetLastScore("WordsColor")}";
         tongueTwistersScoreTMP.text = $"{UserModel.GetLastScore("TongueTwisters")}";
-        tongueTwistersScoreTMP.text = $"{UserModel.GetLastScore("NeuroGym")}";
+        neuroGymScoreTMP.text       = $"{UserModel.GetLastScore("NeuroGym")}";
     }
 
     public void OnAssignmentTestButtonClick(string _screenName)
