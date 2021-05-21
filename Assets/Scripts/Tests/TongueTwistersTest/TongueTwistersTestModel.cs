@@ -90,7 +90,7 @@ public class TongueTwistersTestModel : ATestModel<TongueTwistersQuestModel>
 
     public override void RegisterScore() 
     { 
-
+        // TODO: send test answer
     }
 
     public override void PenaltieWrongAnswer(){}

@@ -24,11 +24,22 @@ public class NeuroGymTestPresenter : ATestPresenter<NeuroGymQuestModel, AdaptedN
 
     protected override void GenerateAnswersId()
     {
+        var quest = testModel.GetNextQuestion();
+        if (quest == null) throw new Exception("No quests");
+        var (questData, questId) = quest.Value;
 
+        var adaptedQuest = new AdaptedNeuroGymQuestModel();
+        adaptedQuest.Quest.Add(questId, questData.Quest);
     }
 
     public NeuroGymQuestToView GetAdaptedQuest(Action<object> _onAnswerAction)
     {
+        var quest = testModel.GetCurrentQuestion();
+        if (quest == null) throw new Exception("No quests");
+        var (_, questId) = quest.Value;
+
+
+
         return null;
     }
 

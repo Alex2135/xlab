@@ -69,7 +69,7 @@ public class NeuroGymTestModel : ATestModel<NeuroGymQuestModel>
 
     public override int GetLastScore()
     {
-        return 0;
+        return UserModel.GetLastScore("NeuroGym");
     }
 
     public override (NeuroGymQuestModel, int)? GetNextQuestion()
@@ -86,7 +86,7 @@ public class NeuroGymTestModel : ATestModel<NeuroGymQuestModel>
 
     public override void RegisterScore()
     {
-
+        // TODO: send test answer
     }
 
     public override int GetQuestsCount() => _questions.Count;

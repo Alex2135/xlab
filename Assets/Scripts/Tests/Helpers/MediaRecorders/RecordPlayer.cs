@@ -13,6 +13,7 @@ public class RecordPlayer : MonoBehaviour
     public GameObject playButton;
     public GameObject playerScreen;
     public GameObject errorText;
+    public GameObject execButton;
     public RawImage rawImage;
     public Image background;
 
@@ -21,17 +22,28 @@ public class RecordPlayer : MonoBehaviour
     public int resolutionHeight;
     public VideoPlayer videoPlayer;
 
-    public string FilePath { get; set; }
-
-    private void OnEnable()
+    private void OnShoqQuest(string _filePath = "")
     {
-        FilePath = Path.Combine(Application.persistentDataPath, "NG Quest", "quest_1.mp4"); 
-        var fitter = videoPlayer.GetComponent<AspectRatioFitter>();
-        fitter.aspectRatio = rawImage.GetComponent<AspectRatioFitter>().aspectRatio;
-
-        videoPlayer.url = FilePath;
+        var filePath = Path.Combine(Application.persistentDataPath, "NG Quest", "quest_1.mp4");
+        videoPlayer.url = filePath;
         rawImage.texture = videoPlayer.targetTexture;
-        videoPlayer.loopPointReached += source => OnPlayStop();
+
+
+        float ratio;
+        float texWidth = rawImage.mainTexture.width;
+        float texHeight = rawImage.mainTexture.height;
+        ratio = (texWidth > texHeight)? 
+                texWidth / texHeight:
+                texHeight / texWidth;
+
+        var fitter = videoPlayer.GetComponent<AspectRatioFitter>();
+        fitter.aspectRatio = ratio;
+        rawImage.GetComponent<AspectRatioFitter>().aspectRatio = ratio;
+
+        videoPlayer.loopPointReached += source => {
+            OnPlayStop();
+            execButton.SetActive(true);
+        };
     }
 
     public void OnPlayClick()

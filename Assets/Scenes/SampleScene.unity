@@ -1923,13 +1923,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.854902, b: 0.8352942, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bf6b537a92f3fed4992e7cf718c4e3cc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fc616b65a2a02f04cadf626eb4b6f45c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4515,13 +4515,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8117648, g: 0.93725497, b: 0.8431373, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 58a49c484594edb489491e35f446dc7f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fc616b65a2a02f04cadf626eb4b6f45c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7792,13 +7792,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.74509805, g: 0.90196085, b: 0.9960785, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8120857b6765a4f468cbdef254d1204b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fc616b65a2a02f04cadf626eb4b6f45c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7976,7 +7976,6 @@ GameObject:
   - component: {fileID: 443156773}
   - component: {fileID: 443156770}
   - component: {fileID: 443156772}
-  - component: {fileID: 443156771}
   m_Layer: 5
   m_Name: VideoPlayerPanel
   m_TagString: Untagged
@@ -8037,23 +8036,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &443156771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 443156767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 022a8bc86bce46241b4d7baf9cc3ba3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _errorText: {fileID: 337068793}
-  rawImage: {fileID: 731769984}
-  videoPlayer: {fileID: 15868400}
-  resolutionWidth: 1280
-  resolutionHeight: 720
 --- !u!114 &443156772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9372,13 +9354,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8117648, g: 0.93725497, b: 0.8470589, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 58a49c484594edb489491e35f446dc7f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fc616b65a2a02f04cadf626eb4b6f45c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11437,7 +11419,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &731769984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13217,13 +13199,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.74509805, g: 0.90196085, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8120857b6765a4f468cbdef254d1204b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fc616b65a2a02f04cadf626eb4b6f45c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16940,7 +16922,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e5beef2ede848b7459e746e5adb1665a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fc616b65a2a02f04cadf626eb4b6f45c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18183,13 +18165,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.85098046, b: 0.8313726, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bf6b537a92f3fed4992e7cf718c4e3cc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fc616b65a2a02f04cadf626eb4b6f45c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18754,13 +18736,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.91372555, g: 0.8313726, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1c8ece48890ec8f4585196dea53cd43c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fc616b65a2a02f04cadf626eb4b6f45c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -29391,6 +29373,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1989577276}
+        m_MethodName: OnPlayStop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1806353080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32662,6 +32655,7 @@ MonoBehaviour:
   playButton: {fileID: 2098295628}
   playerScreen: {fileID: 443156767}
   errorText: {fileID: 337068792}
+  execButton: {fileID: 1806353077}
   rawImage: {fileID: 731769984}
   background: {fileID: 443156770}
   resolutionWidth: 1240
@@ -35127,7 +35121,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1989577276}
         m_MethodName: OnPlayClick
         m_Mode: 1
         m_Arguments:

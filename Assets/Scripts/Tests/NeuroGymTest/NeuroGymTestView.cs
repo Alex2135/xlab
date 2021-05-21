@@ -19,6 +19,8 @@ public class NeuroGymTestView : MonoBehaviour, NewQuestionModel.ITestView, NewQu
     public GameObject sendButton;
     public string screenName;
 
+    public RecordPlayer player;
+
     public IAdaptedQuestToView QuestionToView { get; set; }
 
     public string TestName => "NeuroGym";
@@ -45,6 +47,8 @@ public class NeuroGymTestView : MonoBehaviour, NewQuestionModel.ITestView, NewQu
         questPanel.SetActive(true);
         testPanel.SetActive(false);
         testSendPanel.SetActive(false);
+
+        ShowQuestion();
     }
 
     public void SetScore(float _score)
@@ -54,31 +58,35 @@ public class NeuroGymTestView : MonoBehaviour, NewQuestionModel.ITestView, NewQu
 
     public void OnExecuteGymButtonClick()
     {
-
+        questPanel.SetActive(false);
+        testPanel.SetActive(true);
     }
 
     public void OnSendButtonClick()
     {
-
+        testPanel.SetActive(false);
+        testSendPanel.SetActive(true);
     }
 
     public void OnGoNextButtonClick()
     {
-
+        if (NextScreen != null)
+        {
+            var screensController = ScreensUIController.GetInstance();
+            screensController.DiactivateScreens();
+            screensController.Activate(NextScreen);
+        }
+        else
+        {
+            Debug.Log("Next screen not set!");
+        }
     }
 
-    public void ShowQuestion()
+    public void ShowQuestion() 
     {
-        
+        presenter.GetAdaptedQuest(null);
     }
 
-    public void ShowQuestResult()
-    {
-        
-    }
-
-    public void ResetView()
-    {
-
-    }
+    public void ShowQuestResult() { }
+    public void ResetView() { }
 }
