@@ -8,6 +8,7 @@ using NewQuestionModel;
 public class NeuroGymTestPresenter : ATestPresenter<NeuroGymQuestModel, AdaptedNeuroGymQuestModel>, ITestPresenter<NeuroGymQuestToView>
 {
     protected override Dictionary<int, AdaptedNeuroGymQuestModel> AdaptedQuestionData { get; set; }
+    public RecordPlayer Player { get; set; }
 
     public NeuroGymTestPresenter(NewQuestionModel.ITestView _view, ATestModel<NeuroGymQuestModel> _model)
     {
@@ -19,7 +20,6 @@ public class NeuroGymTestPresenter : ATestPresenter<NeuroGymQuestModel, AdaptedN
         AdaptedQuestionData = new Dictionary<int, AdaptedNeuroGymQuestModel>();
 
         testView.SetScore(testModel.GetLastScore());
-        GenerateAnswersId();
     }
 
     protected override void GenerateAnswersId()
@@ -29,16 +29,20 @@ public class NeuroGymTestPresenter : ATestPresenter<NeuroGymQuestModel, AdaptedN
         var (questData, questId) = quest.Value;
 
         var adaptedQuest = new AdaptedNeuroGymQuestModel();
-        adaptedQuest.Quest.Add(questId, questData.Quest);
+        adaptedQuest.Quest.Add(0, questData.Quest);
+        AdaptedQuestionData.Add(questId, adaptedQuest);
     }
 
     public NeuroGymQuestToView GetAdaptedQuest(Action<object> _onAnswerAction)
     {
+        GenerateAnswersId();
         var quest = testModel.GetCurrentQuestion();
         if (quest == null) throw new Exception("No quests");
         var (_, questId) = quest.Value;
 
-
+        var adaptedQuest = AdaptedQuestionData[questId];
+        var path = adaptedQuest.Quest[0][0];
+        Player.OnShowQuest(path);
 
         return null;
     }

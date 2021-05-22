@@ -22,7 +22,7 @@ public class RecordPlayer : MonoBehaviour
     public int resolutionHeight;
     public VideoPlayer videoPlayer;
 
-    private void OnShoqQuest(string _filePath = "")
+    public void OnShowQuest(string _filePath = "")
     {
         var filePath = Path.Combine(Application.persistentDataPath, "NG Quest", "quest_1.mp4");
         videoPlayer.url = filePath;

@@ -66,7 +66,7 @@ public class ReadyRecordState : ARecorderState
         }
         else
         {
-            display.StopRunning();
+            if (display.running) display.StopRunning();
         }
     }
 

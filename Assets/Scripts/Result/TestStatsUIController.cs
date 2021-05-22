@@ -31,7 +31,7 @@ public class TestStatsUIController : MonoBehaviour, IScreenController, IDecorabl
     private IScreenController _nextScreen;
     public IScreenController NextScreen
     {
-        get { return _nextScreen; }
+        get => _nextScreen;
         set
         {
             value.PrevScreen = this;
@@ -39,12 +39,13 @@ public class TestStatsUIController : MonoBehaviour, IScreenController, IDecorabl
         }
     }
     public IScreenController PrevScreen { get; set; }
-    public string _screenName;
-    public string ScreenName 
+    public string _screenName = "TestStatsScreen";
+    public string ScreenName
     {
-        get { return _screenName; }
-        set { _screenName = value; } 
+        get => _screenName;
+        set => _screenName = value;
     }
+    public Image GetBackground() => Background;
 
     void Awake()
     {
@@ -58,9 +59,28 @@ public class TestStatsUIController : MonoBehaviour, IScreenController, IDecorabl
         _screenNameTestName.Add("NeuroGymTest", "Нейрогимнастика");
     }
 
-    void Start()
+    private void OnEnable()
     {
-        ScreenName = "TestStatsScreen";
+        if (PrevScreen?.ScreenName == "MainScreen")
+        {
+            testNameTMP.text = _screenNameTestName[NextScreen.ScreenName];
+            //var s = (NextScreen as IDecorableScreen).GetBackground().sprite;
+            //Background.sprite = Sprite.Create(s.texture, s.textureRect, new Vector2(0.5f, 0.5f));
+            var s = (NextScreen as IDecorableScreen).GetBackground().color;
+            Background.color = s;
+
+            GoOnButtonText.text = "НАЧАТЬ";
+        }
+        else
+        if (PrevScreen != null)
+        {
+            //Result result = (PrevScreen as IResultableScreen).GetResult() as Result;
+            GoOnButtonText.text = "ЗАНОВО";
+            //RateText.text = result?.Grade.ToString() ?? "";
+            //float percent = (float)result?.TruePositive / result?.QuestsCount * 100 ?? 0;
+            //RightAnswersText.text = Mathf.RoundToInt(percent).ToString() + "%";
+            triesTMP.text = "1";
+        }
     }
 
     public void OnBackClick()
@@ -92,30 +112,4 @@ public class TestStatsUIController : MonoBehaviour, IScreenController, IDecorabl
         }
     }
 
-
-    private void OnEnable()
-    {
-        if (PrevScreen?.ScreenName == "MainScreen")
-        {
-            testNameTMP.text = _screenNameTestName[NextScreen.ScreenName];
-            var s = (NextScreen as IDecorableScreen).GetBackground().sprite;
-            Background.sprite = Sprite.Create(s.texture, s.textureRect, new Vector2(0.5f, 0.5f));
-            GoOnButtonText.text = "НАЧАТЬ";
-        }
-        else 
-        if (PrevScreen != null)
-        {
-            //Result result = (PrevScreen as IResultableScreen).GetResult() as Result;
-            GoOnButtonText.text = "ЗАНОВО";
-            //RateText.text = result?.Grade.ToString() ?? "";
-            //float percent = (float)result?.TruePositive / result?.QuestsCount * 100 ?? 0;
-            //RightAnswersText.text = Mathf.RoundToInt(percent).ToString() + "%";
-            triesTMP.text = "1";
-        }
-    }
-
-    public Image GetBackground()
-    {
-        return Background;
-    }
 }

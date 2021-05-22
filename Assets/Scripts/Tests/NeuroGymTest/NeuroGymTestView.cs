@@ -40,6 +40,7 @@ public class NeuroGymTestView : MonoBehaviour, NewQuestionModel.ITestView, NewQu
         var data = GetComponent<NeuroGymTestDataProvider>() as IDataSource<NeuroGymQuestModel>;
         var model = new NeuroGymTestModel(data);
         presenter = new NeuroGymTestPresenter(this, model);
+        presenter.Player = player;
 
         executeGymButton.SetActive(false);
         sendButton.SetActive(false);
