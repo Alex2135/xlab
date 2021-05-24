@@ -69,7 +69,7 @@ public class TestStatsUIController : MonoBehaviour, IScreenController, IDecorabl
             var s = (NextScreen as IDecorableScreen).GetBackground().color;
             Background.color = s;
 
-            GoOnButtonText.text = "НАЧАТЬ";
+            //GoOnButtonText.text = "НАЧАТЬ";
         }
         else
         if (PrevScreen != null)
