@@ -114,6 +114,7 @@
     <Compile Include="Assets\Scripts\Loader\LoaderTester.cs" />
     <Compile Include="Assets\Scripts\Loader\LoaderUiController.cs" />
     <Compile Include="Assets\Scripts\Result\TestStatsUIController.cs" />
+    <Compile Include="Assets\Scripts\ScreensControllers\DailyExerciseUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\LoginScreenUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\NewBehaviourScript.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\ResetPasswordUIController.cs" />
@@ -128,6 +129,10 @@
     <Compile Include="Assets\Scripts\ScreensControllers\TestControllers\WordsTestUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\TestResultController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\TestsScreensUIController.cs" />
+    <Compile Include="Assets\Scripts\ScreensControllers\UserProfileScreen\UserProfileModel.cs" />
+    <Compile Include="Assets\Scripts\ScreensControllers\UserProfileScreen\UserProfilePresenter.cs" />
+    <Compile Include="Assets\Scripts\ScreensControllers\UserProfileScreen\UserProfileView.cs" />
+    <Compile Include="Assets\Scripts\ScreensControllers\UserProfileUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\FacesTest\FaceByNameTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\FacesTest\FacesTestModels.cs" />
     <Compile Include="Assets\Scripts\Tests\FacesTest\FacesTestPresenter.cs" />

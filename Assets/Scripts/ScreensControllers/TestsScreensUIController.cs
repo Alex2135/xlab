@@ -31,13 +31,17 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
     public TestResultController testResultUIC;
     public TestStatsUIController testsStatsUIC;
 
+    //[Header("Additional views")]
+    //public TestResultController testResultUIC;
+    //public TestStatsUIController testsStatsUIC;
+
     private ScreensUIController _screensController;
 
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }
     public string ScreenName { get; set; }
 
-    private void Awake()
+    void OnEnable()
     {
         ScreenName = "MainScreen";
         var user = UserModel.GetInstance(new FileUserDataSource("user.netxt"));
@@ -64,11 +68,7 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
         _screensController.Add(tongueTwistersUIC);
         _screensController.Add(neuroGymUIC);
 
-        _screensController.DiactivateScreens();
-    }
-
-    void OnEnable()
-    {
+        //_screensController.DiactivateScreens();
         mathScoreTMP.text           = $"{UserModel.GetLastScore("Math")}";
         facesScoreTMP.text          = $"{UserModel.GetLastScore("Faces")}";
         wordsScoreTMP.text          = $"{UserModel.GetLastScore("Words")}";
@@ -92,5 +92,10 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
         {
             throw new Exception("Wrong screen id!");
         }
+    }
+
+    public void OnDailyExercisesButtonClick()
+    {
+
     }
 }

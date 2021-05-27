@@ -21,13 +21,15 @@ public class LoginScreenUIController : MonoBehaviour, IScreenController
     public void OnLoginClick()
     {
         NextScreen = testScreen;
-        _controller.Activate(NextScreen);
+        _controller.Activate(NextScreen, this);
     }
 
     public void OnForgotPasswordClick()
     {
-        NextScreen = testScreen;
-        _controller.Activate(NextScreen);
+        NextScreen = resetPasswordScreen;
+        resetPasswordScreen.PrevScreen = this;
+        _controller.Activate(NextScreen, this);
     }
+
 }
 
