@@ -114,6 +114,7 @@
     <Compile Include="Assets\Scripts\Loader\LoaderTester.cs" />
     <Compile Include="Assets\Scripts\Loader\LoaderUiController.cs" />
     <Compile Include="Assets\Scripts\Result\TestStatsUIController.cs" />
+    <Compile Include="Assets\Scripts\ScreensControllers\ButtonsChangeState.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\DailyExerciseUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\LoginScreenUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\NewBehaviourScript.cs" />
