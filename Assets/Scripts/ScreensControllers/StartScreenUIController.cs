@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StartScreenUIController : MonoBehaviour, IScreenController
 {
-    public LoginScreenUIController loginScreen;
+    public LoginScreenView loginScreen;
     public string screenName;
     public string ScreenName { get => screenName; set => screenName = value; }
     public IScreenController NextScreen { get; set; }

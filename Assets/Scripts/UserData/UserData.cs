@@ -14,7 +14,22 @@ public class UserData
         userName = "UserName";
         generalStats = new List<TestWholeStats>();
     }
+
+    public bool CheckEmail(string email)
+    {
+        return email == "h@h.h";
+    }
+
+    public bool CheckPassword(string pass)
+    {
+        return pass == "111";
+    }
 }
+/*
+ Получать запрос от сервера есть ли такой емаил,
+ если емаил
+ */
+
 
 [Serializable]
 public class TestWholeStats
