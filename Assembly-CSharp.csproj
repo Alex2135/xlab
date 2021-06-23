@@ -121,7 +121,9 @@
     <Compile Include="Assets\Scripts\ScreensControllers\LoginScreen\LoginScreenUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\LoginScreen\LoginScreenView.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\NewBehaviourScript.cs" />
-    <Compile Include="Assets\Scripts\ScreensControllers\ResetPasswordScreen\ResetPasswordUIController.cs" />
+    <Compile Include="Assets\Scripts\ScreensControllers\ResetPasswordScreen\ResetPasswordModel.cs" />
+    <Compile Include="Assets\Scripts\ScreensControllers\ResetPasswordScreen\ResetPasswordPresenter.cs" />
+    <Compile Include="Assets\Scripts\ScreensControllers\ResetPasswordScreen\ResetPasswordView.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\ScreensUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\StartScreenUIController.cs" />
     <Compile Include="Assets\Scripts\ScreensControllers\TestControllers\FacesTestUIController.cs" />

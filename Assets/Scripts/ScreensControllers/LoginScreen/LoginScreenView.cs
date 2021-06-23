@@ -15,7 +15,7 @@ public interface ILoginView
 public class LoginScreenView : MonoBehaviour, ILoginView, IScreenController
 {
     public TestsScreensUIController testScreen;
-    public ResetPasswordUIController resetPasswordScreen;
+    public ResetPasswordView resetPasswordScreen;
     public TMP_InputField emailTMPField;
     public TMP_InputField passwordTMPField;
     public TextMeshProUGUI emailErrorTMP;
@@ -29,7 +29,6 @@ public class LoginScreenView : MonoBehaviour, ILoginView, IScreenController
     public string ScreenName { get; set; } = "LoginScreenView";
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }
-
     public bool IsRemember => isRemember;
 
     private bool isChecked;
