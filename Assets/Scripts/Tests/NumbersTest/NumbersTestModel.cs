@@ -44,6 +44,8 @@ public class NumbersTestModel : ATestModel<NumbersQuestModel>
 {
     private List<NumbersQuestModel> _questions;
     private int PointsPerQuest { get; set; } = 10;
+    private int testPoints;
+    private int userPoints;
 
     public NumbersTestModel(IDataSource<NumbersQuestModel> _source)
     {
@@ -51,6 +53,8 @@ public class NumbersTestModel : ATestModel<NumbersQuestModel>
         var data = user.GetTestData("Numbers");
         _dataSource = _source;
         _questions = _source.GetQuests(data) as List<NumbersQuestModel>;
+        userPoints = GetLastScore();
+        testPoints = _questions[0].RightAnswers.Count * 10;
         rightAnswers = 0;
         wrongAnswers = 0;
         questionIndex = -1;
@@ -74,9 +78,20 @@ public class NumbersTestModel : ATestModel<NumbersQuestModel>
 
     public override int CalculateScore()
     {
-        int maxScore = _questions[0].RightAnswers.Count * PointsPerQuest;
-        int result = rightAnswers * PointsPerQuest - wrongAnswers * (int)(1f / 4f * maxScore);
-        return result;
+        //int maxScore = _questions[0].RightAnswers.Count * PointsPerQuest;
+        //int result = rightAnswers * PointsPerQuest - wrongAnswers * (int)(1f / 4f * maxScore);
+        int result = 0;
+
+        if (testPoints <= userPoints)
+        {
+            result = Mathf.CeilToInt((userPoints - testPoints) / 2.0f);
+        }
+        else
+        {
+            result = Mathf.CeilToInt((testPoints - userPoints) / 3.0f);
+        }
+
+        return ((wrongAnswers == 0)? result : -result);
     }
 
     public override float GetTestTime()

@@ -39,11 +39,10 @@ public class TestsScreensUIController : MonoBehaviour, IScreenController
 
     public IScreenController NextScreen { get; set; }
     public IScreenController PrevScreen { get; set; }
-    public string ScreenName { get; set; }
+    public string ScreenName { get; set; } = "MainScreen";
 
     void OnEnable()
     {
-        ScreenName = "MainScreen";
         var user = UserModel.GetInstance(new FileUserDataSource("user.netxt"));
         user.AddTestStats("Math");
         user.AddTestStats("Faces");

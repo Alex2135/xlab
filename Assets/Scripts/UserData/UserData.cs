@@ -48,7 +48,8 @@ public class TestWholeStats
 
     public int GetLastScore()
     {
-        int lastScore = 0;
+        // Initial scores
+        int lastScore = 40;
         if (testScores.Count > 0)
             lastScore = testScores[testScores.Count - 1].testScore;
         return lastScore;

@@ -18,6 +18,7 @@ public class TestResultController : MonoBehaviour, IScreenController
     private string testName;
     private bool isCounterRun;
     private int LastScore { get => UserModel.GetLastScore(testName); }
+    private ScreensUIController screensController;
     private int PrevScore {
         get 
         {
@@ -26,12 +27,13 @@ public class TestResultController : MonoBehaviour, IScreenController
             var count = stats.testScores.Count;
             if (count > 1)
                 return stats.testScores[count - 2].testScore;
-            return 0;
+            return 40;
         }
     }
 
     public void OnEnable()
     {
+        screensController = ScreensUIController.GetInstance();
         var img = (PrevScreen.PrevScreen as IDecorableScreen).GetBackground();
         testName = (PrevScreen as NewQuestionModel.ITestScreenController).TestName;
         var testData = UserModel.GetInstance().GetTestData(testName);
@@ -40,7 +42,8 @@ public class TestResultController : MonoBehaviour, IScreenController
 
         StartCoroutine(BeginCounter());
 
-        LoadedImage.SetTextureToImage(ref background, img.sprite.texture);
+        background.color = img.color;
+        //LoadedImage.SetTextureToImage(ref background, img.sprite.texture);
     }
 
     IEnumerator BeginCounter()
@@ -55,8 +58,8 @@ public class TestResultController : MonoBehaviour, IScreenController
 
         for (float i = 0f; i < duration; i += valsPerSecond)
         {
-            last += delta;
-            rateTMP.text = $"{last}";
+            prev += delta;
+            rateTMP.text = $"{prev}";
             yield return new WaitForSecondsRealtime(valsPerSecond);
         }
 
@@ -65,11 +68,23 @@ public class TestResultController : MonoBehaviour, IScreenController
 
     public void OnContinueClick()
     {
-        if (!isCounterRun)
+        if (screensController != null)
         {
-            var screenController = ScreensUIController.GetInstance();
-            screenController.DiactivateScreens();
-            screenController.Activate(PrevScreen.PrevScreen);
+            screensController.DiactivateScreens();
+            //(PrevScreen as MonoBehaviour).gameObject.SetActive(true);
+            var a = screensController.GetScreenByName(PrevScreen.ScreenName);
+            screensController.Activate(a);
+        }
+    }
+
+    public void OnStopTrainingClick()
+    {        
+        if (!isCounterRun 
+            && screensController != null)
+        {
+            var screensController = ScreensUIController.GetInstance();
+            screensController.DiactivateScreens();
+            screensController.Activate(screensController.GetScreenByName("MainScreen"));
         }
     }
 }

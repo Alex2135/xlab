@@ -44,6 +44,7 @@ public class TongueTwistersTestView : MonoBehaviour, IScreenController, NewQuest
         _presenter = new TongueTwistersTestPresenter(model, this);
         QuestionToView = new TongueTwistersQuestView();
         QuestionToView.Quest.Add(0, questTMP.gameObject);
+        testSendPanel.SetActive(false);
 
         ShowQuestion();
     }

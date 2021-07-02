@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class NumbersTestUIController : MonoBehaviour, IScreenController, IDecorableScreen
 {
-    public Image baackground;
+    public Image background;
     public NumbersTestView view;
 
     public string screenName;
@@ -17,7 +17,7 @@ public class NumbersTestUIController : MonoBehaviour, IScreenController, IDecora
 
     public Image GetBackground()
     {
-        return baackground;
+        return background;
     }
 
     void OnEnable()

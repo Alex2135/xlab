@@ -67,6 +67,9 @@ public class NumbersPanelCreator : MonoBehaviour
 
         float hpanelWidth = horizontalPanel.GetComponent<RectTransform>().rect.width;
         int hipoItems = Mathf.FloorToInt(hpanelWidth / (itemsSpacing + maxWidth));
+
+        if (hipoItems > 5) hipoItems = 5;
+
         if ((hipoItems * (itemsSpacing + maxWidth) - itemsSpacing) > hpanelWidth)
             hipoItems--;
 
