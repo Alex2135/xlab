@@ -14,10 +14,15 @@ public class NumbersTestDataProvider : MonoBehaviour, IDataSource<NumbersQuestMo
     {
         var result = new List<NumbersQuestModel>();
 
-        int level = (Random.Range(0, 1) > 0.5)? test.testLevel : test.testLevel+1;
+        int testLevel = test.testLevel;
+        int userLevel = Mathf.Max(Mathf.RoundToInt(test.GetLastScore() / 10 - 4), 1);
 
-        digits = 5 + (test.testLevel - 1);
-        //test.testLevel;
+        if (test.GetLastScore() == (testLevel * 10 + 40))
+            testLevel++;
+        else
+            testLevel = (Random.Range(0, 1) > 0.5) ? userLevel : userLevel + 1;
+
+        digits = 5 + (testLevel - 1);
         var quest = new NumbersQuestModel();
         int randomNumber;
 

@@ -59,18 +59,13 @@ public class TestWholeStats
     {
         int lastScore = GetLastScore();
         int testScore = _newScore + lastScore;
-        if (testScore > pointsPerLevel * testLevel
-            && testScore >= pointsPerLevel * (testLevel + 1))
-        {
+        if (testScore < 0) testScore = 0;
+        if (testScore > pointsPerLevel * testLevel && testScore >= pointsPerLevel * (testLevel + 1))
             testLevel++;
-        }
         else 
-        if ( testScore < pointsPerLevel * testLevel 
-            && testLevel > 1)
-        {
+        if (testScore < pointsPerLevel * testLevel && testLevel > 1)
             testLevel--;
-            if (testScore < 0) testScore = 0;
-        }
+
         TestResultStats newTry = new TestResultStats() {
             testScore = testScore,
             rightAnswers = _rightAnswers,

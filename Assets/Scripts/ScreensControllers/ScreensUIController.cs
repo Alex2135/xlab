@@ -55,7 +55,9 @@ public class ScreensUIController
     {
         foreach (var screen in ScreenControllers)
         {
-            if (screen.ScreenName == _screenName) return screen;
+            if (screen != null &&
+                screen.ScreenName == _screenName) 
+                return screen;
         }
         return null;
     }
@@ -71,7 +73,9 @@ public class ScreensUIController
 
     public void Add(IScreenController _newScreen)
     {
-        ScreenControllers.Add(_newScreen);
+        if (_newScreen != null &&
+            _newScreen.ScreenName != null) 
+            ScreenControllers.Add(_newScreen);
     }
 
     public void Activate(IScreenController _screen, IScreenController _prevContext = null, bool _diactivateScreens = true)

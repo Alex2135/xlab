@@ -19,15 +19,16 @@ public class SubjectsPanelUIController : MonoBehaviour
         grid.DestroyChildrenObjects();
         var result = new Dictionary<int, GameObject>();
 
+        // Create buttons objects and set them textures from _adaptedData
         foreach (var data in _adaptedData)
         {
             GameObject newButton = Instantiate(buttonPrefab, grid.transform);
-            var buttonImg = newButton.ChildByName("ButtonIMG"); //
-            Image img = buttonImg?.GetComponent<Image>(); //
+            var buttonImg = newButton.ChildByName("ButtonIMG");
+            Image img = buttonImg?.GetComponent<Image>();
             if (data.Value != null)
             {
                 LoadedImage.SetTextureToImage(ref img, data.Value);
-                img.color = new Color(1f, 1f, 1f, 1f); //
+                img.color = new Color(1f, 1f, 1f, 1f); 
             }
             //else img.color = new Color(1f, 1f, 1f, 0f); //
             result.Add(data.Key, newButton);

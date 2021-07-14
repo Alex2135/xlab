@@ -7,6 +7,8 @@ using TMPro;
 
 /*
  * 
+ * TODO: Максимально точно скопировать math king
+ * 
  */
 public class MathTestView : ITestScreenController, ITest, IRewarder
 {

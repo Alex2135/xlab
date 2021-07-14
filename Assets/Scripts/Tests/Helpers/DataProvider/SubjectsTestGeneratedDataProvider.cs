@@ -7,35 +7,28 @@ public class SubjectsTestGeneratedDataProvider : MonoBehaviour, IDataSource<Subj
 {
     public int rightAnswersCount;
     public List<Texture2D> answers;
-    private List<Texture2D> rightAnswers;
-    private List<Texture2D> additionAnswers;
 
-    private void InitializeAnswers()
+    public IEnumerable<SubjectsQuestModel> GetQuests(TestWholeStats test)
     {
-        rightAnswers = new List<Texture2D>();
-        additionAnswers = new List<Texture2D>();
+        List<Texture2D> rightAnswers = new List<Texture2D>();
+        List<Texture2D> additionAnswers = new List<Texture2D>();
+        SubjectsQuestModel quest = new SubjectsQuestModel();
+        List<SubjectsQuestModel> result = new List<SubjectsQuestModel>();
 
         answers = answers.Shuffle();
-        
+
         rightAnswers.AddRange(
             answers.GetRange(0, rightAnswersCount));
 
         additionAnswers.AddRange(
             answers.GetRange(rightAnswersCount, answers.Count - rightAnswersCount));
-    }
-
-    public IEnumerable<SubjectsQuestModel> GetQuests(TestWholeStats test)
-    {
-        InitializeAnswers();
-        var result = new List<SubjectsQuestModel>();
-        var quest = new SubjectsQuestModel();
 
         quest.RightAnswers = rightAnswers.Shuffle();
         quest.AdditionalAnswers = additionAnswers;
 
         var quests = new Texture2D[rightAnswers.Count];
         int nullsCount = 0;
-        int nullImagesCount = (int)(rightAnswers.Count * 4f / 4f);
+        int nullImagesCount = rightAnswers.Count;
         rightAnswers.CopyTo(quests);
         
         while (nullsCount != nullImagesCount)

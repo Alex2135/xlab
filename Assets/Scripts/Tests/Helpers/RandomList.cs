@@ -18,7 +18,7 @@ public class RandomList<T>
         }
     }
 
-    public List<T> GetRandomSubsetWithRightItem(T _item, int _capacity, Func<T, T, bool> _comparer)
+    public List<T> ShuffleSubsetWithItem(T _item, int _capacity, Func<T, T, bool> _comparer)
     {
         if (_item is ICloneable c && c == null) throw new ArgumentNullException("_item is null");
         if (_comparer == null) throw new ArgumentNullException("_comparer is null");

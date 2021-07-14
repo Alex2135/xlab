@@ -68,23 +68,21 @@ public class TestResultController : MonoBehaviour, IScreenController
 
     public void OnContinueClick()
     {
-        if (screensController != null)
+        if (screensController != null &&
+            PrevScreen != null)
         {
-            screensController.DiactivateScreens();
-            //(PrevScreen as MonoBehaviour).gameObject.SetActive(true);
-            var a = screensController.GetScreenByName(PrevScreen.ScreenName);
-            screensController.Activate(a);
+            screensController.Activate(PrevScreen);
         }
     }
 
     public void OnStopTrainingClick()
     {        
-        if (!isCounterRun 
-            && screensController != null)
+        if (!isCounterRun && 
+            screensController != null &&
+            PrevScreen.PrevScreen != null)
         {
             var screensController = ScreensUIController.GetInstance();
-            screensController.DiactivateScreens();
-            screensController.Activate(screensController.GetScreenByName("MainScreen"));
+            screensController.Activate(PrevScreen.PrevScreen);
         }
     }
 }

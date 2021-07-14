@@ -35,12 +35,13 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
     protected override void GenerateAnswersId()
     {
         // Get next question model and index
-        var quest = testModel.GetNextQuestion();
+        (SubjectsQuestModel, int)? quest = testModel.GetNextQuestion();
         if (quest == null) return;
-        var (questData, questIndex) = quest.Value;
+        (SubjectsQuestModel questData, int questIndex) = quest.Value;
         int answerIndex = 0;
 
         // Create adapted quest model
+        // Set quest images for adampter model
         var adaptedQuest = new AdaptedSubjectsQuestModel();
         for (int i = 0; i < questData.Quest.Count; i++)
         {
@@ -49,11 +50,15 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
             if (questImg == null) userAnswers.Add(i, null);
             else userAnswers.Add(i, i);
         }
+
+        // Set right answers images for adampter model
         for (int i = 0; i < questData.RightAnswers.Count; i++)
         {
             adaptedQuest.RightAnswers.Add(answerIndex, questData.RightAnswers[i]);
             answerIndex++;
         }
+
+        // Set additional answers images for adampter model
         for (int i = 0; i < questData.AdditionalAnswers.Count; i++)
         {
             adaptedQuest.AdditionalAnswers.Add(answerIndex, questData.AdditionalAnswers[i]);
@@ -92,15 +97,16 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
         buttonBG.color = new Color(1f, 1f, 1f, 0f);
     }
 
+    // On quested button click
     public void view_OnAnswering(object _userAnswer)
     {
         ResetSelectedButtonQuestSign();
-        int ans = (int)_userAnswer;
-        SelectedQuestId = ans;
-        if (userAnswers[SelectedQuestId] != null) return;
+        int answerId = (int)_userAnswer;
+        SelectedQuestId = answerId;
+        //if (userAnswers[SelectedQuestId] != null) return;
 
         var selectedQuestButton = testView.QuestionToView.Quest[SelectedQuestId];
-        var buttonBG = selectedQuestButton.ChildByName("ButtonBG").GetComponent<Image>();
+        Image buttonBG = selectedQuestButton.ChildByName("ButtonBG").GetComponent<Image>();
         LoadedImage.SetTextureToImage(ref buttonBG, buttonsStates.questionSignImage);
         buttonBG.color = new Color(1f, 1f, 1f, 1f);
 
@@ -110,12 +116,12 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
         merged.AddRange(adaptedQuest.RightAnswers.Keys);
         merged.AddRange(adaptedQuest.AdditionalAnswers.Keys);
 
-        // Get shuffled keys for answers
+        // RandomList class create copy of the list and allow shuffle items
         var rl = new RandomList<int>(merged);
         int answerPanelButtonsCount = 10;
-        var panelKeys = rl.GetRandomSubsetWithRightItem(ans, answerPanelButtonsCount, (a, b) => a == b);
+        var panelKeys = rl.ShuffleSubsetWithItem(answerId, answerPanelButtonsCount, (a, b) => a == b);
         
-        // Create Answer buttons 
+        // Create Answer buttons data with textures 
         var panelButtons = new Dictionary<int, Texture2D>();
         foreach (var key in panelKeys)
         {
@@ -124,10 +130,12 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
             else
                 panelButtons.Add(key, adaptedQuest.RightAnswers[key]);
         }
+        UnityEngine.Random.InitState((int)answerId);
         panelButtons = panelButtons.Shuffle();
 
-        // Create answer panel
+        // Create answer panel buttons objects
         var answersButtons = AnswerPanel.GeneratePanel(panelButtons);
+        // Set event handler for every answer panel button
         foreach (var answerButton in answersButtons)
         {
             var button = answerButton.Value.GetComponent<Button>();
@@ -137,13 +145,17 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
             };
             button?.onClick.AddListener( onAnswerClick );
         }
+
+        UnityEngine.Random.InitState((int)DateTime.Now.Ticks);
     }
 
+    // On answer button click 
     public void view_OnAnswerDid(object _userData)
     {
         int selectedAnswerId = (int)_userData;
-        if (userAnswers[SelectedQuestId] != null) return;
-        else userAnswers[SelectedQuestId] = selectedAnswerId;
+        //if (userAnswers[SelectedQuestId] != null) return;
+        //else 
+            userAnswers[SelectedQuestId] = selectedAnswerId;
         //Debug.Log($"{SelectedQuestId}, {selectedAnswerId}");
 
         GameObject questButton = testView.QuestionToView.Quest[SelectedQuestId];
@@ -153,8 +165,8 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
         {
             answerImage = adaptedQuest.RightAnswers[selectedAnswerId];
             var buttonBG = questButton.GetComponent<Image>();
-            LoadedImage.SetTextureToImage(ref buttonBG, buttonsStates.rightAnswerImage);
-            testModel.RewardRightAnswer();
+            //LoadedImage.SetTextureToImage(ref buttonBG, buttonsStates.rightAnswerImage);
+            //testModel.RewardRightAnswer();
         }
         else
         {
@@ -163,21 +175,23 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
             else
                 answerImage = adaptedQuest.AdditionalAnswers[selectedAnswerId];
             var buttonBG = questButton.GetComponent<Image>();
-            LoadedImage.SetTextureToImage(ref buttonBG, buttonsStates.wrongAnswerImage);
-            testModel.PenaltieWrongAnswer();
+            //LoadedImage.SetTextureToImage(ref buttonBG, buttonsStates.wrongAnswerImage);
+            //testModel.PenaltieWrongAnswer();
         }
 
         var qstImg = questButton.ChildByName("ButtonIMG").GetComponent<Image>();
         qstImg.color = new Color(1f, 1f, 1f, 1f);
         LoadedImage.SetTextureToImage(ref qstImg, answerImage);
-        testView.SetScore(testModel.CalculateScore());
-        testView.ShowQuestResult();
-        testModel.RegisterScore();
+        //testView.SetScore(testModel.CalculateScore());
+        //testView.ShowQuestResult();
+        //testModel.RegisterScore();
     }
 
     public void view_OnQuestTimeout(object _obj, EventArgs _eventArgs)
     {
-        
+        testView.SetScore(testModel.CalculateScore());
+        testView.ShowQuestResult();
+        testModel.RegisterScore();
     }
 
     public float GetTestTime()

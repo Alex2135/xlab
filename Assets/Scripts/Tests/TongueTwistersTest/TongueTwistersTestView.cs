@@ -5,6 +5,10 @@ using UnityEngine;
 using NewQuestionModel;
 using TMPro;
 
+/*
+ TODO: Ограничить время на тест скороговорки, показать таймер в видео
+ */
+
 public class TongueTwistersTestView : MonoBehaviour, IScreenController, NewQuestionModel.ITestView, NewQuestionModel.ITestScreenController
 {
     public TextMeshProUGUI scoreTMP;

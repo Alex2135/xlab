@@ -6,6 +6,26 @@ using UnityEngine.UI;
 using TMPro;
 using NewQuestionModel;
 
+/*
+ TODO:
+ 50 предметов - 5 предметов
+ 60 - 6
+
+ перенос предметов оставить как есть
+ 
+ выбраный квадрат - квадрат с красной обводкой
+
+ автоматически переход с предыдущего ответа на следующий
+
+ ответ после прохождения всего теста
+
+ сперва заполняем иконки, потом нажимаем на "Ок" и показываем 
+ было, стало кнопки
+
+ скролл не до самого конца
+ */
+
+
 public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionModel.ITestView, NewQuestionModel.ITestScreenController
 {
     public string screenName;
@@ -34,6 +54,9 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
 
     void OnEnable()
     {
+        instructTMP.gameObject.SetActive(true);
+        answerPanel.gameObject.SetActive(false);
+
         var data = gameObject.GetComponent<SubjectsTestGeneratedDataProvider>() ?? throw new Exception("No data provider");
         var model = new SubjectsTestModel(data);
         presenter = new SubjectsTestPresenter(model, this);
@@ -96,7 +119,7 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
                 });
             };
 
-            StartCoroutine( ShowPreQuestedState(3f, callback) );
+            if (callback != null) callback();
         }
 
         var questButton = QuestionToView.Quest[0];
@@ -107,13 +130,8 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
         float gridWidth = questPanelUIC.grid.GetComponent<RectTransform>().rect.width;
         float buttonWidth = 0f;
         var gridGroup = questPanelUIC.grid.GetComponent<GridLayoutGroup>();
-
-        if (QuestionToView.Quest.Count == 6)
-        {
-            buttonWidth = (gridWidth - 16 * 2) / 3;
-            gridGroup.constraintCount = 3;
-        }
-        else if (QuestionToView.Quest.Count > 6)
+          
+        //else if (QuestionToView.Quest.Count > 6)
         {
             buttonWidth = (gridWidth - 16 * 3) / 4;
             gridGroup.constraintCount = 4;
@@ -132,41 +150,12 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
         }
     }
 
-    IEnumerator ShowPreQuestedState(float _duration, Action _callback = null)
-    {
-        foreach (var button in QuestionToView.Quest)
-        {
-            var buttonBG = button.Value.ChildByName("ButtonBG");
-            var buttonIMG = button.Value.ChildByName("ButtonIMG");
-            var bg = buttonBG.GetComponent<Image>();
-            var img = buttonIMG.GetComponent<Image>();
-            bg.color = new Color(1f, 1f, 1f, 1f);
-            img.color = new Color(1f, 1f, 1f, 0f);
-            LoadedImage.SetTextureToImage(ref bg, buttonsStates.questionSignImage);
-        }
-        yield return new WaitForSecondsRealtime(_duration);
-        foreach (var button in QuestionToView.Quest)
-        {
-            var buttonBG = button.Value.ChildByName("ButtonBG");
-            var buttonIMG = button.Value.ChildByName("ButtonIMG");
-            var bg = buttonBG.GetComponent<Image>();
-            var img = buttonIMG.GetComponent<Image>();
-            bg.color = new Color(1f, 1f, 1f, 0f);
-            img.color = new Color(1f, 1f, 1f, 0f);
-            LoadedImage.SetTextureToImage(ref bg, buttonsStates.normalStateQuestImage);
-        }
-        if (_callback != null) _callback();
-    }
-
     public void ShowQuestResult()
     {
         answerPanel.SetActive(false);
     }
 
-    public void ResetView()
-    {
-        
-    }
+    public void ResetView() { }
 
     public void SetScore(float _score)
     {

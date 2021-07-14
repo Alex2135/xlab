@@ -57,10 +57,11 @@ public class SubjectsTestModel : ATestModel<SubjectsQuestModel>
         var data = user.GetTestData("Subjects");
         DataSource = _source;
         _questions = _dataSource.GetQuests(data) as List<SubjectsQuestModel>;
-        PointsPerQuest = 10;
+        questionIndex = -1;
+
         rightAnswers = 0;
         wrongAnswers = 0;
-        questionIndex = -1;
+        PointsPerQuest = 10;
     }
 
     public override (SubjectsQuestModel, int)? GetCurrentQuestion()

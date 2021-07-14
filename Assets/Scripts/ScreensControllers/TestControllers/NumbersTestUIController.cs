@@ -23,6 +23,7 @@ public class NumbersTestUIController : MonoBehaviour, IScreenController, IDecora
     void OnEnable()
     {
         _screensController = ScreensUIController.GetInstance();
+        _screensController.Add(this);
         _screensController.Add(view);
         view.PrevScreen = PrevScreen;
         view.NextScreen = _screensController.GetScreenByName("TestResultScreen");
