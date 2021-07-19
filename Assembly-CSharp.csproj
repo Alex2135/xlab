@@ -151,6 +151,8 @@
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\SubjectsTestGeneratedDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\TongueTwistersTestDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\WordsColorTestGeneratedDataProvider.cs" />
+    <Compile Include="Assets\Scripts\Tests\Helpers\DragAndDrop\DragScript.cs" />
+    <Compile Include="Assets\Scripts\Tests\Helpers\DragAndDrop\DropScript.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\MediaRecorders\IRecorder.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\MediaRecorders\RecordPlayer.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\MediaRecorders\RecorderStates.cs" />

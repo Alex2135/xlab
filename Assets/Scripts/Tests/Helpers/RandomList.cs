@@ -18,7 +18,7 @@ public class RandomList<T>
         }
     }
 
-    public List<T> ShuffleSubsetWithItem(T _item, int _capacity, Func<T, T, bool> _comparer)
+    public List<T> ShuffleSubsetWithItem(T _item, int _capacity, Func<T, T, bool> _comparer, int? shuffleSeed = null)
     {
         if (_item is ICloneable c && c == null) throw new ArgumentNullException("_item is null");
         if (_comparer == null) throw new ArgumentNullException("_comparer is null");
@@ -37,6 +37,8 @@ public class RandomList<T>
 
         if (result.Count == 0) throw new ArgumentException("_item not in list!");
 
+        if (shuffleSeed != null)
+            UnityEngine.Random.seed = shuffleSeed.Value;
         for (int i = 1; i < _capacity; i++)
         {
             var index = UnityEngine.Random.Range(0, list.Count);
@@ -44,6 +46,8 @@ public class RandomList<T>
             result.Add(item);
             list.RemoveAt(index);
         }
+        if (shuffleSeed != null)
+            UnityEngine.Random.InitState((int)DateTime.Now.Ticks);
 
         return result;
     }

@@ -32,6 +32,7 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
     public TextMeshProUGUI instructTMP;
     public TextMeshProUGUI timeTMP;
     public TextMeshProUGUI scoreTMP;
+    public Canvas canvas;
     public GameObject rememberButton;
     public GameObject answerPanel;
     public SubjectsPanelUIController questPanelUIC;
@@ -62,7 +63,8 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
         presenter = new SubjectsTestPresenter(model, this);
         presenter.QuestPanel = questPanelUIC;
         presenter.AnswerPanel = answerPanelUIC;
-        presenter.buttonsStates = buttonsStates;
+        presenter.ButtonsStates = buttonsStates;
+        presenter.Canvas = canvas;
         
         timeTMP.gameObject.SetActive(true);
         timer = new Timer(presenter.GetTestTime());
@@ -110,16 +112,15 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
             QuestionToView = presenter.GetAdaptedQuest(obj => { });
         }
         else
-        {
-            Action callback = () => {
-                QuestionToView = presenter.GetAdaptedQuest(obj =>
-                {
-                    answerPanel.gameObject.SetActive(true);
-                    OnAnsweringEvent.Invoke(obj);
-                });
-            };
+        {   
+            QuestionToView = presenter.GetAdaptedQuest(obj =>
+            {
+                answerPanel.gameObject.SetActive(true);
+                OnAnsweringEvent.Invoke(obj);
+            });
 
-            if (callback != null) callback();
+            answerPanel.gameObject.SetActive(true);
+            presenter.view_OnAnswering(0);
         }
 
         var questButton = QuestionToView.Quest[0];
@@ -128,16 +129,11 @@ public class SubjectsTestView : MonoBehaviour, IScreenController, NewQuestionMod
         var rtIMG = buttonIMG.GetComponent<RectTransform>();
         var rtBG = buttonBG.GetComponent<RectTransform>();
         float gridWidth = questPanelUIC.grid.GetComponent<RectTransform>().rect.width;
-        float buttonWidth = 0f;
-        var gridGroup = questPanelUIC.grid.GetComponent<GridLayoutGroup>();
-          
-        //else if (QuestionToView.Quest.Count > 6)
-        {
-            buttonWidth = (gridWidth - 16 * 3) / 4;
-            gridGroup.constraintCount = 4;
-        }
-
+        float buttonWidth = (gridWidth - 16 * 3) / 4;
         float ratio = 70f / 150f;
+
+        var gridGroup = questPanelUIC.grid.GetComponent<GridLayoutGroup>();
+        gridGroup.constraintCount = 4;
 
         if (buttonWidth != 0f)
         {

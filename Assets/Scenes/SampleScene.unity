@@ -313,10 +313,10 @@ RectTransform:
   m_Father: {fileID: 395696422}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 171.5, y: -711}
-  m_SizeDelta: {x: 343, y: 560}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 560}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &27801377
 MonoBehaviour:
@@ -9999,7 +9999,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.0000027949782}
-  m_SizeDelta: {x: 0, y: 1007}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &395696423
 MonoBehaviour:
@@ -23040,7 +23040,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &968466794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25880,7 +25880,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1102896829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30014,10 +30014,10 @@ RectTransform:
   m_Father: {fileID: 395696422}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 171.5, y: -36}
-  m_SizeDelta: {x: 343, y: 40}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1293692569
 MonoBehaviour:
@@ -31716,6 +31716,7 @@ MonoBehaviour:
   instructTMP: {fileID: 1126509060}
   timeTMP: {fileID: 880316651}
   scoreTMP: {fileID: 221343288}
+  canvas: {fileID: 1102896833}
   rememberButton: {fileID: 522686195}
   answerPanel: {fileID: 1014548739}
   questPanelUIC: {fileID: 1353762953}
@@ -31800,7 +31801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 950a83fa4f9662c4390763ed5c1c5f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightAnswersCount: 5
+  rightAnswersCount: 16
   answers:
   - {fileID: 2800000, guid: 6f4751964abc5cd4ea763b6e9403aed3, type: 3}
   - {fileID: 2800000, guid: cd092431f2d7296429c10b0ba8e236fa, type: 3}
@@ -40225,7 +40226,7 @@ MonoBehaviour:
   m_Content: {fileID: 1394328307}
   m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 1
+  m_MovementType: 2
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
@@ -46481,10 +46482,10 @@ RectTransform:
   m_Father: {fileID: 395696422}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 171.5, y: -243.5}
-  m_SizeDelta: {x: 343, y: 343}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 343}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1975620881
 CanvasRenderer:

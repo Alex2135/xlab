@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/SampleScene.unity
+- path: C:/Users/AlexWork/Desktop/unity3d-draganddrop-master/Scenes/Main.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
