@@ -89,6 +89,8 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
             {
                 var button = questButton.Value.GetComponent<Button>();
                 button.onClick.AddListener( ()=>_onAnswerClick(questButton.Key) );
+                var dragComp = questButton.Value.GetComponentInChildren<DragScript>();
+                dragComp.canvas = Canvas;
             }
         }
 
@@ -110,14 +112,14 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
     public void view_OnAnswering(object _userAnswer)
     {
         ResetSelectedButtonQuestSign();
-        int answerId = (int)_userAnswer;
-        Debug.Log(answerId);
+        int questedId = (int)_userAnswer;
+        Debug.Log($"Quested ID: {questedId}");
 
-        if (!testView.QuestionToView.Quest.ContainsKey(answerId))
+        if (!testView.QuestionToView.Quest.ContainsKey(questedId))
             return;
 
-        SelectedQuestId = answerId;
-        int randomSeed = answerId + initialRandomTerm;
+        SelectedQuestId = questedId;
+        int randomSeed = questedId + initialRandomTerm;
         var selectedQuestButton = testView.QuestionToView.Quest[SelectedQuestId];
         Image buttonBG = selectedQuestButton.ChildByName("ButtonBG").GetComponent<Image>();
         //Image buttonBG = selectedQuestButton.GetComponent<Image>();
@@ -133,7 +135,7 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
         // RandomList class create copy of the list and allow shuffle items
         var answersRL = new RandomList<int>(mergedAnswers);
         int answerPanelButtonsCount = 10;
-        var panelKeys = answersRL.ShuffleSubsetWithItem(answerId, answerPanelButtonsCount, (a, b) => a == b, randomSeed);
+        var panelKeys = answersRL.ShuffleSubsetWithItem(questedId, answerPanelButtonsCount, (a, b) => a == b, randomSeed);
         
         // Create Answer buttons data with textures 
         var panelButtons = new Dictionary<int, Texture2D>();
@@ -169,6 +171,7 @@ public class SubjectsTestPresenter : ATestPresenter<SubjectsQuestModel, AdaptedS
     public void view_OnAnswerDid(object _userData)
     {
         int selectedAnswerId = (int)_userData;
+        Debug.Log($"Answer ID: {selectedAnswerId}");
         userAnswers[SelectedQuestId] = selectedAnswerId;
 
         GameObject questButton = testView.QuestionToView.Quest[SelectedQuestId];

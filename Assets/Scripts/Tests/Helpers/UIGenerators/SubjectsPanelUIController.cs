@@ -47,7 +47,7 @@ public static class GameObjectExtension
 
         Transform trans = _obj.gameObject.transform;
         Transform childTrans = trans.Find(_name);
-        result = childTrans.gameObject;
+        result = childTrans?.gameObject;
 
         return result;
     }

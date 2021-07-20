@@ -24,7 +24,7 @@ public class WordsColorTestUIController : MonoBehaviour, IScreenController, IDec
         _screensController = ScreensUIController.GetInstance();
         _screensController.Add(view);
         view.PrevScreen = PrevScreen;
-        view.NextScreen = _screensController.GetScreenByName("TestResultScreen");
+        //view.NextScreen = _screensController.GetScreenByName("TestResultScreen");
 
         _screensController.Activate(view, null, false);
     }
