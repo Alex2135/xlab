@@ -166,6 +166,8 @@
     <Compile Include="Assets\Scripts\Tests\Helpers\UIGenerators\WordsColorUIGenerator.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\UIGenerators\WordsPanel.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\UIGenerators\WordsPanelUIController.cs" />
+    <Compile Include="Assets\Scripts\Tests\MathTest\MathTestModel.cs" />
+    <Compile Include="Assets\Scripts\Tests\MathTest\MathTestPresenter.cs" />
     <Compile Include="Assets\Scripts\Tests\MathTest\MathTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\MathTest\MathTestView.cs" />
     <Compile Include="Assets\Scripts\Tests\NeuroGymTest\NeuroGymTestModel.cs" />

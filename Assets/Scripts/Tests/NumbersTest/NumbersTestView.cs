@@ -142,16 +142,7 @@ public class NumbersTestView : MonoBehaviour, NewQuestionModel.ITestView, IScree
             LoadedImage.SetTextureToImage(ref img, unansweredState);
         }
 
-        if (NextScreen != null)
-        {
-            var screensController = ScreensUIController.GetInstance();
-            screensController.DiactivateScreens();
-            screensController.Activate(NextScreen);
-        }
-        else
-        {
-            Debug.Log("Next screen not set!");
-        }
+        OnEnable();
     }
 
     public object GetResult()

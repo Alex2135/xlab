@@ -66,8 +66,7 @@ public class TestStatsUIController : MonoBehaviour, IScreenController, IDecorabl
             testNameTMP.text = _screenNameTestName[NextScreen.ScreenName];
             //var s = (NextScreen as IDecorableScreen).GetBackground().sprite;
             //Background.sprite = Sprite.Create(s.texture, s.textureRect, new Vector2(0.5f, 0.5f));
-            var s = (NextScreen as IDecorableScreen).GetBackground().color;
-            Background.color = s;
+            //Background.color = (NextScreen as IDecorableScreen).GetBackground().color;
 
             //GoOnButtonText.text = "НАЧАТЬ";
         }

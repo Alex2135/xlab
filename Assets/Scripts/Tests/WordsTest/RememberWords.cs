@@ -99,20 +99,25 @@ public class RememberWords : MonoBehaviour, IScreenController, NewQuestionModel.
         }
         else
         {
-            var screenController = ScreensUIController.GetInstance();
-            screenController.Activate(NextScreen);
+            //var screenController = ScreensUIController.GetInstance();
+            //screenController.Activate(NextScreen);
+            ResetView();
+            OnEnable();
         }
     }
 
     public void ShowQuestion()
     {
+        QuestionToView?.AdditionalAnswers?.Clear();
+        QuestionToView?.RightAnswers?.Clear();
+
         if (isRemember)
         {
             QuestionToView = presenter.GetAdaptedQuest((obj) => { });
             timer.StartTimer();
         }
         else
-        {
+        {            
             instructionTMP.gameObject.SetActive(true);
             QuestionToView = presenter.GetAdaptedQuest(
                 (obj) => { 
@@ -143,6 +148,8 @@ public class RememberWords : MonoBehaviour, IScreenController, NewQuestionModel.
         timer.StopTimer();
         wordsPanelUIC.ClearPanel();
         questScoreTMP.gameObject.SetActive(false);
+        QuestionToView?.AdditionalAnswers?.Clear();
+        QuestionToView?.RightAnswers?.Clear();
     }
 
     public void SetScore(float _score)

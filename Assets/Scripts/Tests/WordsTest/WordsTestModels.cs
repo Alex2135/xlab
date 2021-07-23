@@ -68,14 +68,18 @@ namespace NewQuestionModel
         {
             var result = new List<WordsQuestModel>();
             var quest1 = new WordsQuestModel();
-            quest1.RightAnswers = new List<string>()
+            var words = new List<string>()
             {
-                "Вор", "Клубника", "Шишка", "Спам", "Перевод"
-            };
-            quest1.AdditionalAnswers = new List<string>()
-            {
+                "Вор", "Клубника", "Шишка", "Спам", "Перевод",
                 "Дубина", "Букет", "Волк", "Елка", "Роса"
             };
+            words.Shuffle();
+
+            int count = test.testLevel + 5 - 1;
+            if (count >= words.Count - 1) count = words.Count - 1;
+
+            quest1.RightAnswers = words.GetRange(0, count);
+            quest1.AdditionalAnswers = words.GetRange(count, words.Count - count);
             result.Add(quest1);
 
             return result;

@@ -29,6 +29,61 @@ class WordsTestPresenter : ATestPresenter<WordsQuestModel, WordsQuestView>, ITes
         testView.OnAnswerDidEvent += view_OnAnswerDid;
     }
 
+    protected override void GenerateAnswersId()
+    {
+        var quest = testModel.GetNextQuestion();
+        if (quest == null) return;
+        var (questData, questIndex) = quest.Value;
+        int answerIndex = 0;
+
+        foreach (var answer in questData.RightAnswers)
+        {
+            adaptedQuests.RightAnswers?.Add(answerIndex, answer);
+            answerIndex++;
+        }
+        foreach (var answer in questData.AdditionalAnswers)
+        {
+            adaptedQuests.AdditionalAnswers?.Add(answerIndex, answer);
+            answerIndex++;
+        }
+    }
+
+    public WordsQuestView GetAdaptedQuest(Action<object> _onAnswerClick)
+    {
+        if (adaptedQuests == null) throw new System.Exception("adaptedQuests is null");
+        var result = new WordsQuestView();
+
+        // Shuffled answers ids and names
+        Dictionary<int, string> answersDict;
+        if (isQuestShow)
+            answersDict = adaptedQuests.RightAnswers;
+        else
+            answersDict = adaptedQuests.GetAllQuests();
+        answersDict = answersDict.Shuffle();
+
+        // Generate buttons by list
+        wordsPanelUIC.CreatePanel(_onAnswerClick, answersDict);
+
+        // Map answer indexes and buttons
+        var buttons = wordsPanelUIC.Buttons;
+        var buttonIndex = 0;
+        foreach (var keyVal in buttons)
+        {
+            if (adaptedQuests.RightAnswers.ContainsKey(keyVal.Key))
+                result.RightAnswers.Add(keyVal.Key, keyVal.Value);
+            else
+                result.AdditionalAnswers.Add(keyVal.Key, keyVal.Value);
+            buttonIndex++;
+        }
+
+        if (!isQuestShow)
+        {
+            AdaptedQuestionData.Add(0, result);
+        }
+        isQuestShow = false;
+        return result;
+    }
+
     public void view_OnAnswering(object _userAnswer)
     {
         var answerWord = (KeyValuePair<int, string>)_userAnswer;
@@ -100,58 +155,6 @@ class WordsTestPresenter : ATestPresenter<WordsQuestModel, WordsQuestView>, ITes
         (_userData as TextMeshProUGUI).text = $"{rightQuests} из {answers.RightAnswers.Count}";
     }
 
-    protected override void GenerateAnswersId()
-    {
-        var quest = testModel.GetNextQuestion();
-        if (quest == null) return;
-        var (questData, questIndex) = quest.Value;
-        int answerIndex = 0;
-
-        foreach (var answer in questData.RightAnswers)
-        {
-            adaptedQuests.RightAnswers?.Add(answerIndex, answer);
-            answerIndex++;
-        }
-        foreach (var answer in questData.AdditionalAnswers)
-        {
-            adaptedQuests.AdditionalAnswers?.Add(answerIndex, answer);
-            answerIndex++;
-        }
-    }
-
-    public WordsQuestView GetAdaptedQuest(Action<object> _onAnswerClick)
-    {
-        if (adaptedQuests == null) throw new System.Exception("adaptedQuests is null");
-        var result = new WordsQuestView();
-
-        // Shuffled answers ids and names
-        Dictionary<int, string> answersDict;
-        if (isQuestShow)
-            answersDict = adaptedQuests.RightAnswers;
-        else
-            answersDict = adaptedQuests.GetAllQuests();
-        answersDict = answersDict.Shuffle();
-
-        // Generate buttons by list
-        wordsPanelUIC.CreatePanel(_onAnswerClick, answersDict);
-
-        // Map answer indexes and buttons
-        var buttons = wordsPanelUIC.Buttons;
-        var buttonIndex = 0;
-        foreach (var keyVal in buttons)
-        {
-            if (adaptedQuests.RightAnswers.ContainsKey(keyVal.Key))
-                result.RightAnswers.Add(keyVal.Key, keyVal.Value);
-            else
-                result.AdditionalAnswers.Add(keyVal.Key, keyVal.Value);
-            buttonIndex++;
-        }
-
-        if (!isQuestShow)
-            AdaptedQuestionData.Add(0, result);
-        isQuestShow = false;
-        return result;
-    }
 
     public void view_OnQuestTimeout(object _obj, EventArgs _eventArgs)
     {

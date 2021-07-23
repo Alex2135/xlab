@@ -56,16 +56,17 @@ public class WordsColorTestView : MonoBehaviour, IScreenController, NewQuestionM
         if (QuestionToView == null)
         {
             OnAnswerDidEvent.Invoke(null);
-            if (NextScreen != null)
-            {
-                var screensController = ScreensUIController.GetInstance();
-                screensController.DiactivateScreens();
-                screensController.Activate(NextScreen);
-            }
-            else
-            {
-                Debug.Log("Next screen not set!");
-            }
+            OnEnable();
+            //if (NextScreen != null)
+            //{
+            //    //var screensController = ScreensUIController.GetInstance();
+            //    //screensController.DiactivateScreens();
+            //    //screensController.Activate(NextScreen);
+            //}
+            //else
+            //{
+            //    Debug.Log("Next screen not set!");
+            //}
         }
     }
 

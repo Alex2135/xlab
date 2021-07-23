@@ -68,7 +68,7 @@ public class NumbersPanelCreator : MonoBehaviour
         float hpanelWidth = horizontalPanel.GetComponent<RectTransform>().rect.width;
         int hipoItems = Mathf.FloorToInt(hpanelWidth / (itemsSpacing + maxWidth));
 
-        if (hipoItems > 5) hipoItems = 5;
+        if (hipoItems > 6) hipoItems = 6;
 
         if ((hipoItems * (itemsSpacing + maxWidth) - itemsSpacing) > hpanelWidth)
             hipoItems--;
@@ -87,7 +87,7 @@ public class NumbersPanelCreator : MonoBehaviour
                 if (newTMP == null)
                     newTMP = newObject.GetComponentInChildren<TextMeshProUGUI>();
                 newTMP.text = _data[wordIndex].ToString();
-                newTMP.enableAutoSizing = true;
+                //newTMP.enableAutoSizing = true;
                 wordIndex++;
                 result.Add(newObject);
                 if (wordIndex >= _data.Count) break;
