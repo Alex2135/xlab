@@ -146,6 +146,7 @@
     <Compile Include="Assets\Scripts\Tests\FacesTest\RememberFacesPresenter.cs" />
     <Compile Include="Assets\Scripts\Tests\FacesTest\RememberFacesTestUIController.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\FacesTestGeneratedDataProvider.cs" />
+    <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\MathTesetDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\NeuroGymTestDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\NumbersTestDataProvider.cs" />
     <Compile Include="Assets\Scripts\Tests\Helpers\DataProvider\SubjectsTestGeneratedDataProvider.cs" />
